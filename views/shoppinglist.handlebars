@@ -1,0 +1,13 @@
+<h1>All my shopping lists</h1>
+
+<p>Username: {{fakeData.name}}</p>
+
+{{#each fakeData.lists}}
+  <p>Shopping List Name: {{this.listName}}</p>
+    <ul>Items
+    {{#each this.listItems}}
+      <li>{{this}}</li>
+    {{/each}}
+    </ul>
+{{/each}}
+

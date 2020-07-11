@@ -1,5 +1,6 @@
 var express = require('express');
-// var mysql = require('./dbcon.js');
+var mysql = require('mysql');
+var connection = mysql.createConnection(process.env.JAWSDB_URL);
 var app = express();
 
 // set handlebars

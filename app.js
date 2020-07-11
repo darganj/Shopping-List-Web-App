@@ -9,7 +9,7 @@ app.set('view engine', 'handlebars');
 
 // set server info
 app.disable('x-powered-by');
-app.set('port', 5001);
+app.set('port', process.env.PORT || 5001);
 
 // set using info
 app.use(express.static('public'));

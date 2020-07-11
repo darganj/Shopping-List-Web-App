@@ -92,6 +92,7 @@ app.get('/shoppinglist',function(req,res,next){
     }
     res.json({rows:rows});
   // res.render('shoppinglist',{fakeData:fakeData});
+  });
 });
 
 // 404 error route

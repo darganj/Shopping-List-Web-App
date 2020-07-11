@@ -72,7 +72,7 @@ app.get('/login',function(req,res,next){
 });
 
 app.post('/login',function(req,res,next){
-  res.render('shoppinglist',{fakeData:fakeData});
+  res.redirect('shoppinglist');
 });
 
 app.get('/register',function(req,res,next){
@@ -80,7 +80,18 @@ app.get('/register',function(req,res,next){
 });
 
 app.post('/register',function(req,res,next){
-    res.render('shoppinglist',{fakeData:fakeData});
+    res.redirect('shoppinglist');
+});
+
+app.get('/shoppinglist',function(req,res,next){
+  var context = {};
+  mysql.connection.query("SELECT * FROM users", function(err, rows, fields){
+    if(err){
+      next(err);
+      return;
+    }
+    res.json({rows:rows});
+  // res.render('shoppinglist',{fakeData:fakeData});
 });
 
 // 404 error route

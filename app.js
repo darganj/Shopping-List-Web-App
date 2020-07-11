@@ -1,6 +1,12 @@
 var express = require('express');
 var mysql = require('mysql');
-var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+if(process.env.JAWSDB_URL){
+  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+}else{
+;
+}
+
 var app = express();
 
 // set handlebars

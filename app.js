@@ -130,6 +130,10 @@ app.get('/shoppinglist',function(req,res,next){
   // });
 });
 
+app.get('/admin-portal',function(req,res,next){
+  res.render('admin-portal');
+});
+
 // 404 error route
 app.use(function(req,res){
   res.status(404);

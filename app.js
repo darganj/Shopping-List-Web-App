@@ -10,19 +10,58 @@ var MySQLStore = require('express-mysql-session')(session);
 if(process.env.JAWSDB_URL){
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
-;
-}
+  var connection = mysql.createConnection({
+    host            : 'localhost',
+    user            : 'flj1jzapfhtiwjjo',
+    password        : 'ztb0cti8o5648gsw',
+    database        : 'zv3sbfb4eij4y18x'
+  });
 
-var sessionStore = new MySQLStore({}, connection);
+
+}
+var options = {
+	// Host name for database connection:
+	host: 'localhost',
+	// Port number for database connection:
+	port: 3306,
+	// Database user:
+	user: 'flj1jzapfhtiwjjo',
+	// Password for the above database user:
+	password: 'ztb0cti8o5648gsw',
+	// Database name:
+	database: 'zv3sbfb4eij4y18x',
+	// Whether or not to automatically check for and clear expired sessions:
+	clearExpired: true,
+	// How frequently expired sessions will be cleared; milliseconds:
+	checkExpirationInterval: 900000,
+	// The maximum age of a valid session; milliseconds:
+	expiration: 86400000,
+	// Whether or not to create the sessions database table, if one does not already exist:
+	createDatabaseTable: true,
+	// Number of connections when creating a connection pool:
+	connectionLimit: 1,
+	// Whether or not to end the database connection when the store is closed.
+	// The default value of this option depends on whether or not a connection was passed to the constructor.
+	// If a connection object is passed to the constructor, the default value for this option is false.
+	endConnectionOnClose: true
+};
+
+var sessionStore = new MySQLStore(options, connection);
 
 var app = express();
 
+var expireDate = new Date();
+expireDate.setDate(expireDate.getDate() + 1);
+
 app.use(session({
   secret: process.env.SESSION_SECRET || "supersecretword",
-  resave: false,
-  saveUninitialized: false,
-  store: sessionStore 
+  resave: true,
+  saveUninitialized: true
+  // ,
+  // store: sessionStore, 
 }));
+
+//TO-DO:  change saveUninitialized to false
 
 // set handlebars
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
@@ -44,6 +83,113 @@ var queryParams = function(req, res, next) {
   next();
 };
 app.use(queryParams);
+
+async function validPassword(password, hash) {
+  try {
+
+    const correctPassword = await argon2.verify(hash, password);
+    console.log(correctPassword);
+    return correctPassword;
+  } catch (err) {
+    console.log("error in hashing2");
+  }
+}
+
+async function genPassword(password) {
+  const salt = crypto.randomBytes(32);
+  console.log(
+    `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+  
+  try {
+    const hash = await argon2.hash(password, salt);
+    console.log(hash);
+    return {
+      salt: salt,
+      hash: hash
+    };
+  } catch (err) {
+    console.log("error in hashing3");
+  }
+}
+// console.log(genPassword("bob"));
+// console.log(validPassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+passport.use('local-login', new LocalStrategy(
+  async function(username, password, done) {
+      connection.query("SELECT * from Users where userName=?", 
+      [username],
+      function(err, rows, fields){
+        if(err){
+          next(err);
+          return;
+        }
+        console.log(rows);
+      })
+          // .then((user) => {
+          //     if (!user) { return done(null, false) }
+              
+        const isValid = validPassword(password, user.hash, user.salt);
+              
+          //     if (isValid) {
+          //         return done(null, user);
+          //     } else {
+          //         return done(null, false);
+          //     }
+          // })
+          // .catch((err) => {   
+          //     done(err);
+          // });
+
+
+          // function getTable(res,next){
+          //   var context = {};
+          //   mysql.pool.query("SELECT * FROM workouts", function(err, rows, fields){
+          //     if(err){
+          //       next(err);
+          //       return;
+          //     }
+          //     res.json({rows:rows});
+          //   })
+          // }
+
+
+
+}));
+
+passport.use('local-register', new LocalStrategy(
+  async function(username, password, done) {
+    let user = connection.query("SELECT * from Users where userName=?", [username]);
+    if (user == null){
+      return done(null, false);
+    }
+    let saltHash = genPassword(password);
+    connection.query("INSERT INTO Users (`username`, `saltHash`) VALUES (?, ?, ?)", [username, saltHash],)
+          // .then((user) => {
+          //     if (!user) { return done(null, false) }
+              
+          //     const isValid = genPassword(password, user.hash, user.salt);
+              
+          //     if (isValid) {
+          //         return done(null, user);
+          //     } else {
+          //         return done(null, false);
+          //     }
+          // })
+          // .catch((err) => {   
+          //     done(err);
+          // });
+}));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+passport.deserializeUser(function(id, cb) {
+  connection.query("SELECT * from users where id=?", [id], function (err, user) {
+      if (err) { return cb(err); }
+      cb(null, rows[0]);
+  });
+});
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 var fakeData = 
@@ -92,17 +238,22 @@ app.get('/login',function(req,res,next){
   res.render('login');
 });
 
-app.post('/login',async function(req,res,next){
-  const salt = fakeData.salt;
-  const storedHash = fakeData.hash;
+// app.post('/login',passport.authenticate('local', { failureRedirect: '/login' }), function(req,res,next){
+//   // const salt = fakeData.salt;
+//   // const storedHash = fakeData.hash;
 
-  try {
+//   // try {
 
-    const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
-    console.log(correctPassword);
-  } catch (err) {
-    console.log("error in hashing");
-  }
+//   //   const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
+//   //   console.log(correctPassword);
+//   // } catch (err) {
+//   //   console.log("error in hashing");
+//   // }
+
+//   res.redirect('shoppinglist');
+// });
+
+app.post('/login', passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
 
   res.redirect('shoppinglist');
 });
@@ -111,21 +262,25 @@ app.get('/register',function(req,res,next){
   res.render('register');
 });
 
-app.post('/register',async function(req,res,next){
-  //create salt for new user
-  const salt = crypto.randomBytes(32);
-  console.log(
-  `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+// app.post('/register',async function(req,res,next){
+//   //create salt for new user
+//   const salt = crypto.randomBytes(32);
+//   console.log(
+//   `${salt.length} bytes of random data: ${salt.toString('hex')}`);
 
-  let username = req.body.username;
+//   let username = req.body.username;
   
-  try {
-    const hash = await argon2.hash(req.body.password, salt);
-    console.log(hash);
-  } catch (err) {
-    console.log("error in hashing");
-  }
+//   try {
+//     const hash = await argon2.hash(req.body.password, salt);
+//     console.log(hash);
+//   } catch (err) {
+//     console.log("error in hashing");
+//   }
 
+//   res.redirect('shoppinglist');
+// });
+
+app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
   res.redirect('shoppinglist');
 });
 

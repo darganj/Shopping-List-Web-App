@@ -4,6 +4,8 @@ var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
 
 if(process.env.JAWSDB_URL){
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -11,7 +13,16 @@ if(process.env.JAWSDB_URL){
 ;
 }
 
+var sessionStore = new MySQLStore({}, connection);
+
 var app = express();
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || "supersecretword",
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore 
+}));
 
 // set handlebars
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});

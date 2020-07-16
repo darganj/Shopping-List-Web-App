@@ -1,8 +1,8 @@
 <h1>All my shopping lists</h1>
 
-{{rows}}
+{{!-- {{rows}} --}}
 
-{{!-- <p>Username: {{fakeData.name}}</p>
+<p>Username: {{fakeData.name}}</p>
 
 {{#each fakeData.lists}}
   <p>Shopping List Name: {{this.listName}}</p>
@@ -11,5 +11,22 @@
       <li>{{this}}</li>
     {{/each}}
     </ul>
-{{/each}} --}}
+{{/each}}
 
+
+
+<h2>Add Shopping List</h2>
+
+ 
+<form action="/edit-list" method="POST"> 
+ <fieldset>
+
+    <label for="listName">List name:</label><br>
+    <input type="text" id="listName" name="listName" placeholder="listName" required><br>
+    
+    <input type="submit" value="Submit">
+
+ </fieldset>
+  
+
+</form>

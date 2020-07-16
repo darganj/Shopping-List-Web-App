@@ -239,21 +239,26 @@ app.get('/login',function(req,res,next){
 });
 
 // app.post('/login',passport.authenticate('local', { failureRedirect: '/login' }), function(req,res,next){
-//   // const salt = fakeData.salt;
-//   // const storedHash = fakeData.hash;
+//   const salt = fakeData.salt;
+//   const storedHash = fakeData.hash;
 
-//   // try {
+//   try {
 
-//   //   const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
-//   //   console.log(correctPassword);
-//   // } catch (err) {
-//   //   console.log("error in hashing");
-//   // }
+//     const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
+//     console.log(correctPassword);
+//   } catch (err) {
+//     console.log("error in hashing");
+//   }
 
 //   res.redirect('shoppinglist');
 // });
 
-app.post('/login', passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
+// app.post('/login', passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
+
+//   res.redirect('shoppinglist');
+// });
+
+app.post('/login', function(req,res,next){
 
   res.redirect('shoppinglist');
 });
@@ -262,27 +267,27 @@ app.get('/register',function(req,res,next){
   res.render('register');
 });
 
-// app.post('/register',async function(req,res,next){
-//   //create salt for new user
-//   const salt = crypto.randomBytes(32);
-//   console.log(
-//   `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+app.post('/register',async function(req,res,next){
+  //create salt for new user
+  const salt = crypto.randomBytes(32);
+  console.log(
+  `${salt.length} bytes of random data: ${salt.toString('hex')}`);
 
-//   let username = req.body.username;
+  let username = req.body.username;
   
-//   try {
-//     const hash = await argon2.hash(req.body.password, salt);
-//     console.log(hash);
-//   } catch (err) {
-//     console.log("error in hashing");
-//   }
+  try {
+    const hash = await argon2.hash(req.body.password, salt);
+    console.log(hash);
+  } catch (err) {
+    console.log("error in hashing");
+  }
 
-//   res.redirect('shoppinglist');
-// });
-
-app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
   res.redirect('shoppinglist');
 });
+
+// app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
+//   res.redirect('shoppinglist');
+// });
 
 app.get('/shoppinglist',function(req,res,next){
   var context = {};
@@ -294,6 +299,22 @@ app.get('/shoppinglist',function(req,res,next){
   //   res.json({rows:rows});
   res.render('shoppinglist',{fakeData:fakeData});
   // });
+});
+
+app.get('/edit-list',function(req,res,next){
+  res.render('edit-list');
+});
+
+app.post('/edit-list',function(req,res,next){
+  res.render('edit-list');
+});
+
+app.delete('/edit-list',function(req,res,next){
+  res.render('edit-list');
+});
+
+app.put('/edit-list',function(req,res,next){
+  res.render('edit-list');
 });
 
 app.get('/admin-portal',function(req,res,next){

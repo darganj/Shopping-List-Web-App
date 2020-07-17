@@ -69,7 +69,7 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
 app.disable('x-powered-by');
-app.set('port', process.env.PORT || 5001);
+app.set('port', process.env.PORT || 1357);
 
 
 
@@ -311,13 +311,13 @@ app.post('/shoppingList',function(req,res,next){
   var current_date = new Date();
   var formatted_date = JSON.stringify(current_date).slice(1,11);
   var {userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
-  console.log(userID, nameList);
   connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, formatted_date, nameList], function(err, result){
 
     if(err){
       next(err);
       return;
     };
+  console.log(result);
   res.render('shoppinglist',{fakeData:fakeData});
   });
 
@@ -341,7 +341,6 @@ app.post('/edit-list',function(req,res,next){
                 return;
             };
         });
-        //console.log(result);
         res.render('edit-list');
     };
 });
@@ -362,7 +361,6 @@ app.put('/edit-list',function(req,res,next){
                 return;
             };
         });
-        //console.log(result);
         res.render('edit-list');
     }
 
@@ -375,7 +373,6 @@ app.put('/edit-list',function(req,res,next){
                 return;
             };
         });
-        //console.log(result);
         res.render('edit-list');
     };
 

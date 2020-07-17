@@ -11,10 +11,10 @@ if(process.env.JAWSDB_URL){
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
   var connection = mysql.createConnection({
-    host            : 'localhost',
-    user            : 'flj1jzapfhtiwjjo',
-    password        : 'ztb0cti8o5648gsw',
-    database        : 'zv3sbfb4eij4y18x'
+    host            : 'e11wl4mksauxgu1w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user            : 'p21ihyly9tqtswep',
+    password        : 'b5p9g9xf1bjwn19b',
+    database        : 'vkunvw2p0blzlslp'
   });
 
 
@@ -68,9 +68,10 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-// set server info
 app.disable('x-powered-by');
 app.set('port', process.env.PORT || 5001);
+
+
 
 // set using info
 app.use(express.static('public'));
@@ -192,6 +193,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 var fakeData = 
             {"name":"bob", 
              "username":"bob@gmail.com",
@@ -290,7 +295,7 @@ app.post('/register',async function(req,res,next){
 // });
 
 app.get('/shoppinglist',function(req,res,next){
-  var context = {};
+ var context = {};
   // mysql.connection.query("SELECT * FROM users", function(err, rows, fields){
   //   if(err){
   //     next(err);
@@ -301,20 +306,79 @@ app.get('/shoppinglist',function(req,res,next){
   // });
 });
 
+// route for adding an empty shopping list for a user (can add more features to this route later)
+app.post('/shoppingList',function(req,res,next){
+  var current_date = new Date();
+  var formatted_date = JSON.stringify(current_date).slice(1,11);
+  var {userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
+  console.log(userID, nameList);
+  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, formatted_date, nameList], function(err, result){
+
+    if(err){
+      next(err);
+      return;
+    };
+  res.render('shoppinglist',{fakeData:fakeData});
+  });
+
+});
+
 app.get('/edit-list',function(req,res,next){
+
   res.render('edit-list');
 });
 
+
+// route for 1) adding a new item to a shopping list, ...(other additional features)
 app.post('/edit-list',function(req,res,next){
-  res.render('edit-list');
+
+    // 1) add a new item with default unmarked status
+    if (req.body.addNewItem) { // include "addNewItem" value in submit element to indicate option 1
+        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)', [listID, itemID, quantity, 0], function(err, result){
+            if(err){
+                next(err);
+                return;
+            };
+        });
+        //console.log(result);
+        res.render('edit-list');
+    };
 });
 
 app.delete('/edit-list',function(req,res,next){
   res.render('edit-list');
 });
 
+// route for 1) marking an item, 2) unmarking an item, ...(other additional features)
 app.put('/edit-list',function(req,res,next){
-  res.render('edit-list');
+
+    // 1) marking an item
+    if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
+        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [1, listID, itemID], function(err, result){
+            if(err){
+                next(err);
+                return;
+            };
+        });
+        //console.log(result);
+        res.render('edit-list');
+    }
+
+    // 2) unmarking an item
+    else if (req.body.unmarkItem) { // include "unmarkItem" value in submit element to indicate option 2
+        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [0, listID, itemID], function(err, result){
+            if(err){
+                next(err);
+                return;
+            };
+        });
+        //console.log(result);
+        res.render('edit-list');
+    };
+
 });
 
 app.get('/admin-portal',function(req,res,next){

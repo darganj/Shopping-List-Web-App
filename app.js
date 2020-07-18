@@ -282,7 +282,7 @@ app.post('/register',async function(req,res,next){
     console.log("error in hashing");
   }
 
-  res.redirect('shoppinglistovw');
+  res.redirect('shoppinglist');
 });
 
 // app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
@@ -298,6 +298,7 @@ app.get('/shoppinglist', function (req, res, next) {
 
     connection.query('SELECT Lists.nameList FROM Users LEFT JOIN Lists.userID = Users.userId WHERE Users.userID=1', function (err, rows, fields) {
         if (err) {
+            console.log("error");
             next(err);
             return;
         }

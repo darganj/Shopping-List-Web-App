@@ -310,7 +310,7 @@ app.get('/edit-list',function(req,res,next){
     "LEFT JOIN Lists ON Lists.userID = Users.userID " +
     "LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID " +
     "LEFT JOIN Items ON List_of_Items.itemID = Items.itemID " +
-  "WHERE Users.userID=:input_userID AND Lists.listID=:input_listID;";
+  "WHERE Users.userID=? AND Lists.listID=?;";
 
   // execut the sql to render the shopping list so that it is displayed
   connection.query(getShoppingList, function(err, result){

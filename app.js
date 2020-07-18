@@ -305,6 +305,8 @@ app.get('/shoppinglist', function (req, res, next) {
         context = rows;
         console.log(context);
         console.log(fakeData);
+        context.results = JSON.parse(context);
+        console.log(context.results);
     });
 
 

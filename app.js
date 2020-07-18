@@ -282,7 +282,7 @@ app.post('/register',async function(req,res,next){
     console.log("error in hashing");
   }
 
-  res.redirect('shoppinglist');
+  res.redirect('shoppinglistovw');
 });
 
 // app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
@@ -297,8 +297,14 @@ app.get('/shoppinglist',function(req,res,next){
   //     return;
   //   }
   //   res.json({rows:rows});
-  res.render('shoppinglist',{fakeData:fakeData});
+  res.render('shoppinglistovw',{fakeData:fakeData});
   // });
+});
+
+
+app.get('/chooselist', function (req, res, next) {
+    var context = {};
+    res.render('shoppinglist', { fakeData: fakeData });
 });
 
 app.get('/edit-list',function(req,res,next){

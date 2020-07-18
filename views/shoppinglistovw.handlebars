@@ -1,0 +1,39 @@
+<h1>All my shopping lists</h1>
+
+<p>Username: {{fakeData.name}}</p>
+
+{{#each fakeData.lists}}
+    <div class="shopping_list_box">
+        <form action="/listchoose" method="GET">
+            <button type="button" class="btn btn-info" type="submit">
+	            <p> Name: {{this.listName}}</p>
+            </button>
+        </form>
+    </div>
+{{/each}}
+
+    <div class="shopping_list_box">
+        <form action="/createlist" method="GET">
+            <button type="button" class="btn btn-info">
+            <p> Add List + </p>
+        </button>
+        </form>
+
+    </div>
+
+
+<h2>Add Shopping List</h2>
+
+ 
+<form action="/edit-list" method="POST"> 
+ <fieldset>
+
+    <label for="listName">List name:</label><br>
+    <input type="text" id="listName" name="listName" placeholder="listName" required><br>
+    
+    <input type="submit" value="Submit">
+
+ </fieldset>
+  
+
+</form>

@@ -227,7 +227,8 @@ var fakeData =
 
 
 app.get('/', function(req,res,next){
-  res.render('home');
+    res.render('home');
+    console.log("made it");
 });
 
 app.get('/about',function(req,res,next){

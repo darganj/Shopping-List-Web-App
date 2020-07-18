@@ -200,21 +200,21 @@ var fakeData =
              "isAdmin":"false",
              "lists":
               [
-                {"listName":"April", 
+                {"nameList":"April", 
                 "listItems":
                     {"item1":"apple",
                     "item2":"pear",
                     "item3":"peach"
                     }
                 },
-                {"listName":"May", 
+                {"nameList":"May", 
                 "listItems":
                     {"item1":"beetle",
                     "item2":"ant",
                     "item3":"ladybug"
                     }
                 },
-                {"listName":"June", 
+                {"nameList":"June", 
                 "listItems":
                     {"item1":"meat",
                     "item2":"meatier",
@@ -289,15 +289,28 @@ app.post('/register',async function(req,res,next){
 //   res.redirect('shoppinglist');
 // });
 
-app.get('/shoppinglist',function(req,res,next){
-  var context = {};
+app.get('/shoppinglist', function (req, res, next) {
+    var context = {};
+       //Using user id = 1 for testing
+    var userID = 1;
+
+    connection.query('SELECT Lists.nameList FROM Users LEFT JOIN Lists.userID = Users.userId WHERE Users.userID=1', function (err, rows, fields) {
+        if (err) {
+            next(err);
+            return;
+        }
+        context.results = rows;
+        console.log(context.results);
+    });
+
+
   // mysql.connection.query("SELECT * FROM users", function(err, rows, fields){
   //   if(err){
   //     next(err);
   //     return;
   //   }
   //   res.json({rows:rows});
-  res.render('shoppinglistovw',{fakeData:fakeData});
+    res.render('shoppinglistovw', { data : context });
   // });
 });
 

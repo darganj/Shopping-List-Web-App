@@ -61,3 +61,40 @@ UPDATE List_of_Items
 SET List_of_Items.itemID=:input_itemID, List_of_Items.quantity=:input_quantity
 WHERE listOfItems=:input_listOfItems;
 
+-- ---------------------------------------------------------------------------------------------------------
+-- ORDER Shopping List by ASC Category 7/17
+-- ---------------------------------------------------------------------------------------------------------
+
+SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName
+FROM Users 
+	LEFT JOIN Lists ON Lists.userID = Users.userID 
+	LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID 
+	LEFT JOIN Items ON List_of_Items.itemID = Items.itemID
+    LEFT JOIN Categories ON Items.itemID = Categories.categoryID
+WHERE Users.userID=:input_userID AND Lists.listID=:input_listID
+ORDER BY Categories.categoryName ASC
+
+-- ---------------------------------------------------------------------------------------------------------
+-- ORDER Shopping List by DESC Category 7/17
+-- ---------------------------------------------------------------------------------------------------------
+
+SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName
+FROM Users 
+	LEFT JOIN Lists ON Lists.userID = Users.userID 
+	LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID 
+	LEFT JOIN Items ON List_of_Items.itemID = Items.itemID
+    LEFT JOIN Categories ON Items.itemID = Categories.categoryID
+WHERE Users.userID=:input_userID AND Lists.listID=:input_listID
+ORDER BY Categories.categoryName DESC
+
+-- ---------------------------------------------------------------------------------------------------------
+-- DELETE Item from the Shopping List 7/17
+-- ---------------------------------------------------------------------------------------------------------
+
+DELETE FROM List_of_Items WHERE List_of_Items.listOfItems=:input_listOfItems;
+
+-- ---------------------------------------------------------------------------------------------------------
+-- DELETE the Shopping List 7/17
+-- ---------------------------------------------------------------------------------------------------------
+
+DELETE FROM Lists WHERE Lists.listID=:input_listID;

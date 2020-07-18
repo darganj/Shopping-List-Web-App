@@ -12,9 +12,23 @@
 
     <label for="addItem">+ Item</label>
     <input type="text" id="addItem" name="addItem">
-
     <button type="button" class="btn btn-success">Add Item</button>
+  
+  
+  <p>Username: {{userName}}</p>
 
+   <p>Shopping List Name: {{listName}}</p> 
+    {{#each lists}}
+      <tr>
+        <td>{{this.itemName}}</td>
+        <td>
+          <form action="/" method="post">
+            <input type="hidden" name="itemName" id="itemID" value="{{itemID}}">
+            <button type="submit" formaction="/edit-list">Update</button>
+          </form>
+        </td>
+      <tr>
+    {{/each}}
   </fieldset>
   
 

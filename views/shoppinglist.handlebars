@@ -4,14 +4,14 @@
 
 <p>Username: {{fakeData.name}}</p>
 
-{{#each fakeData.lists}}
-  <p>Shopping List Name: {{this.listName}}</p>
-    <ul>Items
-    {{#each this.listItems}}
-      <li>{{this}}</li>
-    {{/each}}
-    </ul>
+
+<p>Shopping List Name: {{this.listName}}</p>
+<ul>Items
+{{#each this.listItems}}
+    <li>{{this}}</li>
 {{/each}}
+</ul>
+
 
 
 

@@ -290,6 +290,8 @@ app.post('/register',async function(req,res,next){
 // });
 
 app.get('/shoppinglist', function (req, res, next) {
+
+    console.log("testing");
     var context = {};
        //Using user id = 1 for testing
     var userID = 1;

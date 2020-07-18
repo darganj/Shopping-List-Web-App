@@ -297,7 +297,7 @@ app.get('/shoppinglist', function (req, res, next) {
        //Using user id = 1 for testing
     var userID = 1;
 
-    connection.query('SELECT Lists.nameList FROM Users LEFT JOIN Lists.userID = Users.userId WHERE Users.userID=1', function (err, rows, fields) {
+    connection.query('SELECT Lists.nameList FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = 1', function (err, rows, fields) {
         if (err) {
             console.log("error");
             next(err);

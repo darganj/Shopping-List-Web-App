@@ -310,14 +310,27 @@ app.get('/shoppinglist', function (req, res, next) {
   //     return;
   //   }
   //   res.json({rows:rows});
-    res.render('shoppinglistovw', { data : context });
+    res.render('shoppinglistovw', { data : context.results });
   // });
 });
 
 
 app.get('/chooselist', function (req, res, next) {
     var context = {};
-    res.render('shoppinglist', { fakeData: fakeData });
+    var listName = req.body; //Required arguments (listName to display list)
+
+    connection.query('SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = (?)', [listName], function (err, rows, fields) {
+        if (err) {
+            next(err);
+            return;
+        };
+        context.results = rows;
+        console.log(context.results);
+    });
+
+
+
+    res.render('shoppinglist', { data : conteresults });
 });
 
 app.get('/edit-list',function(req,res,next){

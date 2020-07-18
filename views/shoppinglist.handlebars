@@ -2,13 +2,13 @@
 
 {{!-- {{rows}} --}}
 
-<p>Username: {{fakeData.name}}</p>
+<p>Username: <!-- TO DO--></p>
 
 
-<p>Shopping List Name: {{this.listName}}</p>
+<p>Shopping List Name:<!-- TODO--></p>
 <ul>Items
-{{#each this.listItems}}
-    <li>{{this}}</li>
+{{#each data}}
+    <li>{{this.itemName}} : {{this.quantity}}</li>
 {{/each}}
 </ul>
 

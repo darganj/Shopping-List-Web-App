@@ -4,11 +4,11 @@
 
 {{context}}
 
-{{#each data}}
+{{#each context}}
     <div class="shopping_list_box">
         <form action="/listchoose" method="GET">
             <button type="button" class="btn btn-info" type="submit">
-	            <p> Name: </p>
+	            <p> Name: {{this.nameList}} </p>
             </button>
         </form>
     </div>

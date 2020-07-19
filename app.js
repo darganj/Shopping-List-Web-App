@@ -349,7 +349,7 @@ app.get('/edit-list', (req, res) => {
     else
     console.log(err);
   })
-  //res.render('edit-list');
+  res.render('edit-list');
 });
 
 app.post('/edit-list',function(req,res,next){

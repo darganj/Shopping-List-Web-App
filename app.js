@@ -339,8 +339,14 @@ app.get('/chooselist', function (req, res, next) {
     res.render('shoppinglist', { data : conteresults });
 });
 
-app.get('/edit-list',function(req,res,next){
-  res.render('edit-list');
+app.get('/edit-list', (req, res) => {
+  mysqlConnection.query('SELECT name FROM items', (err, rows, fields) => {
+    if (!err)
+      res.send(rows);
+    else
+    console.log(err);
+  })
+  //res.render('edit-list');
 });
 
 app.post('/edit-list',function(req,res,next){

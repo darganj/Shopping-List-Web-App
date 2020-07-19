@@ -339,7 +339,7 @@ app.get('/chooselist', function (req, res, next) {
 
 
 
-    res.render('shoppinglist', { data : conteresults });
+    res.render('shoppinglist', { data : context.results });
 });
 
 app.get('/edit-list', (req, res) => {

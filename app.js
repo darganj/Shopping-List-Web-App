@@ -323,6 +323,11 @@ app.post('/shoppingList',function(req,res,next){
 
 });
 
+// route for 1) delete shopping list based on listID, userID in req.body
+app.delete('/shoppingList',function(req,res,next){
+  res.render('edit-list');
+});
+
 app.get('/edit-list',function(req,res,next){
 
   res.render('edit-list');

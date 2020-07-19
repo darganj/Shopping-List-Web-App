@@ -301,8 +301,17 @@ app.get('/shoppinglist',function(req,res,next){
   // });
 });
 
-app.get('/edit-list',function(req,res,next){
-  res.render('edit-list');
+app.get('/edit-list', function(req,res){
+  connection.query('SELECT itemName FROM Items', (err, rows, fields) => {
+    if (!err)
+      var hdbrsObj = {
+        Items: data
+      };
+      console.log(hdbrsObj);
+      res.render('edit-list', hdbrsObj); 
+    else
+      console.log(err)
+  })
 });
 
 app.post('/edit-list',function(req,res,next){

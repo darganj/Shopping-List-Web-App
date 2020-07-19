@@ -302,19 +302,22 @@ app.get('/shoppinglist',function(req,res,next){
 });
 
 app.get('/edit-list', function(req,res){
-  connection.query('SELECT itemName FROM Items', (err, rows, fields) => {
-    if (!err)
-      var hdbrsObj = {
-        Items: data
-      };
-      console.log(hdbrsObj);
-      res.render('edit-list', hdbrsObj); 
-    else
-      console.log(err)
-  })
+  var sqlQuery = 'SELECT itemName FROM Items';
+
+  connection.query(sqlQuery, function (err, results, fields) {
+    if (err)
+      console.log(err);
+    
+    console.log("Query results: ");
+    console.log(results);
+
+    res.render('/edit-list', {
+      results: results
+    });
+  });
 });
 
-app.post('/edit-list',function(req,res,next){
+app.post('/edit-list', function(req,res){
   res.render('edit-list');
 });
 

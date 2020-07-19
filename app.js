@@ -295,7 +295,7 @@ app.get('/shoppinglist', function (req, res, next) {
     var context = {};
     //Using user id = 1 for testing, TODO: Change to req.body and ensure 
     var userID = 1;
-    var sql = 'SELECT Lists.nameList FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = (?)';
+    var sql = 'SELECT Lists.nameList FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
 
     connection.query(sql,userID, function (err, results, fields) {
         if (err) {
@@ -324,15 +324,16 @@ app.get('/shoppinglist', function (req, res, next) {
 
 app.get('/chooselist', function (req, res, next) {
     var context = {};
-    var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?"
+    var listName = 'Guacamole'; //Hard coded for testing
+   // var listName = req.body; //Required arguments (listName to display list)
+    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?";
 
-    connection.query( sql, [listName], function (err, rows, fields) {
+    connection.query( sql, listName, function (err, results, fields) {
         if (err) {
             next(err);
             return;
         };
-        context.results = rows;
+        context.results = results;
         console.log(context.results);
     });
 

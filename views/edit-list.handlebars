@@ -10,6 +10,15 @@
     <br>
     <br>
 
+    {{#each Lists.nameList}}
+      <p>Shopping List Name: {{this.nameList}}</p>
+        <ul>Items
+          {{#each this.itemNanme}}
+            <li>{{this}}</li>
+            {{</each>}}
+        </ul>
+    {{/each}}
+
     <label for="addItem">+ Item</label>
     <input type="text" id="addItem" name="addItem">
 

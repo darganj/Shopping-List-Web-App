@@ -328,9 +328,28 @@ app.delete('/shoppingList',function(req,res,next){
   res.render('edit-list');
 });
 
+// route to update the item in the list
 app.get('/edit-list',function(req,res,next){
+  var context = {};
 
-  res.render('edit-list');
+  // sql placeholder variable
+  var getShoppingList = "SELECT Users.userName, Lists.nameList, List_of_Items.quantity, Items.itemName " +
+  "FROM Users " +
+    "LEFT JOIN Lists ON Lists.userID = Users.userID " +
+    "LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID " +
+    "LEFT JOIN Items ON List_of_Items.itemID = Items.itemID " +
+  "WHERE Users.userID=? AND Lists.listID=?;";
+
+  // execute the sql to render and display the shopping list
+  connection.query(getShoppingList, function(err, result){
+    if (err){
+      console.log(1);
+      next(err);
+      return;
+    }
+    context.list = result;
+    res.render('edit-list');
+  });
 });
 
 

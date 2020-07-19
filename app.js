@@ -316,7 +316,7 @@ app.get('/shoppinglist', function (req, res, next) {
   //     return;
   //   }
   //   res.json({rows:rows});
-    res.render('shoppinglistovw', {data: context});
+    res.render('shoppinglistovw', context);
   // });
 });
 

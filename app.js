@@ -321,7 +321,7 @@ app.get('/chooselist', function (req, res, next) {
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
+    var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
 
     connection.query( sql, listName, function (err, results, fields) {
         if (err) {
@@ -340,9 +340,16 @@ app.get('/chooselist', function (req, res, next) {
 });
 
 app.get('/edit-list', (req, res) => {
-  let sql = "SELECT itemID, itemName FROM Items";
-  let query = connection.query(sql, (err, results) => {
-    if(err) throw err;
+  var context = {};
+  var sql = "SELECT itemID, itemName FROM Items";
+  connection.query(sql, (err, results) => {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    context = results;
+    console.log(context);
     res.render('/edit-list',{
       context: context
       });

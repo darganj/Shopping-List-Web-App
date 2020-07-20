@@ -333,7 +333,7 @@ app.get('/chooselist', function (req, res, next) {
             return;
         };
         context = results;
-        console.log(context.results);
+        console.log(context);
         res.render('shoppinglist', { context: context });
     });
 

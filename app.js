@@ -339,6 +339,7 @@ app.get('/chooselist', function (req, res, next) {
    
 });
 
+/*
 app.get('/edit-list', (req, res) => {
   mysqlConnection.query('SELECT name FROM items', (err, rows, fields) => {
     if (!err)
@@ -346,6 +347,7 @@ app.get('/edit-list', (req, res) => {
     else
     console.log(err);
   })
+*/
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
   var current_date = new Date();

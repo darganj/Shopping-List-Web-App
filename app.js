@@ -304,11 +304,7 @@ app.get('/shoppinglist', function (req, res, next) {
             return;
         }
         context = results;
-        console.log(context);
-        console.log(fakeData);
-        context.results = JSON.stringify(context);
-        console.log(context.results);
-        res.render('shoppinglistovw', { context: context });
+         res.render('shoppinglistovw', { context: context });
         
     });
 
@@ -335,13 +331,14 @@ app.get('/chooselist', function (req, res, next) {
             next(err);
             return;
         };
-        context.results = results;
+        context = results;
         console.log(context.results);
+        res.render('shoppinglist', { context: context });
     });
 
 
 
-    res.render('shoppinglist', { data : context.results });
+   
 });
 
 app.get('/edit-list', (req, res) => {

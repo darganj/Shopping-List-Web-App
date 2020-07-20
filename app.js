@@ -340,9 +340,16 @@ app.get('/chooselist', function (req, res, next) {
 });
 
 app.get('/edit-list', (req, res) => {
-  let sql = "SELECT itemID, itemName FROM Items";
-  let query = connection.query(sql, (err, results) => {
-    if(err) throw err;
+  var context = {};
+  var sql = "SELECT itemID, itemName FROM Items";
+  connection.query(sql, (err, results) => {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    context = results;
+    console.log(context);
     res.render('/edit-list',{
       context: context
       });

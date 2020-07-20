@@ -310,6 +310,7 @@ app.get('/shoppinglist', function (req, res, next) {
             return;
         }
         context = results;
+        console.log(context);
          res.render('shoppinglistovw', { context: context });
         
     });

@@ -205,21 +205,21 @@ var fakeData =
              "isAdmin":"false",
              "lists":
               [
-                {"listName":"April", 
+                {"nameList":"April", 
                 "listItems":
                     {"item1":"apple",
                     "item2":"pear",
                     "item3":"peach"
                     }
                 },
-                {"listName":"May", 
+                {"nameList":"May", 
                 "listItems":
                     {"item1":"beetle",
                     "item2":"ant",
                     "item3":"ladybug"
                     }
                 },
-                {"listName":"June", 
+                {"nameList":"June", 
                 "listItems":
                     {"item1":"meat",
                     "item2":"meatier",
@@ -232,7 +232,8 @@ var fakeData =
 
 
 app.get('/', function(req,res,next){
-  res.render('home');
+    res.render('home');
+
 });
 
 app.get('/about',function(req,res,next){
@@ -294,19 +295,58 @@ app.post('/register',async function(req,res,next){
 //   res.redirect('shoppinglist');
 // });
 
-app.get('/shoppinglist',function(req,res,next){
- var context = {};
-  // mysql.connection.query("SELECT * FROM users", function(err, rows, fields){
-  //   if(err){
-  //     next(err);
-  //     return;
-  //   }
-  //   res.json({rows:rows});
-  res.render('shoppinglist',{fakeData:fakeData});
-  // });
+
+app.get('/shoppinglist', function (req, res, next) {
+
+    var context = {};
+    //Using user id = 1 for testing, TODO: Change to req.body and ensure 
+    var userID = 1;
+    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+
+    connection.query(sql,userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context = results;
+         res.render('shoppinglistovw', { context: context });
+        
+    });
 });
 
-// route for adding an empty shopping list for a user (can add more features to this route later)
+
+
+app.get('/chooselist', function (req, res, next) {
+    var context = {};
+    var listName = 'Guacamole'; //Hard coded for testing
+   // var listName = req.body; //Required arguments (listName to display list)
+    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
+
+    connection.query( sql, listName, function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            next(err);
+            return;
+        };
+        context = results;
+        console.log(context);
+        res.render('shoppinglist', { context: context });
+    });
+
+
+
+   
+});
+
+app.get('/edit-list', (req, res) => {
+  mysqlConnection.query('SELECT name FROM items', (err, rows, fields) => {
+    if (!err)
+      res.send(rows);
+    else
+    console.log(err);
+  })
+  // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
   var current_date = new Date();
   var formatted_date = JSON.stringify(current_date).slice(1,11);
@@ -318,6 +358,7 @@ app.post('/shoppingList',function(req,res,next){
       return;
     };
   console.log(result);
+   //TODO RENDER ACTUAL DATA
   res.render('shoppinglist',{fakeData:fakeData});
   });
 
@@ -325,6 +366,7 @@ app.post('/shoppingList',function(req,res,next){
 
 // route for 1) delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList',function(req,res,next){
+
   res.render('edit-list');
 });
 

@@ -2,32 +2,16 @@
 
 {{!-- {{rows}} --}}
 
-<p>Username: {{fakeData.name}}</p>
+<p>Username: <!-- TO DO--></p>
 
-{{#each fakeData.lists}}
-  <p>Shopping List Name: {{this.listName}}</p>
-    <ul>Items
-    {{#each this.listItems}}
-      <li>{{this}}</li>
-    {{/each}}
-    </ul>
+
+<p>Shopping List Name:<!-- TODO--></p>
+<ul>Items
+{{#each context}}
+    <li>{{itemName}} : {{quantity}}</li>
 {{/each}}
+</ul>
 
-
-
-<h2>Add Shopping List</h2>
-
- 
-<form action="/edit-list" method="POST"> 
- <fieldset>
-
-    <label for="listName">List name:</label><br>
-    <input type="text" id="listName" name="listName" placeholder="listName" required><br>
-    
-    <input type="submit" value="Submit">
-
- </fieldset>
-  
 
 </form>
 
@@ -47,3 +31,4 @@
 
 <script src="shoppinglist.js">
 </script>
+

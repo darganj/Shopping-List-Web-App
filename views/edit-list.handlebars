@@ -10,15 +10,26 @@
     <br>
     <br>
 
+
+    {{#each nameList}}
+      <p>Shopping List Name: {{nameList}}</p>
+        <ul>Items
+          {{#each itemName}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+    {{/each}}
+
     <uL>
       {{#each list}}
-      <ul>{{this.itemName}}</ul>
-      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{this.itemID}}">
+      <ul>{{itemName}}</ul>
+      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{itemID}}">
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{this.itemID}}">
+      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{itemID}}">
         <i class="fa fa-trash" aria-hidden="true"></i></button>
       {{/each}}
     </uL>
+
 
     <label for="addItem">+ Item</label>
     <input type="text" id="addItem" name="addItem">

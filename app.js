@@ -370,7 +370,7 @@ app.post('/shoppingList',function(req,res,next){
 // route for 1) delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList',function(req,res,next){
 
-  res.render('edit-list');
+  res.render('deletelist', req);
 });
 
 // route to update the item in the list

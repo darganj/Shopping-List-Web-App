@@ -12,6 +12,24 @@
 {{/each}}
 </ul>
 
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each context}}
+            <tr>
+                <td>{{ itemID }}</td>
+                <td>{{ itemName }}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 </form>
 

@@ -339,15 +339,16 @@ app.get('/chooselist', function (req, res, next) {
    
 });
 
-/*
 app.get('/edit-list', (req, res) => {
-  mysqlConnection.query('SELECT name FROM items', (err, rows, fields) => {
-    if (!err)
-      res.send(rows);
-    else
-    console.log(err);
-  })
-*/
+  let sql = "SELECT itemID, itemName FROM Items";
+  let query = connection.query(sql, (err, results) => {
+    if(err) throw err;
+    res.render('/edit-list',{
+      context: context
+      });
+    });
+  });
+
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
   var current_date = new Date();
@@ -373,7 +374,7 @@ app.delete('/shoppingList',function(req,res,next){
 });
 
 // route to update the item in the list
-app.get('/edit-list',function(req,res,next){
+/*app.get('/edit-list',function(req,res,next){
   var context = {};
 
   // sql placeholder variable
@@ -395,7 +396,7 @@ app.get('/edit-list',function(req,res,next){
     res.render('edit-list');
   });
 });
-
+*/
 
 // route for 1) adding a new item to a shopping list, ...(other additional features)
 app.post('/edit-list',function(req,res,next){

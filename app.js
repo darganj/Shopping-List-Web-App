@@ -339,10 +339,10 @@ app.get('/chooselist', function (req, res, next) {
    
 });
 
-app.get('/edit-list', (req, res) => {
+app.get('/edit-list', function (req, res, next) {
   var context = {};
-  var sql = "SELECT itemID, itemName FROM Items";
-  connection.query(sql, (err, results) => {
+  var sql = "SELECT * FROM Items";
+  connection.query(sql, function (err, results) {
     if(err) {
       console.log(err);
       next(err);

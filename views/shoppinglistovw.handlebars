@@ -5,13 +5,14 @@
 
 
 {{#each context}}
-    <div class="shopping_list_box">
-        <form action="/listchoose" method="GET">
-            <button type="button" class="btn btn-info" type="submit">
-	            <p> Name: {{nameList}} </p>
-            </button>
-        </form>
-    </div>
+<div class="shopping_list_box">
+
+    <form action="/chooselist" method="GET">
+        <button type="button" class="btn btn-info" type="submit">
+            <p> Name: {{nameList}} </p>
+        </button>
+    </form>
+</div>
 {{/each}}
 
     <div class="shopping_list_box">

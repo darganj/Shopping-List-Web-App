@@ -308,6 +308,7 @@ app.get('/shoppinglist', function (req, res, next) {
         console.log(fakeData);
         context.results = JSON.stringify(context);
         console.log(context.results);
+        res.render('shoppinglistovw', { context: context });
     });
 
 
@@ -317,7 +318,7 @@ app.get('/shoppinglist', function (req, res, next) {
   //     return;
   //   }
   //   res.json({rows:rows});
-    res.render('shoppinglistovw', { context: context } );
+    
   // });
 });
 

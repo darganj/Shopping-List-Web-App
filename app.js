@@ -324,10 +324,11 @@ app.get('/chooselist', function (req, res, next) {
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?";
+    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
 
     connection.query( sql, listName, function (err, results, fields) {
         if (err) {
+            console.log(err);
             next(err);
             return;
         };

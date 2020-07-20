@@ -10,32 +10,7 @@ var MySQLStore = require('express-mysql-session')(session);
 if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
-    function startConnection() {
-        console.error('CONNECTING');
-        connection = mysql.createConnection(config.mysql);
-        connection.connect(function (err) {
-            if (err) {
-                console.error('CONNECT FAILED', err.code);
-                startConnection();
-            }
-            else
-                console.error('CONNECTED');
-        });
-        connection.on('error', function (err) {
-            if (err.fatal)
-                startConnection();
-        });
-    }
-    startConnection();
-    // testing a select every 3 seconds :
-    // to try the code you can stop mysql service => select will fail
-    // if you start mysql service => connection will restart correctly => select will succeed
-    setInterval(function () {
-        connection.query('select 1', function (err, results) {
-            if (err) console.log('SELECT', err.code);
-            else console.log('SELECT', results);
-        });
-    }, 3000);
+
 }else{
   var connection = mysql.createConnection({
     host            : 'localhost',

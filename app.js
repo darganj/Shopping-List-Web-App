@@ -339,13 +339,6 @@ app.get('/chooselist', function (req, res, next) {
    
 });
 
-app.get('/edit-list', (req, res) => {
-  mysqlConnection.query('SELECT name FROM items', (err, rows, fields) => {
-    if (!err)
-      res.send(rows);
-    else
-    console.log(err);
-  })
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
   var current_date = new Date();
@@ -364,12 +357,14 @@ app.post('/shoppingList',function(req,res,next){
 
 });
 
+
+/*
 // route for 1) delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList',function(req,res,next){
 
   res.render('edit-list');
 });
-
+*/
 // route to update the item in the list
 app.get('/edit-list',function(req,res,next){
   var context = {};
@@ -410,6 +405,7 @@ app.post('/edit-list',function(req,res,next){
         res.render('edit-list');
     };
 });
+
 
 app.delete('/edit-list',function(req,res,next){
   res.render('edit-list');

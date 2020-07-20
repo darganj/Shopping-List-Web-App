@@ -308,10 +308,11 @@ app.get('/shoppinglist', function (req, res, next) {
         console.log(fakeData);
         context.results = JSON.stringify(context);
         console.log(context.results);
+        res.render('shoppinglistovw', { context: context });
         
     });
 
-    res.render('shoppinglistovw', { context: context });
+    
   // mysql.connection.query("SELECT * FROM users", function(err, rows, fields){
   //   if(err){
   //     next(err);

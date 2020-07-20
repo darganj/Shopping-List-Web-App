@@ -350,7 +350,7 @@ app.get('/edit-list', function (req, res, next) {
     };
     context = results;
     console.log(context);
-    res.render('/edit-list',{
+    res.render('edit-list',{
       context: context
       });
     });

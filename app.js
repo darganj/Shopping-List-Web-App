@@ -295,7 +295,7 @@ app.get('/shoppinglist', function (req, res, next) {
     var context = {};
     //Using user id = 1 for testing, TODO: Change to req.body and ensure 
     var userID = 1;
-    var sql = 'SELECT Lists.nameList FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
 
     connection.query(sql,userID, function (err, results, fields) {
         if (err) {

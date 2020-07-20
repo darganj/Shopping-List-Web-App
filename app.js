@@ -354,7 +354,14 @@ app.get('/edit-list', (req, res) => {
       context: context
       });
     });
-  });
+});
+
+app.get('/delete', function (req, res) {
+
+
+    res.render('deletelist');
+});
+
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){

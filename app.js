@@ -369,6 +369,7 @@ app.post('/save', function (req, res, next) {
       return;
     };
     res.redirect('edit-list');
+
   });
 });
 
@@ -382,6 +383,9 @@ app.put('/update', function(req, res) {
       console.log(err);
       next(err);
       return;
+    }
+    else {
+      console.log("Info updated Successfully.");
     };
     res.redirect('edit-list');
   });
@@ -397,6 +401,9 @@ app.post('/delete',function (req, res) {
       console.log(err);
       next(err);
       return;
+    }
+    else {
+      console.log("Info deleted Successfully.");
     };
     res.redirect('edit-list');
   });

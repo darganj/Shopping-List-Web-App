@@ -1,3 +1,8 @@
+<head>
+    <title>Edit-list Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
 <h1>I'm the edit shopping list page</h1>
 
 
@@ -7,6 +12,7 @@
             <tr>
                 <th>Item ID</th>
                 <th>Item Name</th>
+                <th>Quantity</th>
             </tr>
         </thead>
         <tbody>
@@ -65,16 +71,30 @@
 <br>
 <br>
 
-<button class="btn btn-success">Add New</button>
+<button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Add New</button>
 <form action="/save" method="post">
-    <div class="form-group">
-        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
-    </div>
-    <div class="form-group">
-        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
-    </div>
-    <div>
-        <button type="button" class="btn btn-secondary">Close</button>
-        <button type="submit" class="btn btn-primay">Save</button>
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary">Close</button>
+                    <button type="submit" class="btn btn-primay">Save</button> 
+                </div>
+            </div>
+        </div>
     </div>
 </form>

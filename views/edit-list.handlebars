@@ -1,15 +1,6 @@
 <h1>I'm the edit shopping list page</h1>
 
 
- <form action="/edit-list" method="POST"> 
-  <fieldset>
-    <label for="shoppingListName">Shopping List Name:</label>
-    <input type="text" id="shoppingListName" name="shoppingListName">
-    
-    <br>
-    <br>
-    <br>
-
 <div>
     <table>
         <thead>
@@ -21,8 +12,39 @@
         <tbody>
             {{#each context}}
             <tr>
-                <td>{{ itemID }}</td>
-                <td>{{ itemName }}</td>
+                <td>{{ shopItemID }}</td>
+                <td>{{ shopItemName }}</td>
+                <td>{{ shopQuantity }}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+
+
+ <!--<form action="/edit-list" method="POST"> 
+  <fieldset>
+    <label for="shoppingListName">Shopping List Name:</label>
+    <input type="text" id="shoppingListName" name="shoppingListName">
+    
+    <br>
+    <br>
+    <br>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each context}}
+            <tr>
+                <td>{{ shopItemID }}</td>
+                <td>{{ shopItemName }}</td>
+                <td>{{ shopQuantity }}</td>
             </tr>
             {{/each}}
         </tbody>
@@ -38,4 +60,21 @@
   </fieldset>
   
 
+</form>-->
+<br>
+<br>
+<br>
+
+<button class="btn btn-success">Add New</button>
+<form action="/save" method="post">
+    <div class="form-group">
+        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
+    </div>
+    <div class="form-group">
+        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
+    </div>
+    <div>
+        <button type="button" class="btn btn-secondary">Close</button>
+        <button type="submit" class="btn btn-primay">Save</button>
+    </div>
 </form>

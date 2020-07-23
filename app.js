@@ -339,10 +339,11 @@ app.get('/chooselist', function (req, res, next) {
 
    
 });
+// Jared's get edit-list route for testing
 
 app.get('/edit-list', function (req, res, next) {
   var context = {};
-  var sql = "SELECT * FROM Items";
+  var sql = "SELECT * FROM shopItems";
   connection.query(sql, function (err, results) {
     if(err) {
       console.log(err);
@@ -355,6 +356,20 @@ app.get('/edit-list', function (req, res, next) {
       context: context
       });
     });
+});
+//Jared's post edit-list route for testing
+
+app.post('/save', function (req, res, next) {
+  var data = {shopItemName: req.body.shopItemName, shopQuantity: req.body.shopQuantity};
+  var sql = "INSERT INTO shopItems SET ?";
+  connection.query(sql, data,(err, results) {
+    if(err){
+      console.log(err);
+      next(err);
+      return;
+    };
+    res.redirect('edit-list');
+  });
 });
 
 app.get('/delete', function (req, res) {

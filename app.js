@@ -11,10 +11,10 @@ if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
   var connection = mysql.createConnection({
-    host            : 'localhost',
-    user            : 'flj1jzapfhtiwjjo',
-    password        : 'ztb0cti8o5648gsw',
-    database        : 'zv3sbfb4eij4y18x'
+    host            : '	mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user            : 'pwofxntpjui8u5kn',
+    password        : 'rr1fa6jgmixxvohv',
+    database        : 'nvqaoykvac0cw35c'
   });
 
 
@@ -362,7 +362,7 @@ app.get('/edit-list', function (req, res, next) {
 app.post('/save', function (req, res, next) {
   var data = {shopItemName: req.body.shopItemName, shopQuantity: req.body.shopQuantity};
   var sql = "INSERT INTO shopItems SET ?";
-  connection.query(sql, data,(err, results) {
+  connection.query(sql, data, function (err, results) {
     if(err){
       console.log(err);
       next(err);

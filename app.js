@@ -374,9 +374,8 @@ app.post('/save', function (req, res, next) {
 
 //Jared's post 'update item in list' edit-list route for testing
 
-app.post('/update', function(req, res) {
-  var sql = "UPDATE shopItems SET shopItemName='"+req.body.shopItemName+"', itemQuantity='"+req.body.shopQuantity+"' WHERE shopItemID="+req.body.shopItemID;
-  connection.query(sql, function( err, results) {
+app.put('/update', function(req, res) {
+  connection.query("UPDATE shopItems SET shopItemName=?, shopQuantity=? WHERE shopItemID=?", [req.body.shopItemName, req.body.shopQuantity, req.body.shopItemID], function( err, results) {
     if(err) {
       console.log(err);
       next(err);
@@ -389,8 +388,7 @@ app.post('/update', function(req, res) {
 //Jared's post 'delete item from list' edit-list route for testing
 
 app.post('/delete',function (req, res) {
-  var sql = "DELETE FROM shopItems WHERE shopItemID="+req.body.shopItemID+"";
-  connection.query(sql, function (err, results) {
+  connection.query("DELETE FROM shopItems WHERE shopItemID=?", [req.body.shopItemID], function (err, results) {
     if(err) {
       console.log(err);
       next(err);

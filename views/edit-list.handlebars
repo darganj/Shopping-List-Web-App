@@ -21,6 +21,10 @@
                 <td>{{ shopItemID }}</td>
                 <td>{{ shopItemName }}</td>
                 <td>{{ shopQuantity }}</td>
+                <td><button class="btn btn-sm btn-info edit" data-shopItemID=" {{ shopItemID }}" data-shopItemName="{{ shopItemName }}">Edit</button>
+                    <button class="btn btn-sm btn-danger delete" data-shopItemID="{{ shopItemID }}">Delete</button>
+                </td>
+                
             </tr>
             {{/each}}
         </tbody>
@@ -71,6 +75,8 @@
 <br>
 <br>
 
+<!-- Addd item to List form -->
+
 <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Add New</button>
 <form action="/save" method="post">
     <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -91,8 +97,60 @@
                     </div>                   
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary">Close</button>
-                    <button type="submit" class="btn btn-primay">Save</button> 
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Edit Item in List Form -->
+
+<form action="/update" method="post">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Delete Item from List Form -->
+
+<form id="add-row-form" action="/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLebel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLebl">Delete Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aira-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Are you sure you want to delete this item?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="shopItemName" class="form-control product_id2" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
                 </div>
             </div>
         </div>

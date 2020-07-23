@@ -357,13 +357,41 @@ app.get('/edit-list', function (req, res, next) {
       });
     });
 });
-//Jared's post edit-list route for testing
+//Jared's post 'add item to list' edit-list route for testing
 
 app.post('/save', function (req, res, next) {
   var data = {shopItemName: req.body.shopItemName, shopQuantity: req.body.shopQuantity};
   var sql = "INSERT INTO shopItems SET ?";
   connection.query(sql, data, function (err, results) {
     if(err){
+      console.log(err);
+      next(err);
+      return;
+    };
+    res.redirect('edit-list');
+  });
+});
+
+//Jared's post 'update item in list' edit-list route for testing
+
+app.post('/update', function(req, res) {
+  var sql = "UPDATE shopItems SET shopItemName='"+req.body.shopItemName+"', itemQuantity='"+req.body.shopQuantity+"' WHERE shopItemID="+req.body.shopItemID;
+  connection.query(sql, function( err, results) {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    res.redirect('edit-list');
+  });
+});
+
+//Jared's post 'delete item from list' edit-list route for testing
+
+app.post('/delete',function (req, res) {
+  var sql = "DELETE FROM shopItems WHERE shopItemID="+req.body.shopItemID+"";
+  connection.query(sql, function (err, results) {
+    if(err) {
       console.log(err);
       next(err);
       return;

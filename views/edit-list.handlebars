@@ -10,9 +10,9 @@
     <table>
         <thead>
             <tr>
-                <th>Item ID</th>
                 <th>Item Name</th>
                 <th>Quantity</th>
+                <th>Notes</th>
             </tr>
         </thead>
         <tbody>
@@ -51,10 +51,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
+                        <input type="text" name="itemName" class="form-control" placeholder="Item Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
+                        <input type="text" name="itemQuantity" class="form-control" placeholder="Quantity" required>
+                    </div>
+                    <div>
+                        <input type="text" name="itemNote" class="form-control" placeholder="Description">
                     </div>                   
                 </div>
                 <div class="modal-footer">

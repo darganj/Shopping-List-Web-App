@@ -480,6 +480,7 @@ app.post('/edit-list',function(req,res,next){
         });
         res.render('edit-list');
     };
+});
 
 app.get('/edit-list', function(req,res){
   var sqlQuery = 'SELECT itemName FROM Items';

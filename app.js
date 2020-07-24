@@ -434,6 +434,7 @@ app.post('/shoppingList',function(req,res,next){
 
 });
 
+
 // route for 1) delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList',function(req,res,next){
 
@@ -479,6 +480,26 @@ app.post('/edit-list',function(req,res,next){
         });
         res.render('edit-list');
     };
+
+app.get('/edit-list', function(req,res){
+  var sqlQuery = 'SELECT itemName FROM Items';
+
+  connection.query(sqlQuery, function (err, results, fields) {
+    if (err)
+      console.log(err);
+    
+    console.log("Query results: ");
+    console.log(results);
+
+    res.render('/edit-list', {
+      results: results
+    });
+  });
+});
+
+app.post('/edit-list', function(req,res){
+  res.render('edit-list');
+
 });
 
 app.delete('/edit-list',function(req,res,next){

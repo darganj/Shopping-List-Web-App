@@ -66,7 +66,22 @@
     </div>
 </form>
 
+
 <!-- Edit Item in List Form -->
+
+    <uL>
+      {{#each results}}
+      <ul>{{this.itemName}}</ul>
+      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{this.itemID}}">
+        <<i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{this.itemID}}">
+        <i class="fa fa-trash" aria-hidden="true"></i></button>
+      {{/each}}
+    </uL>>
+
+    <label for="addItem">+ Item</label>
+    <input type="text" id="addItem" name="addItem">
+
 
 <form action="/update" method="put">
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

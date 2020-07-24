@@ -394,7 +394,7 @@ app.put('/update', function(req, res) {
 //Jared's post 'delete item from list' edit-list route for testing
 
 app.post('/delete',function (req, res) {
-  var data = {shopItemID: req.body.shopItemID};
+  var data = {itemID: req.body.itemID};
   var sql ="DELETE FROM shopItems WHERE shopItemID=?" 
   connection.query(sql, data, function (err, results) {
     if(err) {
@@ -409,12 +409,12 @@ app.post('/delete',function (req, res) {
   });
 });
 
-app.get('/delete', function (req, res) {
+/*app.get('/delete', function (req, res) {
 
 
     res.render('deletelist');
 });
-
+*/
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){

@@ -85,6 +85,23 @@ CREATE TABLE `Links` (
   `nameLink` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE shopItems (
+  shopItemID int(11) AUTO_INCREMENT NOT NULL,
+  shopItemName varchar(50) NOT NULL,
+  shopQuantity int(11) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO shopItems (shopItemID, shopItemName, shopQuantity) VALUES 
+(1, 'Apple', 6),
+(2, 'Banana', 5),
+(3, 'Carrots', 1),
+(4, 'Dog Food', 1),
+(5, 'Donuts', 12),
+(6, 'Orange Juice', 2),
+(7, 'Rice', 1),
+(8, 'Salad', 4),
+(9, 'Soda', 2),
+(10, 'Turkey', 1);
 --
 -- Dumping data for table `Links`
 --

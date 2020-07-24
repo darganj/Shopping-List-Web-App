@@ -2,31 +2,55 @@
 
 {{!-- {{rows}} --}}
 
-<p>Username: {{fakeData.name}}</p>
-
-{{#each fakeData.lists}}
-  <p>Shopping List Name: {{this.listName}}</p>
-    <ul>Items
-    {{#each this.listItems}}
-      <li>{{this}}</li>
-    {{/each}}
-    </ul>
-{{/each}}
+<p>Username: <!-- TO DO--></p>
 
 
+<p>Shopping List Name:<!-- TODO--></p>
 
-<h2>Add Shopping List</h2>
 
- 
-<form action="/edit-list" method="POST"> 
- <fieldset>
-
-    <label for="listName">List name:</label><br>
-    <input type="text" id="listName" name="listName" placeholder="listName" required><br>
-    
-    <input type="submit" value="Submit">
-
- </fieldset>
-  
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each context}}
+            <tr>
+                <td>{{ itemID }}</td>
+                <td>{{ itemName }}</td>
+                <td>{{quanity}} </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 </form>
+
+<section>
+        <h2> Delete a shopping list by listID & userID: </h2>
+        <form>
+        <b>listID:</b>
+        <input type="number" name="listID" id="delete_shopping_list_listID" required>
+        <br />
+        <b>userID:</b>
+        <input type="number" name="userID" id="delete_shopping_list_userID" required>
+        <br />
+        <input type="submit" id="delete_shopping_list" name="delete_shopping_list" value="delete_shopping_list">
+        </form>
+    </section>
+
+
+<form action="/edit-list" method="GET">
+    <fieldset>
+        <input type="submit" act name="editList" value="Edit Shopping List" />
+    </fieldset>
+</form>
+
+
+<script src="shoppinglist.js">
+</script>
+

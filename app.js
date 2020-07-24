@@ -12,9 +12,9 @@ if(process.env.JAWSDB_URL){
 }else{
   var connection = mysql.createConnection({
     host            : 'd9c88q3e09w6fdb2.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user            : 'j20uid8n5zmq0ioy',
-    password        : 'v3lrcnny4nqrbr8k',
-    database        : 'eot7gl8ktgmce6o9'
+    user            : 'cilql1idhje3nvky',
+    password        : 'nihvpf1jvw4nie5p',
+    database        : 'pqsy651g17ay2zf4'
   });
 
 
@@ -360,7 +360,7 @@ app.get('/edit-list', function (req, res, next) {
 //Jared's post 'add item to list' edit-list route for testing
 
 app.post('/save', function (req, res, next) {
-  var data = {shopItemName: req.body.shopItemName, shopQuantity: req.body.shopQuantity};
+  var data = {itemName: req.body.itemName, itemQuantity: req.body.itemQuantity, itemNote: req.body.itemNote};
   var sql = "INSERT INTO shopItems SET ?";
   connection.query(sql, data, function (err, results) {
     if(err){
@@ -376,8 +376,8 @@ app.post('/save', function (req, res, next) {
 //Jared's post 'update item in list' edit-list route for testing
 
 app.put('/update', function(req, res) {
-  var data = {shopItemName: req.body.shopItemName, shopQuantity: req.body.shopQuantity, shopItemID: req.body.shopItemID};
-  var sql ="UPDATE shopItems SET shopItemName=?, shopQuantity=? WHERE shopItemID=?" 
+  var data = {itemName: req.body.itemName, itemQuantity: req.body.shopQuantity, itemNote: req.body.itemNote, itemID: req.body.itemID};
+  var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 
   connection.query(sql, data, function( err, results) {
     if(err) {
       console.log(err);

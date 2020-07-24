@@ -18,9 +18,9 @@
         <tbody>
             {{#each context}}
             <tr>
-                <td>{{ shopItemID }}</td>
-                <td>{{ shopItemName }}</td>
-                <td>{{ shopQuantity }}</td>
+                <td>{{ itemName }}</td>
+                <td>{{ itemQuantity }}</td>
+                <td>{{ itemNote }}</td>
                 <td><button class="btn btn-sm btn-info edit" data-toggle="modal" data-target="#EditModal" data-shopItemID="{{ shopItemID }}" data-shopItemName="{{ shopItemName }}">Edit</button>
                     <button class="btn btn-sm btn-danger delete" data-toggle="modal" data-target="#DeleteModal"data-shopItemID="{{ shopItemID }}">Delete</button>
                 </td>
@@ -68,20 +68,20 @@
 
 
 <!-- Edit Item in List Form -->
-
+<!--
     <uL>
-      {{#each results}}
-      <ul>{{this.itemName}}</ul>
-      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{this.itemID}}">
+      {{#each context}}
+      <ul>{{ this.itemName }}</ul>
+      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{ this.itemID }}">
         <<i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{this.itemID}}">
+      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{ this.itemID }}">
         <i class="fa fa-trash" aria-hidden="true"></i></button>
       {{/each}}
     </uL>>
 
     <label for="addItem">+ Item</label>
     <input type="text" id="addItem" name="addItem">
-
+-->
 
 <form action="/update" method="put">
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -89,16 +89,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                    <h4 class="modal-title" id="exampleModalLabel"> {{ this.itemName }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" name="shopItemName" class="form-control" placeholder="Item Name" required>
+                        <input type="text" name="itemQuantity" class="form-control" placeholder="Quantity" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="shopQuantity" class="form-control" placeholder="Quantity" required>
+                        <input type="text" name="itemNote" class="form-control" placeholder="Description" required>
                     </div>                   
                 </div>
                 <div class="modal-footer">

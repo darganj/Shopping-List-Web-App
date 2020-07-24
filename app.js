@@ -394,9 +394,9 @@ app.put('/update', function(req, res) {
 //Jared's post 'delete item from list' edit-list route for testing
 
 app.post('/delete',function (req, res) {
-  var data = {itemID: req.body.itemID};
-  var sql ="DELETE FROM shopItems WHERE shopItemID=?" 
-  connection.query(sql, data, function (err, results) {
+  var itemID = req.params.itemID;
+  var sql ="DELETE FROM shopItems WHERE itemID=?'" + itemID +"'"; 
+  connection.query(sql, itemID, function (err, results) {
     if(err) {
       console.log(err);
       next(err);

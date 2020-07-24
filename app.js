@@ -467,7 +467,7 @@ app.delete('/shoppingList',function(req,res,next){
 */
 
 // route for 1) adding a new item to a shopping list, ...(other additional features)
-app.post('/edit-list',function(req,res,next){
+/*app.post('/edit-list',function(req,res,next){
 
     // 1) add a new item with default unmarked status
     if (req.body.addNewItem) { // include "addNewItem" value in submit element to indicate option 1
@@ -480,9 +480,9 @@ app.post('/edit-list',function(req,res,next){
         });
         res.render('edit-list');
     };
-});
+});*/
 
-app.get('/edit-list', function(req,res){
+/*app.get('/edit-list', function(req,res){
   var sqlQuery = 'SELECT itemName FROM Items';
 
   connection.query(sqlQuery, function (err, results, fields) {
@@ -534,7 +534,7 @@ app.put('/edit-list',function(req,res,next){
         res.render('edit-list');
     };
 
-});
+});*/
 
 app.get('/admin-portal',function(req,res,next){
   res.render('admin-portal');

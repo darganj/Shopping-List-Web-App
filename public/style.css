@@ -24,6 +24,7 @@ div.shopping_list_box{
 
 }
 
+
 #aboutContainer{
   /* gradient generated with uigradients.com */
   background-color: #db7de4;  /* fallback for old browsers */
@@ -52,3 +53,22 @@ div.shopping_list_box{
   transform: translate(0px,5px);
 	border-bottom: 1px solid;
 }
+
+div.shopping_list_box{
+
+    width:150px;
+    height:150px;
+
+}
+
+table.default_list_table{
+
+    table-layout: auto;
+    width: 100%;
+    margin-top:5%;
+
+}
+table .dl_hidden_cell {
+    display: none;
+}
+

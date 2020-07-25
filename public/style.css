@@ -22,6 +22,14 @@ div.shopping_list_box{
 
 }
 
+#aboutContainer{
+  background-color: bisque;
+}
+
+#aboutContainer h1{
+  margin: auto;
+}
+
 #loginButton
 {
 	background-color: #82BF56;

@@ -13,6 +13,8 @@ body{
 
 #jumbotron{
   background-color: beige;
+  margin-top: 75px;
+  text-align: center;
 }
 
 div.shopping_list_box{
@@ -24,15 +26,12 @@ div.shopping_list_box{
 
 #aboutContainer{
   /* gradient generated with uigradients.com */
-  background-color: #ddd6f3;  /* fallback for old browsers */
+  background-color: #db7de4;  /* fallback for old browsers */
   background-color: -webkit-linear-gradient(to bottom, #faaca8, #ddd6f3);  /* Chrome 10-25, Safari 5.1-6 */
   background-color: linear-gradient(to bottom, #faaca8, #ddd6f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 
-#aboutContainer h1{
-  margin: auto;
-}
 
 #loginButton
 {

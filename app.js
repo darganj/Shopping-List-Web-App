@@ -390,20 +390,18 @@ app.get('/edit-list',function(req,res,next){
 });
 
 
-// route for 1) adding a new item to a shopping list, ...(other additional features)
+// route for adding a new item to a shopping list
 app.post('/edit-list',function(req,res,next){
 
-    // 1) add a new item with default unmarked status
-    if (req.body.addNewItem) { // include "addNewItem" value in submit element to indicate option 1
-        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)', [listID, itemID, quantity, 0], function(err, result){
+        var {listID, itemID, quantity} = req.body;
+        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
             if(err){
                 next(err);
                 return;
             };
         });
+        console.log(req.body);
         res.render('edit-list');
-    };
 });
 
 
@@ -438,6 +436,26 @@ app.put('/edit-list',function(req,res,next){
         res.render('edit-list');
     };
 
+});
+
+app.get('/defaultlist',function(req,res,next){
+  var context = {};
+
+  // sql placeholder variable
+  var getDefaultItemsList = "SELECT * FROM Items LEFT JOIN Nutritions ON Items.nutritionID = Nutritions.nutritionID";
+
+  // execute the sql to render and display the shopping list
+  connection.query(getDefaultItemsList, function(err, result){
+    if (err){
+      next(err);
+      return;
+    }
+    var defaultItemsList = JSON.stringify(result);
+    //context.defaultItemsList = defaultItemsList;
+    context.defaultItemsList = result;
+    //console.log(context);
+    res.render('defaultlist', context);
+  });
 });
 
 app.get('/admin-portal',function(req,res,next){

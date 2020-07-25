@@ -8,3 +8,21 @@ div.shopping_list_box{
     height:150px;
 
 }
+
+div.shopping_list_box{
+
+    width:150px;
+    height:150px;
+
+}
+
+table.default_list_table{
+
+    table-layout: auto;
+    width: 100%;
+    margin-top:5%;
+
+}
+table .dl_hidden_cell {
+    display: none;
+}

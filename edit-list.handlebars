@@ -1,0 +1,51 @@
+<h1>I'm the edit shopping list page</h1>
+
+
+ <form action="/edit-list" method="POST"> 
+  <fieldset>
+    <label for="shoppingListName">Shopping List Name:</label>
+    <input type="text" id="shoppingListName" name="shoppingListName">
+    
+    <br>
+    <br>
+    <br>
+
+
+    {{#each nameList}}
+      <p>Shopping List Name: {{nameList}}</p>
+        <ul>Items
+          {{#each itemName}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+    {{/each}}
+
+    <uL>
+      {{#each list}}
+      <ul>{{itemName}}</ul>
+      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{itemID}}">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{itemID}}">
+        <i class="fa fa-trash" aria-hidden="true"></i></button>
+      {{/each}}
+    </uL>
+
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by Category</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Ascending</a>
+        <a class="dropdown-item" href="#">Descending</a>
+      </div>
+    </div>
+
+
+
+    <label for="addItem">+ Item</label>
+    <input type="text" id="addItem" name="addItem">
+
+    <button type="button" class="btn btn-success">Add Item</button>
+
+  </fieldset>
+  
+
+</form>

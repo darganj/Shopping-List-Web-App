@@ -1,0 +1,49 @@
+<h1> Hello, welcome to the Items Catalog! </h1>
+
+
+
+<div>
+<table class="default_list_table">
+        <thead>
+            <tr>
+                <th> Item Name: </th>
+                <th> Price: </th>
+                <th> Calories: </th>
+                <th> Fat Content: </th>
+                <th> Add to Current List: </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if defaultItemsList}}
+                {{#each defaultItemsList}}
+                    <tr>
+                        <td> {{itemName}} </td>
+                        <td> ${{price}} </td>
+                        <td> {{calories}} kcal </td>
+                        <td> {{fatContent}} grams </td>
+                        <td> <form action="/edit-list" method="post">
+            <label>
+                Quantity:
+                <input style="width:40px;" type="number" name="quantity">
+            </label>
+            <label>
+                (test)listID:
+                <input style="width:40px;" type="number" name="listID">
+            </label>
+            <input style="display:none;" type="number" name="itemID" value="{{itemID}}">
+            <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add to Shopping List">
+</form>
+                        </td>
+                        <td class="dl_hidden_cell"> {{itemID}} </td>
+                        <td class="dl_hidden_cell"> {{categoryID}} </td>
+                        <td class="dl_hidden_cell"> {{linkID}} </td>
+                        <td class="dl_hidden_cell"> {{nutritionID}} </td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</div>
+
+
+

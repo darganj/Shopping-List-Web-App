@@ -386,8 +386,11 @@ app.put('/update', function(req, res) {
     }
     else {
       console.log("Info updated Successfully.");
+			res.redirect('edit-list');
     };
-    res.redirect('edit-list');
+    
+		// moved above to else statement
+		// res.redirect('edit-list');
   });
 });
 

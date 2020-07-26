@@ -273,6 +273,7 @@ app.get('/register',function(req,res,next){
   res.render('register');
 });
 
+
 app.post('/register',async function(req,res,next){
   //create salt for new user
   const salt = crypto.randomBytes(32);
@@ -294,6 +295,13 @@ app.post('/register',async function(req,res,next){
 // app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
 //   res.redirect('shoppinglist');
 // });
+
+
+app.get('/userlanding', function (req, res, next) {
+
+    res.render('user_landing');
+
+});
 
 
 app.get('/shoppinglist', function (req, res, next) {

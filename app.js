@@ -393,7 +393,7 @@ app.put('/update', function(req, res) {
     
 		// moved above to else statement and tried render
 		// res.redirect('edit-list');
-	  res.render('edit-list?editList=Edit+Shopping+List');
+	  res.redirect('edit-list?editList=Edit+Shopping+List');
   });
 });
 

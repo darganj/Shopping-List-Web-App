@@ -1,48 +1,140 @@
+<head>
+    <title>Edit-list Page</title>
+    <link rel="stylesheet" src="public/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script type="text/javascript" src="/jquery-3.4.1.min.js"></script>
+</head>
+
 <h1>I'm the edit shopping list page</h1>
 
 
- <form action="/edit-list" method="POST"> 
-  <fieldset>
-    <label for="shoppingListName">Shopping List Name:</label>
-    <input type="text" id="shoppingListName" name="shoppingListName">
-    
-    <br>
-    <br>
-    <br>
+<div>
+    <table class="table table-stiped">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each context}}
+            <tr>
+                <td>{{ itemName }}</td>
+                <td>{{ itemQuantity }}</td>
+                <td>{{ itemNote }}</td>
+                <td><button class="btn btn-sm btn-info edit" data-toggle="modal" data-target="#EditModal" data-shopItemID="{{ shopItemID }}" data-shopItemName="{{ shopItemName }}">Edit</button>
+                    <button class="btn btn-sm btn-danger delete" data-toggle="modal" data-target="#DeleteModal"data-shopItemID="{{ shopItemID }}">Delete</button>
+                </td>
+                
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 
-    {{#each nameList}}
-      <p>Shopping List Name: {{nameList}}</p>
-        <ul>Items
-          {{#each itemName}}
-            <li>{{this}}</li>
-          {{/each}}
-        </ul>
-    {{/each}}
+<br>
+<br>
+<br>
 
+<!-- Addd item to List form -->
+
+<button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Add New</button>
+<form action="/save" method="post">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="itemName" class="form-control" placeholder="Item Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="itemQuantity" class="form-control" placeholder="Quantity" required>
+                    </div>
+                    <div>
+                        <input type="text" name="itemNote" class="form-control" placeholder="Description">
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<!-- Edit Item in List Form -->
+<!--
     <uL>
-      {{#each list}}
-      <ul>{{itemName}}</ul>
-      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{itemID}}">
-        <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{itemID}}">
+      {{#each context}}
+      <ul>{{ this.itemName }}</ul>
+      <button type="button" class="editItem btn btn-warning" id="editItem" data-id="{{ this.itemID }}">
+        <<i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <button type="button" class="deleteItem btn btn-warning" id="deleteItem" data-id="{{ this.itemID }}">
         <i class="fa fa-trash" aria-hidden="true"></i></button>
       {{/each}}
-    </uL>
-
+    </uL>>
 
     <label for="addItem">+ Item</label>
     <input type="text" id="addItem" name="addItem">
+-->
 
-    <button type="button" class="btn btn-success">Add Item</button>
-
-  </fieldset>
-     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by Category</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Ascending</a>
-        <a class="dropdown-item" href="#">Descending</a>
-      </div>
+<form action="/update" method="put">
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                    <h4 class="modal-title" id="exampleModalLabel"> {{ this.itemName }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="itemQuantity" class="form-control" placeholder="Quantity" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="itemNote" class="form-control" placeholder="Description" required>
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button> 
+                </div>
+            </div>
+        </div>
     </div>
+</form>
 
+<!-- Delete Item from List Form -->
+
+<form id="add-row-form" action="/delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLebel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Delete Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aira-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Are you sure you want to delete this item?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="itemID" class="form-control" required>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a href="/delete{{ itemID }}" class="btn btn-success">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

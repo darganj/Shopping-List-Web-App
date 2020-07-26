@@ -1,20 +1,5 @@
 body{
-  /* background-color: lightskyblue; */
-
-  /* gradient generated with uigradients.com */
-  background: #f2709c;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ff9472, #f2709c);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ff9472, #f2709c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-#container{
-  padding-top: 50px;
-}
-
-#jumbotron{
-  background-color: beige;
-  margin-top: 75px;
-  text-align: center;
+  background-color: lightskyblue;
 }
 
 div.shopping_list_box{
@@ -24,51 +9,7 @@ div.shopping_list_box{
 
 }
 
-
-#aboutContainer{
-  /* gradient generated with uigradients.com */
-  background-color: #db7de4;  /* fallback for old browsers */
-  background-color: -webkit-linear-gradient(to bottom, #faaca8, #ddd6f3);  /* Chrome 10-25, Safari 5.1-6 */
-  background-color: linear-gradient(to bottom, #faaca8, #ddd6f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+.completed {
+  color: gray;
+  text-decoration: line-through;
 }
-
-
-#loginButton
-{
-	background-color: #82BF56;
-	border-bottom: 5px solid #669644;
-  text-shadow: 0px -2px #669644;
-  margin-right: 10px;
-}
-
-#registerButton
-{
-	background-color: #F2CF66;
-	border-bottom: 5px solid #D1B358;
-	text-shadow: 0px -2px #D1B358;
-}
-
-.btn{
-  transform: translate(0px,5px);
-	border-bottom: 1px solid;
-}
-
-div.shopping_list_box{
-
-    width:150px;
-    height:150px;
-
-}
-
-table.default_list_table{
-
-    table-layout: auto;
-    width: 100%;
-    margin-top:5%;
-
-}
-table .dl_hidden_cell {
-    display: none;
-}
-

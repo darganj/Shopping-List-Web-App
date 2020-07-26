@@ -8,7 +8,9 @@
     <div class="shopping_list_box">
         <form action="/listchoose" method="GET">
             <button type="button" class="btn btn-info" type="submit">
-	            <p> Name: {{nameList}} </p>
+	            <p> Name: {{nameList}} /(test)listID: {{listID}}
+	            /(test)userID: {{userID}}</p>
+
             </button>
         </form>
     </div>
@@ -23,7 +25,7 @@
 
     </div>
 
-
+{{!--}
 <h2>Add Shopping List</h2>
 
  
@@ -39,3 +41,26 @@
   
 
 </form>
+
+{--}}
+
+<h2> (test) Add new Shopping List </h2>
+<form action="/shoppinglist" method="post">
+
+                                <label>
+                                    List Name:
+                                    <input type="text" name="nameList" required>
+                                </label>
+                                <label>
+                                    List Date:
+                                    <input type="date" name="date">
+                                </label>
+                                <label>
+                                    (test)userID:
+                                    <input style="width:40px;" type="number" name="userID" value="1">
+                                </label>
+                                <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
+                            </form>
+
+
+

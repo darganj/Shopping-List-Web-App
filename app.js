@@ -375,8 +375,8 @@ app.post('/save', function (req, res, next) {
 });
 
 //Jared's post 'update item in list' edit-list route for testing
-
-app.put('/update', function(req, res) {
+// post instead of put
+app.post('/update', function(req, res) {
 	
   var data = {itemName: req.body.itemName, itemQuantity: req.body.shopQuantity, itemNote: req.body.itemNote, itemID: req.body.itemID};
   var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 

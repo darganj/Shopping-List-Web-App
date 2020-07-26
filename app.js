@@ -408,10 +408,12 @@ app.post('/delete',function (req, res) {
     res.redirect('edit-list');
   });
 });
-
-$("tr").on("click", "td", function(){
+//JS on click function
+/*$("tr").on("click", "td", function(){
   $(this).toggleClass("completed");
 });
+*/
+
 
 /*app.get('/delete', function (req, res) {
 

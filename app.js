@@ -389,11 +389,11 @@ app.post('/update', function(req, res) {
     }
     else {
       console.log("Info updated Successfully.");
-			res.render('edit-list');
     };
     
 		// moved above to else statement and tried render
 		// res.redirect('edit-list');
+	  res.render('edit-list');
   });
 });
 

@@ -409,6 +409,10 @@ app.post('/delete',function (req, res) {
   });
 });
 
+$("tr").on("click", "td", function(){
+  $(this).toggleClass("completed");
+});
+
 /*app.get('/delete', function (req, res) {
 
 

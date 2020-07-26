@@ -8,3 +8,8 @@ div.shopping_list_box{
     height:150px;
 
 }
+
+.completed {
+  color: gray;
+  text-decoration: line-through;
+}

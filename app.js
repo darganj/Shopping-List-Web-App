@@ -376,11 +376,17 @@ app.post('/save', function (req, res, next) {
 
 //Jared's post 'update item in list' edit-list route for testing
 app.put('/update', function(req, res) {
+	
+	console.log(100)
+	
   var data = {itemName: req.body.itemName, itemQuantity: req.body.shopQuantity, itemNote: req.body.itemNote, itemID: req.body.itemID};
   var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 
+	console.log(150);
+	
   connection.query(sql, data, function( err, results) {
     if(err) {
       console.log(err);
+			console.log(200);
       next(err);
       return;
     }
@@ -393,56 +399,6 @@ app.put('/update', function(req, res) {
 		// res.redirect('edit-list');
   });
 });
-
-// Zoe's update - crashed
-/*
-app.put('/update', function(req, res) {
-
-	var context = {};
-	context.itemName = req.body.itemName;
-	context.itemQuantity = req.body.itemQuantity;
-	context.itemNote = req.body.itemNote;
-	context.itemID = req.body.itemID;
-	
-	// Find all values for the selected row that the user wants to update
-	var findRowQuery = "SELECT * FROM shopItems WHERE itemID?"
-	
-	connection.query(findRowQuery, [req.body.itemID], function(err, result) {
-		if(err){
-			next(err);
-			return;
-		}
-
-  // UPDATE if user entered values
-  if (result.length >= 1)
-  {
-    var currentValue = result[0]
-   
-    // variable for query
-    var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 
-
-    connection.query(sql, 
-    [
-      req.body['itemName'] || currentValue.itemName,
-      req.body['itemQuantity'] || currentValue.itemQuantity,
-      req.body['itemNotes'] || currentValue.itemNote,
-      req.body.itemID
-    ], 
-    function( err, results) {
-      if(err) {
-        console.log(err);
-        next(err);
-        return;
-      }
-      else {
-        console.log("Info updated Successfully.");
-        res.redirect('edit-list');
-      };
-    });
-  }
-  
-});
-*/
 
 //Jared's post 'delete item from list' edit-list route for testing
 

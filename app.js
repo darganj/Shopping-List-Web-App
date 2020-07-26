@@ -341,30 +341,99 @@ app.get('/chooselist', function (req, res, next) {
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
-  var current_date = new Date();
-  var formatted_date = JSON.stringify(current_date).slice(1,11);
-  var {userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
-  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, formatted_date, nameList], function(err, result){
+
+  var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
+  if (date == "") { // if date not provided by user, enter current date into database
+    var current_date = new Date();
+    var formatted_date = JSON.stringify(current_date).slice(1,11);
+    date = formatted_date;
+  };
+  // add new list for user
+  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, date, nameList], function(err, result){
 
     if(err){
       next(err);
       return;
     };
-  console.log(result);
-   //TODO RENDER ACTUAL DATA
-  res.render('shoppinglist',{fakeData:fakeData});
   });
 
+  // fetch & render all lists for user including newly added list
+  var context = {};
+  var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+  connection.query(sql,userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.context = results;
+        //console.log(context);
+           //TODO RENDER ACTUAL DATA
+        res.render('shoppinglistovw', context);
+  });
+
+
+
 });
 
-
-/*
-// route for 1) delete shopping list based on listID, userID in req.body
+// route to delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList',function(req,res,next){
-
-  res.render('edit-list');
+    // delete list with listID provided in req.body
+    var listID = req.body.listID;
+    console.log(listID);
+    console.log("delete shopping list route");
+    connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function(err, result) {
+        if(err){
+            next(err);
+            return;
+        }
+    });
+    // fetch & render all remaining lists for user after deletion
+    var context = {};
+    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    connection.query(sql,req.body.userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.context = results;
+        //console.log(context);
+           //TODO RENDER ACTUAL DATA
+        res.render('shoppinglistovw', context);
+    });
 });
-*/
+
+// route to update an existing shopping list's name and/or date for a user
+app.put('/shoppingList',function(req,res,next){
+  var context = {};
+  var {name, date, listID, userID} = req.body;
+
+  connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [name, date, listID], function(err, result){
+    if(err){
+      next(err);
+      return;
+    }
+  });
+
+  // fetch & render all remaining lists for user after deletion
+    var context = {};
+    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    connection.query(sql,req.body.userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.context = results;
+        //console.log(context);
+           //TODO RENDER ACTUAL DATA
+        res.render('shoppinglistovw', context);
+    });
+});
+
+
+
 // route to update the item in the list
 app.get('/edit-list',function(req,res,next){
   var context = {};

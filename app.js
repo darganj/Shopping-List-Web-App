@@ -375,27 +375,24 @@ app.post('/save', function (req, res, next) {
 });
 
 //Jared's post 'update item in list' edit-list route for testing
+
 app.put('/update', function(req, res) {
-	
-	console.log(100)
 	
   var data = {itemName: req.body.itemName, itemQuantity: req.body.shopQuantity, itemNote: req.body.itemNote, itemID: req.body.itemID};
   var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 
-	console.log(150);
 	
   connection.query(sql, data, function( err, results) {
     if(err) {
       console.log(err);
-			console.log(200);
       next(err);
       return;
     }
     else {
       console.log("Info updated Successfully.");
-			res.redirect('edit-list');
+			res.render('edit-list');
     };
     
-		// moved above to else statement
+		// moved above to else statement and tried render
 		// res.redirect('edit-list');
   });
 });

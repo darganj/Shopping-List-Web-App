@@ -389,11 +389,12 @@ app.put('/update', function(req, res) {
     }
     else {
       console.log("Info updated Successfully.");
+	    res.redirect('edit-list?editList=Edit+Shopping+List');
     };
     
 		// moved above to else statement and tried render
 		// res.redirect('edit-list');
-	  res.redirect('edit-list?editList=Edit+Shopping+List');
+	  
   });
 });
 

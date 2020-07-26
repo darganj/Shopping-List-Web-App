@@ -376,7 +376,7 @@ app.post('/save', function (req, res, next) {
 
 //Jared's post 'update item in list' edit-list route for testing
 
-app.post('/update', function(req, res) {
+app.put('/update', function(req, res) {
 
 	var context = {};
 	context.itemName = req.body.itemName;

@@ -375,7 +375,24 @@ app.post('/save', function (req, res, next) {
 });
 
 //Jared's post 'update item in list' edit-list route for testing
+app.put('/update', function(req, res) {
+  var data = {itemName: req.body.itemName, itemQuantity: req.body.shopQuantity, itemNote: req.body.itemNote, itemID: req.body.itemID};
+  var sql ="UPDATE shopItems SET itemName=?, itemQuantity=?, itemNote=? WHERE itemID=?" 
+  connection.query(sql, data, function( err, results) {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    }
+    else {
+      console.log("Info updated Successfully.");
+    };
+    res.redirect('edit-list');
+  });
+});
 
+// Zoe's update - crashed
+/*
 app.put('/update', function(req, res) {
 
 	var context = {};
@@ -422,6 +439,7 @@ app.put('/update', function(req, res) {
   }
   
 });
+*/
 
 //Jared's post 'delete item from list' edit-list route for testing
 

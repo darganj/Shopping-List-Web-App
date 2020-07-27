@@ -1,5 +1,5 @@
 <link rel="stylesheet" src="public/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <h1>All my shopping lists</h1>
 
@@ -12,17 +12,23 @@
 
 
 
-<div class="row text-center flex-wrap">
-    {{#each context}}
-    <div class="col-md-3 col-sm-6">
-        <div class="caption">
-            <h4>{{ listName }} </h4>
+<div class="row">
+    <div class="text-center">
+        <div class="flex-wrap">
+            {{#each context}}
+                <div class="col-md-3 col-sm-6">
+                     <div class="caption">
+                        <h4>{{ listName }} </h4>
+                    </div>
+                    <p>
+                        <a href="/chooselist" class="btn btn-primary">View List</a>
+                    </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p>
-            <a href="/chooselist" class="btn btn-primary">View List</a>
-        </p>
     </div>
-</div>        
+</div>       
 {{/each}}   
 <!--<div class="shopping_list_box">
 

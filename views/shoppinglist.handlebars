@@ -13,27 +13,25 @@
 
 {{#each context}}
 <div class="row text-center flex-wrap"></div>
-<div class="col-md-3 col-sm-6">
-    <div class="caption">
-        <h4>{{ listName }} </h4>
+    <div class="col-md-3 col-sm-6">
+        <div class="caption">
+            <h4>{{ listName }} </h4>
+        </div>
+        <p>
+            <a href="/chooselist" class="btn btn-primary">View List</a>
+        </p>
     </div>
-    <p>
-        <a href="/chooselist" class="btn btn-primary">View List</a>
-    </p>
-        
-    
+</div>        
+{{/each}}   
 <!--<div class="shopping_list_box">
 
     <form action="/chooselist" method="GET">
         <button type="submit" class="btn btn-info">
-            <p> Name: {{listName}} </p>
+            <p> Name:  </p>
         </button>
     </form>
 
 <!--</div>-->
-    </div>
-</div>
-{{/each}}
 
 
 

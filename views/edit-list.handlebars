@@ -4,7 +4,7 @@
  <form action="/edit-list" method="POST"> 
   <fieldset>
     <label for="shoppingListName">Shopping List Name:</label>
-    <input type="text" id="shoppingListName" name="shoppingListName">
+    <input type="text" id="shoppingListName" name="shoppingListName" value="{{context.1.nameList}}">
     
     <br>
     <br>
@@ -14,15 +14,15 @@
     <table>
         <thead>
             <tr>
-                <th>Item ID</th>
                 <th>Item Name</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
             {{#each context}}
             <tr>
-                <td>{{ itemID }}</td>
                 <td>{{ itemName }}</td>
+                <td>{{ categoryName }}</td>
             </tr>
             {{/each}}
         </tbody>
@@ -36,12 +36,13 @@
     <button type="button" class="btn btn-success">Add Item</button>
 
   </fieldset>
+
      <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by Category</button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Ascending</a>
-        <a class="dropdown-item" href="#">Descending</a>
+        <a class="dropdown-item" href="/edit-list?ascending=Ascending">Ascending</a>
+        <a class="dropdown-item" href="/edit-list?descending=Descending">Descending</a>
       </div>
     </div>
 
-</form>
+

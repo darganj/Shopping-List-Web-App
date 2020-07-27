@@ -480,6 +480,56 @@ app.put('/shoppingList',function(req,res,next){
 */
 
 app.get('/edit-list', function (req, res, next) {
+
+  if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
+    var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
+    " FROM Users" +
+	" LEFT JOIN Lists ON Lists.userID = Users.userID" +
+	" LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID" +
+	" LEFT JOIN Items ON List_of_Items.itemID = Items.itemID" +
+    " LEFT JOIN Categories ON Items.itemID = Categories.categoryID" +
+    " WHERE Users.userID=3 AND Lists.listID=3" +
+    " ORDER BY Categories.categoryName ASC";
+    connection.query(sql, function (err, results) {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    var context = results;
+    console.log(context);
+    res.render('edit-list',{
+      context: context
+      });
+
+    });
+  }
+
+  else if (req.query.descending) { // if sort by category in descending order (test userID=3,listID=3)
+      var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
+    " FROM Users" +
+	" LEFT JOIN Lists ON Lists.userID = Users.userID" +
+	" LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID" +
+	" LEFT JOIN Items ON List_of_Items.itemID = Items.itemID" +
+    " LEFT JOIN Categories ON Items.itemID = Categories.categoryID" +
+    " WHERE Users.userID=3 AND Lists.listID=3" +
+    " ORDER BY Categories.categoryName DESC";
+    connection.query(sql, function (err, results) {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    var context = results;
+    console.log(context);
+    res.render('edit-list',{
+      context: context
+      });
+
+    });
+  }
+
+  else {
   var context = {};
   var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID";
   connection.query(sql, function (err, results) {
@@ -492,8 +542,9 @@ app.get('/edit-list', function (req, res, next) {
     console.log(context);
     res.render('edit-list',{
       context: context
-      });
+      });;
     });
+    };
 });
 
 // route for adding a new item to a shopping list

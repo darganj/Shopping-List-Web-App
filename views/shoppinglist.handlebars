@@ -6,12 +6,27 @@
 
 
 <p>Shopping List Name:<!-- TODO--></p>
-<ul>Items
-{{#each context}}
-    <li>{{itemName}} : {{quantity}}</li>
-{{/each}}
-</ul>
 
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each context}}
+            <tr>
+                <td>{{ itemID }}</td>
+                <td>{{ itemName }}</td>
+                <td>{{quanity}} </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 </form>
 
@@ -27,6 +42,13 @@
         <input type="submit" id="delete_shopping_list" name="delete_shopping_list" value="delete_shopping_list">
         </form>
     </section>
+
+
+<form action="/edit-list" method="GET">
+    <fieldset>
+        <input type="submit" act name="editList" value="Edit Shopping List" />
+    </fieldset>
+</form>
 
 
 <script src="shoppinglist.js">

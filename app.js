@@ -8,7 +8,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
 if(process.env.JAWSDB_URL){
-  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+    var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
   var connection = mysql.createConnection({
     host            : 'localhost',
@@ -273,6 +273,7 @@ app.get('/register',function(req,res,next){
   res.render('register');
 });
 
+
 app.post('/register',async function(req,res,next){
   //create salt for new user
   const salt = crypto.randomBytes(32);
@@ -296,6 +297,13 @@ app.post('/register',async function(req,res,next){
 // });
 
 
+app.get('/userlanding', function (req, res, next) {
+
+    res.render('user_landing');
+
+});
+
+
 app.get('/shoppinglist', function (req, res, next) {
 
     var context = {};
@@ -310,6 +318,7 @@ app.get('/shoppinglist', function (req, res, next) {
             return;
         }
         context = results;
+        console.log(context);
          res.render('shoppinglistovw', { context: context });
         
     });
@@ -321,7 +330,7 @@ app.get('/chooselist', function (req, res, next) {
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
+    var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
 
     connection.query( sql, listName, function (err, results, fields) {
         if (err) {
@@ -338,6 +347,16 @@ app.get('/chooselist', function (req, res, next) {
 
    
 });
+
+
+
+
+app.get('/delete', function (req, res) {
+
+
+    res.render('deletelist');
+});
+
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppingList',function(req,res,next){
@@ -404,6 +423,7 @@ app.delete('/shoppingList',function(req,res,next){
     });
 });
 
+
 // route to update an existing shopping list's name and/or date for a user
 app.put('/shoppingList',function(req,res,next){
   var context = {};
@@ -435,7 +455,7 @@ app.put('/shoppingList',function(req,res,next){
 
 
 // route to update the item in the list
-app.get('/edit-list',function(req,res,next){
+/*app.get('/edit-list',function(req,res,next){
   var context = {};
 
   // sql placeholder variable
@@ -457,7 +477,24 @@ app.get('/edit-list',function(req,res,next){
     res.render('edit-list');
   });
 });
+*/
 
+app.get('/edit-list', function (req, res, next) {
+  var context = {};
+  var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID";
+  connection.query(sql, function (err, results) {
+    if(err) {
+      console.log(err);
+      next(err);
+      return;
+    };
+    context = results;
+    console.log(context);
+    res.render('edit-list',{
+      context: context
+      });
+    });
+});
 
 // route for adding a new item to a shopping list
 app.post('/edit-list',function(req,res,next){

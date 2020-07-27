@@ -14,22 +14,22 @@
 
 <div class="row">
     <div class="text-center">
-        <div class="flex-wrap">
+        <div class="flex-wrap"
+        {{#each context}}>
                 <div class="col-md-3 col-sm-6">
-                    {{#each context}}
-                     <div class="caption">
                         <h4>{{ listName }} </h4>
-                    </div>
                     <p>
                         <a href="/chooselist" class="btn btn-primary">View List</a>
                     </p>
                     </div>
                 </div>
             </div>
+        {{/each}}
         </div>
     </div>
 </div>       
-{{/each}}   
+<!--each was here-->
+
 <!--<div class="shopping_list_box">
 
     <form action="/chooselist" method="GET">

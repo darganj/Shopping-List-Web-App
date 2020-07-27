@@ -14,13 +14,14 @@
 
 <div class="row justify-content-center">
     <div class="text-center">
+                {{#context}}
                 <div class="col-4">
-                    {{#each context}}
+                    
                         <h4>{{ listName }} </h4>
                     <p>
                         <a href="/chooselist" class="btn btn-primary">View List</a>
                     </p>
-                    {{/each}}
+                    {{/context}}
                 </div>
     </div>
 </div>       

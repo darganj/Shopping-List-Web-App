@@ -53,6 +53,9 @@ var app = express();
 // immediately create header security options
 app.use(helmet());
 app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
+app.use(helmet({
+  hsts: false
+}))
 
 var expireDate = new Date();
 expireDate.setDate(expireDate.getDate() + 1);

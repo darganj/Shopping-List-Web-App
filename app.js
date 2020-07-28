@@ -272,8 +272,36 @@ app.get('/login',function(req,res,next){
 // });
 
 app.post('/login', function(req,res,next){
+  var username = req.body.username;
+  var password = req.body.password;
 
-  res.redirect('shoppinglist');
+  console.log("request info");
+  console.log(req.body.username);
+  console.log(req.body.password);
+  var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+
+  if (username && password){
+
+    connection.query(sql, [username, password], function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          next(err);
+          return;
+      }else{
+          context = results;
+          console.log(context);
+
+          req.session.loggedin = true;
+          req.session.username = username;
+          res.redirect('shoppinglist');
+      }
+      
+      // res.render('shoppinglist', { context: context });
+  });
+
+  }
+
+  
 });
 
 app.get('/register',function(req,res,next){

@@ -4,6 +4,7 @@ var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
@@ -49,6 +50,9 @@ var options = {
 var sessionStore = new MySQLStore(options, connection);
 
 var app = express();
+// immediately create header security options
+app.use(helmet());
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
 
 var expireDate = new Date();
 expireDate.setDate(expireDate.getDate() + 1);
@@ -68,7 +72,7 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-app.disable('x-powered-by');
+// app.disable('x-powered-by');  // replaced by helmet
 app.set('port', process.env.PORT || 5001);
 
 

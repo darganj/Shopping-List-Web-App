@@ -89,7 +89,7 @@ var queryParams = function(req, res, next) {
 };
 app.use(queryParams);
 
-async function validPassword(password, hash) {
+async function validatePassword(password, hash) {
   try {
 
     const correctPassword = await argon2.verify(hash, password);
@@ -116,8 +116,8 @@ async function genPassword(password) {
     console.log("error in hashing3");
   }
 }
-// console.log(genPassword("bob"));
-// console.log(validPassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+console.log(genPassword("bob"));
+console.log(validPassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
       connection.query("SELECT * from Users where userName=?", 
@@ -132,7 +132,7 @@ passport.use('local-login', new LocalStrategy(
           // .then((user) => {
           //     if (!user) { return done(null, false) }
               
-        const isValid = validPassword(password, user.hash, user.salt);
+        const isValid = validatePassword(password, user.hash, user.salt);
               
           //     if (isValid) {
           //         return done(null, user);

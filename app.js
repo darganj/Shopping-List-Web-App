@@ -47,7 +47,7 @@ var options = {
 	endConnectionOnClose: true
 };
 
-var sessionStore = new MySQLStore(options, connection);
+var sessionStore = new MySQLStore(connection);
 
 var app = express();
 // immediately create header security options
@@ -214,8 +214,8 @@ passport.use('local-register', new LocalStrategy(
           // });
 }));
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 passport.deserializeUser(function(id, cb) {
   connection.query("SELECT * from Users where id=?", [id], function (err, user) {

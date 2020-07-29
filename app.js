@@ -223,8 +223,8 @@ passport.serializeUser(function(user, done) {
   console.log(user.userID);
   done(null, user.userID);
 });
-passport.deserializeUser(function(id, cb) {
-  connection.query("SELECT * from Users where id=?", [id], function (err, user) {
+passport.deserializeUser(function(user, cb) {
+  connection.query("SELECT * from Users where userID=?", [user.userID], function (err, results, fields) {
       if (err) { return cb(err); }
       cb(null, rows[0]);
   });

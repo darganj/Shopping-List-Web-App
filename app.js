@@ -61,9 +61,8 @@ expireDate.setDate(expireDate.getDate() + 1);
 app.use(session({
   secret: process.env.SESSION_SECRET || "supersecretword",
   resave: true,
-  saveUninitialized: true
-  // ,
-  // store: sessionStore, 
+  saveUninitialized: true,
+  store: sessionStore
 }));
 
 //TO-DO:  change saveUninitialized to false

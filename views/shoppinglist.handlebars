@@ -11,18 +11,15 @@
 <p>Shopping List Name:<!-- TODO--></p>
 
 
-
-<div class="row justify-content-center">
-    <div class="text-center">
-            {{#each context}}
-                <div class="col-4">
-                    <h4>{{ listName }} </h4>
-                    <p>
-                        <a href="/chooselist" class="btn btn-primary">View List</a>
-                    </p>
-                </div>
-            {{/each}}
-    </div>
+<div class="container">
+    {{#each context}}
+        <div class="col-sm">
+            <h4>{{ listName }} </h4>
+                <p>
+                    <a href="/chooselist" class="btn btn-primary">View List</a>
+                </p>
+        </div>
+    {{/each}}
 </div>       
 
 <!--each was here-->

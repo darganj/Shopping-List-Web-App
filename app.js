@@ -125,7 +125,7 @@ passport.use('local-login', new LocalStrategy(
     console.log(username);
     console.log(password);
     var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
-    return done(null, false);
+    return done(null, {username: 'bob'});
     // if (username && password){
 
     //   connection.query(sql, [username, password], function (err, results, fields) {

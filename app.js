@@ -146,12 +146,19 @@ passport.use('local-login', new LocalStrategy(
             next(err);
             return;
         }else{
+
+          if ((results[0].userID == username) && (results[0].password == password)){
             context = results;
             console.log("I'm the results from use local-login");
             console.log(context);
             console.log("I'm results[0]");
             console.log(results[0].userID);
             return done(null, results[0]);
+
+          }else{
+
+            return done(null, false);
+          }
             // req.session.loggedin = true;
             // req.session.username = username;
             // res.redirect('shoppinglist');

@@ -138,7 +138,7 @@ passport.use('local-login', new LocalStrategy(
             console.log("I'm the results from use local-login");
             console.log(context);
             console.log("I'm results[0]");
-            console.log(results[0]);
+            console.log(results[0][userID]);
             return done(null, results[0]);
             // req.session.loggedin = true;
             // req.session.username = username;

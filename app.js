@@ -136,7 +136,7 @@ passport.use('local-login', new LocalStrategy(
         }else{
             context = results;
             console.log(context);
-            return done(null, user);
+            return done(null, username);
             // req.session.loggedin = true;
             // req.session.username = username;
             // res.redirect('shoppinglist');

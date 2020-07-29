@@ -52,7 +52,7 @@ var sessionStore = new MySQLStore(options, connection);
 var app = express();
 // immediately create header security options
 app.use(helmet());
-// app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
 // app.use(helmet({
 //   hsts: false
 // }))

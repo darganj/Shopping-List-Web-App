@@ -121,19 +121,45 @@ console.log(genPassword("bob"));
 console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
-      connection.query("SELECT * from Users where userName=?", 
-      [username],
-      function(err, rows, fields){
-        if(err){
-          next(err);
-          return;
+    console.log("request info");
+    // console.log(req.body.username);
+    // console.log(req.body.password);
+    var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+
+    if (username && password){
+
+      connection.query(sql, [username, password], function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            next(err);
+            return;
+        }else{
+            context = results;
+            console.log(context);
+            return done(null, user);
+            // req.session.loggedin = true;
+            // req.session.username = username;
+            // res.redirect('shoppinglist');
         }
-        console.log(rows);
-      })
+        
+        // res.render('shoppinglist', { context: context });
+    });
+  
+    }
+
+      // connection.query("SELECT * from Users where userName=?", 
+      // [username],
+      // function(err, rows, fields){
+      //   if(err){
+      //     next(err);
+      //     return;
+      //   }
+      //   console.log(rows);
+      // })
           // .then((user) => {
           //     if (!user) { return done(null, false) }
               
-        const isValid = validatePassword(password, user.hash, user.salt);
+        // const isValid = validatePassword(password, user.hash, user.salt);
               
           //     if (isValid) {
           //         return done(null, user);
@@ -189,7 +215,7 @@ passport.serializeUser(function(user, cb) {
   cb(null, user.id);
 });
 passport.deserializeUser(function(id, cb) {
-  connection.query("SELECT * from users where id=?", [id], function (err, user) {
+  connection.query("SELECT * from Users where id=?", [id], function (err, user) {
       if (err) { return cb(err); }
       cb(null, rows[0]);
   });
@@ -269,37 +295,47 @@ app.get('/login',function(req,res,next){
 //   res.redirect('shoppinglist');
 // });
 
-app.post('/login', function(req,res,next){
-  var username = req.body.username;
-  var password = req.body.password;
+// app.post('/login', function(req,res,next){
+//   var username = req.body.username;
+//   var password = req.body.password;
 
-  console.log("request info");
-  console.log(req.body.username);
-  console.log(req.body.password);
-  var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+//   console.log("request info");
+//   console.log(req.body.username);
+//   console.log(req.body.password);
+//   var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
 
-  if (username && password){
+//   if (username && password){
 
-    connection.query(sql, [username, password], function (err, results, fields) {
-      if (err) {
-          console.log(err);
-          next(err);
-          return;
-      }else{
-          context = results;
-          console.log(context);
+//     connection.query(sql, [username, password], function (err, results, fields) {
+//       if (err) {
+//           console.log(err);
+//           next(err);
+//           return;
+//       }else{
+//           context = results;
+//           console.log(context);
 
-          req.session.loggedin = true;
-          req.session.username = username;
-          res.redirect('shoppinglist');
-      }
+//           req.session.loggedin = true;
+//           req.session.username = username;
+//           res.redirect('shoppinglist');
+//       }
       
-      // res.render('shoppinglist', { context: context });
-  });
+//       // res.render('shoppinglist', { context: context });
+//   });
 
-  }
+//   }
 
   
+// });
+
+
+app.post('/login', passport.authenticate('local-login', 
+    {successRedirect: 'shoppinglist', 
+    failureRedirect: 'login'}), 
+  function(req,res,next){
+    console.log("got to me on the post /login route");
+    res.render('home');
+
 });
 
 app.get('/register',function(req,res,next){

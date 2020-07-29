@@ -136,23 +136,25 @@ passport.use('local-login', new LocalStrategy(
     console.log("request info");
     console.log(username);
     console.log(password);
-    var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+    var sql = "SELECT * FROM Users WHERE userName = ?";
     // return done(null, {username: 'bob'});
     if (username && password){
 
-      connection.query(sql, [username, password], function (err, results, fields) {
+      connection.query(sql, [username], function (err, results, fields) {
         if (err) {
             console.log(err);
             next(err);
             return;
         }else{
+          context = results;
+          console.log("I'm the results from use local-login");
+          console.log(context);
+          console.log("I'm results[0]");
+          console.log(results[0].userID);
+          console.log(results[0].userID);
 
-          if ((results[0].userID == username) && (results[0].password == password)){
-            context = results;
-            console.log("I'm the results from use local-login");
-            console.log(context);
-            console.log("I'm results[0]");
-            console.log(results[0].userID);
+          if ((results[0].userName == username) && (results[0].password == password)){
+            
             return done(null, results[0]);
 
           }else{

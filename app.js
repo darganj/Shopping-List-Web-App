@@ -52,10 +52,8 @@ var sessionStore = new MySQLStore(options, connection);
 var app = express();
 // immediately create header security options
 app.use(helmet());
-app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
-// app.use(helmet({
-//   hsts: false
-// }))
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
 
 var expireDate = new Date();
 expireDate.setDate(expireDate.getDate() + 1);
@@ -278,28 +276,28 @@ app.post('/login', function(req,res,next){
   console.log("request info");
   console.log(req.body.username);
   console.log(req.body.password);
-  // var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+  var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
 
-  // if (username && password){
+  if (username && password){
 
-  //   connection.query(sql, [username, password], function (err, results, fields) {
-  //     if (err) {
-  //         console.log(err);
-  //         next(err);
-  //         return;
-  //     }else{
-  //         context = results;
-  //         console.log(context);
+    connection.query(sql, [username, password], function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          next(err);
+          return;
+      }else{
+          context = results;
+          console.log(context);
 
-  //         req.session.loggedin = true;
-  //         req.session.username = username;
+          req.session.loggedin = true;
+          req.session.username = username;
           res.redirect('shoppinglist');
-  //     }
+      }
       
-  //     // res.render('shoppinglist', { context: context });
-  // });
+      // res.render('shoppinglist', { context: context });
+  });
 
-  // }
+  }
 
   
 });

@@ -120,33 +120,35 @@ async function genPassword(password) {
 console.log(genPassword("bob"));
 console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
-  async function(username, password, done) {
+  function(username, password, done) {
     console.log("request info");
     console.log(username);
     console.log(password);
     var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
-    return done(null, {username: 'bob'});
-    // if (username && password){
+    // return done(null, {username: 'bob'});
+    if (username && password){
 
-    //   connection.query(sql, [username, password], function (err, results, fields) {
-    //     if (err) {
-    //         console.log(err);
-    //         next(err);
-    //         return;
-    //     }else{
-    //         context = results;
-    //         console.log(context);
-    //         return done(null, results[0]);
+      connection.query(sql, [username, password], function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            next(err);
+            return;
+        }else{
+            context = results;
+            console.log(context);
+            return done(null, results[0]);
             // req.session.loggedin = true;
             // req.session.username = username;
             // res.redirect('shoppinglist');
-        // }
+        }
         
         // res.render('shoppinglist', { context: context });
     // });
   
+      })
     }
-
+  }
+))
       // connection.query("SELECT * from Users where userName=?", 
       // [username],
       // function(err, rows, fields){
@@ -181,11 +183,12 @@ passport.use('local-login', new LocalStrategy(
           //     }
           //     res.json({rows:rows});
           //   })
-          // }
+//     }
+//   }
 
 
 
-));
+// ));
 
 passport.use('local-register', new LocalStrategy(
   async function(username, password, done) {
@@ -330,10 +333,9 @@ app.get('/login',function(req,res,next){
 
 
 app.post('/login', passport.authenticate('local-login', 
-    {successRedirect: '/shoppinglist', 
-    failureRedirect: '/login'}), 
+    {failureRedirect: '/login'}), 
   function(req,res,next){
-    console.log("got to me on the post /login route");
+    res.redirect('shoppinglist');
 
 });
 

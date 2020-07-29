@@ -120,7 +120,7 @@ async function genPassword(password) {
   }
 }
 console.log(genPassword("bob"));
-console.log(validPassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
       connection.query("SELECT * from Users where userName=?", 

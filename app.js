@@ -7,11 +7,16 @@ var LocalStrategy = require('passport-local');
 var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
+var express_enforces_ssl = require('express-enforces-ssl');
 
 var app = express();
 // immediately create header security options
 app.use(helmet());
 app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
+// force all connections to ssl
+app.enable('trust proxy');
+app.use(express_enforces_ssl());
 
 if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);

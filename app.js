@@ -4,7 +4,7 @@ var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
-var helmet = require('helmet');
+// var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
@@ -278,28 +278,28 @@ app.post('/login', function(req,res,next){
   console.log("request info");
   console.log(req.body.username);
   console.log(req.body.password);
-  var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
+  // var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
 
-  if (username && password){
+  // if (username && password){
 
-    connection.query(sql, [username, password], function (err, results, fields) {
-      if (err) {
-          console.log(err);
-          next(err);
-          return;
-      }else{
-          context = results;
-          console.log(context);
+  //   connection.query(sql, [username, password], function (err, results, fields) {
+  //     if (err) {
+  //         console.log(err);
+  //         next(err);
+  //         return;
+  //     }else{
+  //         context = results;
+  //         console.log(context);
 
-          req.session.loggedin = true;
-          req.session.username = username;
+  //         req.session.loggedin = true;
+  //         req.session.username = username;
           res.redirect('shoppinglist');
-      }
+  //     }
       
-      // res.render('shoppinglist', { context: context });
-  });
+  //     // res.render('shoppinglist', { context: context });
+  // });
 
-  }
+  // }
 
   
 });

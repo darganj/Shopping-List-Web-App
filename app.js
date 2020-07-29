@@ -235,8 +235,8 @@ passport.serializeUser(function(user, done) {
   console.log(user.userID);
   done(null, user.userID);
 });
-passport.deserializeUser(function(user, cb) {
-  connection.query("SELECT * from Users where userID=?", [user.userID], function (err, results, fields) {
+passport.deserializeUser(function(userID, cb) {
+  connection.query("SELECT * from Users where userID=?", [userID], function (err, results, fields) {
       if (err) { return cb(err); }
       cb(null, results[0]);
   });

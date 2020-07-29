@@ -4,7 +4,7 @@ var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
-// var helmet = require('helmet');
+var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
@@ -51,7 +51,7 @@ var sessionStore = new MySQLStore(options, connection);
 
 var app = express();
 // immediately create header security options
-// app.use(helmet());
+app.use(helmet());
 // app.use(helmet.referrerPolicy({ policy: 'no-referrer' }))
 // app.use(helmet({
 //   hsts: false

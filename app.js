@@ -220,8 +220,8 @@ passport.use('local-register', new LocalStrategy(
 passport.serializeUser(function(user, done) {
   console.log("serializeUser");
   console.log(user);
-  console.log(user[0].userID);
-  done(null, user[0].userID);
+  console.log(user.userID);
+  done(null, user.userID);
 });
 passport.deserializeUser(function(id, cb) {
   connection.query("SELECT * from Users where id=?", [id], function (err, user) {

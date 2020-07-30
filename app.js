@@ -299,11 +299,12 @@ app.post('/register',async function(req,res,next){
 
         connection.query(sqlIn, [username, hash], async function (err, results, fields) {
           if (err) {
-              console.log(err);
-              res.redirect('register');
+            console.log(err);
+            res.redirect('register');
     
           }else{
-            res.redirect('shoppinglist');
+            console.log("trying to fix query/promise")
+            // res.redirect('shoppinglist');
           }
         })
 

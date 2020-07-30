@@ -143,18 +143,6 @@ passport.use('local-login', new LocalStrategy(
     var sql = "SELECT * FROM Users WHERE userName = ?";
 
     if (username && password){
-
-      try{
-        var submittedHash = await argon2.hash(password);
-        console.log(submittedHash);
-      }catch(err){
-        return done(null, false);
-      }
-    
-    
-    // return done(null, {username: 'bob'});
-    
-
       connection.query(sql, [username], async function (err, results, fields) {
         if (err) {
             console.log(err);
@@ -171,6 +159,13 @@ passport.use('local-login', new LocalStrategy(
           console.log(results[0].userID);
           console.log("password");
           console.log(results[0].password);
+
+          try{
+            var submittedHash = await argon2.hash(password, results[0].salt);
+            console.log(submittedHash);
+          }catch(err){
+            return done(null, false);
+          }
 
           try{
             var validHashMatch = await argon2.verify(submittedHash, results[0].password)

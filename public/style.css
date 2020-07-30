@@ -41,6 +41,7 @@ div.shopping_list_box{
 	border-bottom: 5px solid #669644;
   text-shadow: 0px -2px #669644;
   margin-right: 10px;
+  font-size: 16px;
 }
 
 #registerButton
@@ -49,13 +50,15 @@ div.shopping_list_box{
 	border-bottom: 5px solid #D1B358;
   text-shadow: 0px -2px #D1B358;
   margin-right: 10px;
+  font-size: 16px;
 }
 
 #logoutButton
 {
 	background-color: #ee3535;
 	border-bottom: 5px solid #df8888bb;
-	text-shadow: 0px -2px #df8888bb;
+  text-shadow: 0px -2px #df8888bb;
+  font-size: 16px;
 }
 
 .btn{

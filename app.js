@@ -328,8 +328,8 @@ app.post('/register',async function(req,res,next){
     })
   }  
   // form submitted without fields filled out correctly
-  console.log("Error:  issue with username/password submitted");
-  res.redirect('register');
+  // console.log("Error:  issue with username/password submitted");
+  // res.redirect('register');
   
 });
 

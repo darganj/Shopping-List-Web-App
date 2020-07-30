@@ -294,12 +294,13 @@ app.post('/register',async function(req,res,next){
 
       try {
         const hash = await argon2.hash(req.body.password, salt);
+        console.log("the hash generated from the random salt and user password is:");
         console.log(hash);
       } catch (err) {
         console.log("error in hashing");
       }
 
-      connection.query(sqlIn, [username, hash], async function (err, results, fields) {
+      connection.query(sqlIn, [username, await hash], async function (err, results, fields) {
         if (err) {
             console.log(err);
             res.render('register');

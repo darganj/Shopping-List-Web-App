@@ -23,7 +23,15 @@
                 <td>{{ itemName }}</td>
                 <td>{{ itemQuantity }}</td>
                 <td>{{ itemNote }}</td>
-                <td><button class="btn btn-sm btn-info edit" data-toggle="modal" data-target="#EditModal" data-shopItemID="{{ shopItemID }}" data-shopItemName="{{ shopItemName }}">Edit</button>
+                <td>
+                  <form action="/" method="post">
+                    <input type="hidden" name="shopItemID" id="shopItemID" value="{{shopItemID}}>
+                    <input type="hidden" name="shopItemName" id="shopItemName" value="{{itemName}}>
+                    <input type="hidden" name="shopItemName" id="shopItemName" value="{{itemNote}}>
+                    <button type="submit" formaction="/edit-list">Edit</button>
+                    {{!--
+                    <button class="btn btn-sm btn-info edit" data-toggle="modal" data-target="#EditModal" data-shopItemID="{{ shopItemID }}" data-shopItemName="{{ shopItemName }}">Edit</button> --}}
+                  </form>
                     <button class="btn btn-sm btn-danger delete" data-toggle="modal" data-target="#DeleteModal"data-shopItemID="{{ shopItemID }}">Delete</button>
                 </td>
                 

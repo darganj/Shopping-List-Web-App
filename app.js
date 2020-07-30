@@ -27,8 +27,6 @@ if(process.env.JAWSDB_URL){
     password        : 'ztb0cti8o5648gsw',
     database        : 'zv3sbfb4eij4y18x'
   });
-
-
 }
 // var options = {
 // 	// Host name for database connection:

@@ -720,6 +720,11 @@ app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),function(req,re
   res.render('admin-portal');
 });
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+})
+
 // 404 error route
 app.use(function(req,res){
   res.status(404);

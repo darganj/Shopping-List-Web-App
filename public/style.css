@@ -49,6 +49,13 @@ div.shopping_list_box{
 	text-shadow: 0px -2px #D1B358;
 }
 
+#logoutButton
+{
+	background-color: #ee3535;
+	border-bottom: 5px solid #df8888bb;
+	text-shadow: 0px -2px #df8888bb;
+}
+
 .btn{
   transform: translate(0px,5px);
 	border-bottom: 1px solid;

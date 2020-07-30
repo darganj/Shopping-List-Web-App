@@ -193,6 +193,7 @@ passport.use('is-admin', new LocalStrategy(
   async function(username, done) {
     var sql = "SELECT * FROM Users WHERE userName = ?";
 
+    console.log("made it into is-admin");
     connection.query(sql, [username], async function (err, results, fields) {
       if (err) {
           console.log(err);
@@ -200,6 +201,7 @@ passport.use('is-admin', new LocalStrategy(
 
       }
       if (results.length == 0){
+        console.log("is-admin, something is empty");
         return done(null, false);
       }else{
         context = results;

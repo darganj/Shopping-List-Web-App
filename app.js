@@ -296,17 +296,25 @@ app.post('/register',async function(req,res,next){
         const hash = await argon2.hash(req.body.password, salt);
         console.log("the hash generated from the random salt and user password is:");
         console.log(hash);
-
-        connection.query(sqlIn, [username, hash], async function (err, results, fields) {
-          if (err) {
-            console.log(err);
-            res.redirect('register');
-    
-          }else{
-            console.log("trying to fix query/promise")
-            // res.redirect('shoppinglist');
+        
+        try{
+          await connection.query(sqlIn, [username, hash], async function (err, results, fields) {
+            if (err) {
+              console.log(err);
+              res.redirect('register');
+      
+            }else{
+              console.log("trying to fix query/promise")
+              // res.redirect('shoppinglist');
+            }
           }
-        })
+          )
+
+        }catch (err) {
+          console.log("error in query");
+          res.redirect('register');
+        }
+        
 
 
       } catch (err) {

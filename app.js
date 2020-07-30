@@ -154,7 +154,7 @@ passport.use('local-login', new LocalStrategy(
     // return done(null, {username: 'bob'});
     
 
-      connection.query(sql, [username], function (err, results, fields) {
+      connection.query(sql, [username], async function (err, results, fields) {
         if (err) {
             console.log(err);
             return done(null, false);

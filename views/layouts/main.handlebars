@@ -26,6 +26,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/about">About</a>
         </li>
+        {{#if login}}
+        <li class="nav-item">
+          <a class="nav-link" href="/shoppinglist">My Shopping Lists</a>
+        </li>
+        {{/if}}
       </ul>
       {{#unless login}}
       <form id="loginNav" action="/login" method="GET" class="form-inline my-2 my-lg-0">

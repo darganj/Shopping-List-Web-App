@@ -667,8 +667,7 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
   });
 });
 
-app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'), passport.authenticate('is-admin', 
-  {failureRedirect: '/shoppinglist'}),
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('admin-portal');

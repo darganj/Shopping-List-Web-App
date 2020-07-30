@@ -262,7 +262,7 @@ app.get('/login',function(req,res,next){
 
 
 app.post('/login', passport.authenticate('local-login', 
-    {failureRedirect: '/login'}), 
+    {failureRedirect: '/login', failureFlash: true }), 
   function(req,res,next){
     res.locals.login = req.isAuthenticated();
     res.redirect('shoppinglist');
@@ -667,7 +667,9 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
   });
 });
 
-app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'), passport.authenticate('is-admin', 
+{successRedirect: '/admin-portal',
+failureRedirect: '/shoppinglist'}),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('admin-portal');

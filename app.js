@@ -298,14 +298,14 @@ app.post('/register',async function(req,res,next){
         console.log(hash);
         
         try{
-          await connection.query(sqlIn, [username, hash], async function (err, results, fields) {
+          connection.query(sqlIn, [username, hash], function (err, results, fields) {
             if (err) {
               console.log(err);
               res.redirect('register');
       
             }else{
               console.log("trying to fix query/promise")
-              // res.redirect('shoppinglist');
+              res.redirect('shoppinglist');
             }
           }
           )

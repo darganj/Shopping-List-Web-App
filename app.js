@@ -188,47 +188,7 @@ passport.use('local-login', new LocalStrategy(
     }
   }
 ))
-      // connection.query("SELECT * from Users where userName=?", 
-      // [username],
-      // function(err, rows, fields){
-      //   if(err){
-      //     next(err);
-      //     return;
-      //   }
-      //   console.log(rows);
-      // })
-          // .then((user) => {
-          //     if (!user) { return done(null, false) }
-              
-        // const isValid = validatePassword(password, user.hash, user.salt);
-              
-          //     if (isValid) {
-          //         return done(null, user);
-          //     } else {
-          //         return done(null, false);
-          //     }
-          // })
-          // .catch((err) => {   
-          //     done(err);
-          // });
-
-
-          // function getTable(res,next){
-          //   var context = {};
-          //   mysql.pool.query("SELECT * FROM workouts", function(err, rows, fields){
-          //     if(err){
-          //       next(err);
-          //       return;
-          //     }
-          //     res.json({rows:rows});
-          //   })
-//     }
-//   }
-
-
-
-// ));
-
+  
 passport.use('local-register', new LocalStrategy(
   async function(username, password, done) {
     let user = connection.query("SELECT * from Users where userName=?", [username]);
@@ -273,39 +233,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var fakeData = 
-            {"name":"bob", 
-             "username":"bob@gmail.com",
-             "salt":"e0d2fddd8185e1e585f3c3de74a340abfd4f81c90636ac62bcd63059ce2a38eb",
-             "hash":"$argon2i$v=19$m=4096,t=3,p=1$qnSNsiZ+NGFZ1m3xdr9Tew$2BV7U4v1BYnTWdyc2CyZBQTV2JH1gLIBov8wXYWUXwM",
-             "isAdmin":"false",
-             "lists":
-              [
-                {"nameList":"April", 
-                "listItems":
-                    {"item1":"apple",
-                    "item2":"pear",
-                    "item3":"peach"
-                    }
-                },
-                {"nameList":"May", 
-                "listItems":
-                    {"item1":"beetle",
-                    "item2":"ant",
-                    "item3":"ladybug"
-                    }
-                },
-                {"nameList":"June", 
-                "listItems":
-                    {"item1":"meat",
-                    "item2":"meatier",
-                    "item3":"meatiest"
-                    }
-                }
-              ]
-                
-            };
-
 
 app.get('/', function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -323,59 +250,6 @@ app.get('/login',function(req,res,next){
   res.render('login');
 });
 
-// app.post('/login',passport.authenticate('local', { failureRedirect: '/login' }), function(req,res,next){
-//   const salt = fakeData.salt;
-//   const storedHash = fakeData.hash;
-
-//   try {
-
-//     const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
-//     console.log(correctPassword);
-//   } catch (err) {
-//     console.log("error in hashing");
-//   }
-
-//   res.redirect('shoppinglist');
-// });
-
-// app.post('/login', passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
-
-//   res.redirect('shoppinglist');
-// });
-
-// app.post('/login', function(req,res,next){
-//   var username = req.body.username;
-//   var password = req.body.password;
-
-//   console.log("request info");
-//   console.log(req.body.username);
-//   console.log(req.body.password);
-//   var sql = "SELECT * FROM Users WHERE userName = ? AND password = ?";
-
-//   if (username && password){
-
-//     connection.query(sql, [username, password], function (err, results, fields) {
-//       if (err) {
-//           console.log(err);
-//           next(err);
-//           return;
-//       }else{
-//           context = results;
-//           console.log(context);
-
-//           req.session.loggedin = true;
-//           req.session.username = username;
-//           res.redirect('shoppinglist');
-//       }
-      
-//       // res.render('shoppinglist', { context: context });
-//   });
-
-//   }
-
-  
-// });
-
 
 app.post('/login', passport.authenticate('local-login', 
     {failureRedirect: '/login'}), 
@@ -385,6 +259,7 @@ app.post('/login', passport.authenticate('local-login',
 
 });
 
+
 app.get('/register',function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('register');
@@ -393,26 +268,55 @@ app.get('/register',function(req,res,next){
 
 app.post('/register',async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  //create salt for new user
-  const salt = crypto.randomBytes(32);
-  console.log(
-  `${salt.length} bytes of random data: ${salt.toString('hex')}`);
 
-  let username = req.body.username;
+  var username = req.body.username;
+  var password = req.body.password;
+  var sqlOut = "SELECT * FROM Users WHERE userName = ?";
+  var sqlIn = "INSERT INTO Users (`username`, `password`) VALUES (?, ?)";
+
+  if (username && password){
+    connection.query(sqlOut, [username], async function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          return done(null, false);
+
+      }
+      if (results.length != 0){
+        // if the query gets a user, we cannot reuse a user name
+        console.log("Error:  user already exists");
+        res.render('register');
+      }
+
+      //create salt for new user
+      const salt = crypto.randomBytes(32);
+      console.log(
+      `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+
+      try {
+        const hash = await argon2.hash(req.body.password, salt);
+        console.log(hash);
+      } catch (err) {
+        console.log("error in hashing");
+      }
+
+      connection.query(sqlIn, [username, hash], async function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            res.render('register');
   
-  try {
-    const hash = await argon2.hash(req.body.password, salt);
-    console.log(hash);
-  } catch (err) {
-    console.log("error in hashing");
-  }
+        }else{
+          res.redirect('shoppinglist');
+        }
+      })
 
-  res.redirect('shoppinglist');
+
+    })
+  }  
+  // form submitted without fields filled out correctly
+  console.log("Error:  issue with username/password submitted");
+  res.render('register');
+  
 });
-
-// app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
-//   res.redirect('shoppinglist');
-// });
 
 
 app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {

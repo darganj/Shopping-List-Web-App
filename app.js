@@ -189,28 +189,36 @@ passport.use('local-login', new LocalStrategy(
   }
 ))
   
-passport.use('local-register', new LocalStrategy(
-  async function(username, password, done) {
-    let user = connection.query("SELECT * from Users where userName=?", [username]);
-    if (user == null){
+passport.use('is-admin', new LocalStrategy(
+  async function(username, done) {
+    var sql = "SELECT * FROM Users WHERE userName = ?";
+
+    connection.query(sql, [username], async function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          return done(null, false);
+
+      }
+      if (results.length == 0){
+        return done(null, false);
+      }else{
+        context = results;
+        console.log("I'm the results from use is-admin");
+        console.log(context);
+        console.log("I'm results[0]");
+        console.log(results[0].isAdmin)
+      }
+    })
+
+    if (results[0].isAdmin == 1){
+            
+      return done(null, results[0]);
+
+    }else{
+
       return done(null, false);
     }
-    let saltHash = genPassword(password);
-    connection.query("INSERT INTO Users (`username`, `saltHash`) VALUES (?, ?, ?)", [username, saltHash],)
-          // .then((user) => {
-          //     if (!user) { return done(null, false) }
-              
-          //     const isValid = genPassword(password, user.hash, user.salt);
-              
-          //     if (isValid) {
-          //         return done(null, user);
-          //     } else {
-          //         return done(null, false);
-          //     }
-          // })
-          // .catch((err) => {   
-          //     done(err);
-          // });
+
 }));
 
 passport.serializeUser(function(user, done) {
@@ -657,7 +665,9 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
   });
 });
 
-app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'), passport.authenticate('is-admin', 
+  {failureRedirect: '/shoppinglist'}),
+  function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('admin-portal');
 });

@@ -40,6 +40,11 @@
       </form>
       {{/unless}}
       {{#if login}}
+      <form id="adminNav" action="/admin-portal" method="GET" class="form-inline my-2 my-lg-0">
+        <button id="adminButton" class="btn btn-info my-2 my-sm-0" type="submit" value="admin">For Admins</button>
+      </form>
+      {{/if}}
+      {{#if login}}
       <form id="logoutNav" action="/logout" method="GET" class="form-inline my-2 my-lg-0">
         <button id="logoutButton" class="btn btn-danger my-2 my-sm-0" type="submit" value="logout">Logout</button>
       </form>

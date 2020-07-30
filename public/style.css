@@ -53,6 +53,15 @@ div.shopping_list_box{
   font-size: 18px;
 }
 
+#adminButton
+{
+	background-color: #66d6f2;
+	border-bottom: 5px solid #1868b3;
+  text-shadow: 0px -2px #1868b3;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
 #logoutButton
 {
 	background-color: #ee3535;

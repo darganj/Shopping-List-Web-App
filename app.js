@@ -399,14 +399,14 @@ app.post('/register',async function(req,res,next){
 // });
 
 
-app.get('/userlanding', function (req, res, next) {
+app.get('/userlanding', ensureLoggedIn('/login'), function (req, res, next) {
 
     res.render('user_landing');
 
 });
 
 
-app.get('/shoppinglist', function (req, res, next) {
+app.get('/shoppinglist', ensureLoggedIn('/login'), function (req, res, next) {
 
     var context = {};
     //Using user id = 1 for testing, TODO: Change to req.body and ensure 
@@ -428,7 +428,7 @@ app.get('/shoppinglist', function (req, res, next) {
 
 
 
-app.get('/chooselist', function (req, res, next) {
+app.get('/chooselist', ensureLoggedIn('/login'), function (req, res, next) {
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
@@ -453,7 +453,7 @@ app.get('/chooselist', function (req, res, next) {
 
 
 
-app.get('/delete', function (req, res) {
+app.get('/delete', ensureLoggedIn('/login'), function (req, res) {
 
 
     res.render('deletelist');
@@ -461,7 +461,7 @@ app.get('/delete', function (req, res) {
 
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
-app.post('/shoppingList',function(req,res,next){
+app.post('/shoppingList', ensureLoggedIn('/login'),function(req,res,next){
 
   var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
   if (date == "") { // if date not provided by user, enter current date into database
@@ -498,7 +498,7 @@ app.post('/shoppingList',function(req,res,next){
 });
 
 // route to delete shopping list based on listID, userID in req.body
-app.delete('/shoppingList',function(req,res,next){
+app.delete('/shoppingList', ensureLoggedIn('/login'),function(req,res,next){
     // delete list with listID provided in req.body
     var listID = req.body.listID;
     console.log(listID);
@@ -527,7 +527,7 @@ app.delete('/shoppingList',function(req,res,next){
 
 
 // route to update an existing shopping list's name and/or date for a user
-app.put('/shoppingList',function(req,res,next){
+app.put('/shoppingList', ensureLoggedIn('/login'),function(req,res,next){
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -581,7 +581,7 @@ app.put('/shoppingList',function(req,res,next){
 });
 */
 
-app.get('/edit-list', function (req, res, next) {
+app.get('/edit-list', ensureLoggedIn('/login'), function (req, res, next) {
 
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
     var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
@@ -650,7 +650,7 @@ app.get('/edit-list', function (req, res, next) {
 });
 
 // route for adding a new item to a shopping list
-app.post('/edit-list',function(req,res,next){
+app.post('/edit-list', ensureLoggedIn('/login'),function(req,res,next){
 
         var {listID, itemID, quantity} = req.body;
         connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
@@ -664,12 +664,12 @@ app.post('/edit-list',function(req,res,next){
 });
 
 
-app.delete('/edit-list',function(req,res,next){
+app.delete('/edit-list', ensureLoggedIn('/login'),function(req,res,next){
   res.render('edit-list');
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-app.put('/edit-list',function(req,res,next){
+app.put('/edit-list', ensureLoggedIn('/login'),function(req,res,next){
 
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
@@ -697,7 +697,7 @@ app.put('/edit-list',function(req,res,next){
 
 });
 
-app.get('/defaultlist',function(req,res,next){
+app.get('/defaultlist', ensureLoggedIn('/login'),function(req,res,next){
   var context = {};
 
   // sql placeholder variable
@@ -717,7 +717,7 @@ app.get('/defaultlist',function(req,res,next){
   });
 });
 
-app.get('/admin-portal',function(req,res,next){
+app.get('/admin-portal', ensureLoggedIn('/login'),function(req,res,next){
   res.render('admin-portal');
 });
 

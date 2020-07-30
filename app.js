@@ -284,7 +284,7 @@ app.post('/register',async function(req,res,next){
       if (results.length != 0){
         // if the query gets a user, we cannot reuse a user name
         console.log("Error:  user already exists");
-        res.render('register');
+        res.redirect('register');
       }
 
       //create salt for new user
@@ -296,26 +296,31 @@ app.post('/register',async function(req,res,next){
         const hash = await argon2.hash(req.body.password, salt);
         console.log("the hash generated from the random salt and user password is:");
         console.log(hash);
+
+        connection.query(sqlIn, [username, hash], async function (err, results, fields) {
+          if (err) {
+              console.log(err);
+              res.redirect('register');
+    
+          }else{
+            res.redirect('shoppinglist');
+          }
+        })
+
+
       } catch (err) {
         console.log("error in hashing");
+        res.redirect('register');
       }
 
-      connection.query(sqlIn, [username, await hash], async function (err, results, fields) {
-        if (err) {
-            console.log(err);
-            res.render('register');
-  
-        }else{
-          res.redirect('shoppinglist');
-        }
-      })
+      
 
 
     })
   }  
   // form submitted without fields filled out correctly
   console.log("Error:  issue with username/password submitted");
-  res.render('register');
+  res.redirect('register');
   
 });
 

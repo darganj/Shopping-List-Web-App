@@ -147,8 +147,8 @@ passport.use('local-login', new LocalStrategy(
       connection.query(sql, [username], function (err, results, fields) {
         if (err) {
             console.log(err);
-            next(err);
-            return;
+            return done(null, false);
+
         }else{
           context = results;
           console.log("I'm the results from use local-login");

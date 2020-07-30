@@ -8,6 +8,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
 
 var app = express();
 // immediately create header security options

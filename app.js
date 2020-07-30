@@ -161,14 +161,7 @@ passport.use('local-login', new LocalStrategy(
           console.log(results[0].password);
 
           try{
-            var submittedHash = await argon2.hash(password, results[0].salt);
-            console.log(submittedHash);
-          }catch(err){
-            return done(null, false);
-          }
-
-          try{
-            var validHashMatch = await argon2.verify(submittedHash, results[0].password)
+            var validHashMatch = await argon2.verify(results[0].password, password)
             console.log("validHashMatch");
             console.log(validHashMatch);
           }catch(err){

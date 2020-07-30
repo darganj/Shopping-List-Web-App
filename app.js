@@ -149,6 +149,9 @@ passport.use('local-login', new LocalStrategy(
             console.log(err);
             return done(null, false);
 
+        }
+        if (results.length == 0){
+          return done(null, false);
         }else{
           context = results;
           console.log("I'm the results from use local-login");

@@ -136,7 +136,7 @@ async function genPassword(password) {
 console.log(genPassword("bob"));
 console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
-  function(username, password, done) {
+  async function(username, password, done) {
     console.log("request info");
     console.log(username);
     console.log(password);

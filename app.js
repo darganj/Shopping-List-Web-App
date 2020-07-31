@@ -284,6 +284,7 @@ app.post('/register',async function(req,res,next){
   var sqlOut = "SELECT * FROM Users WHERE userName = ?";
   var sqlIn = "INSERT INTO Users (`username`, `password`) VALUES (?, ?)";
 
+  console.log("picking an existing user is bad");
   if (username && password){
     connection.query(sqlOut, [username], async function (err, results, fields) {
       if (err) {

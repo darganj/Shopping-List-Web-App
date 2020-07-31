@@ -396,6 +396,20 @@ app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (re
 
    
 });
+//Need to fix post route to add item. DB table changes needed.
+
+app.post('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
+        var {itemName, quantity} = req.body;
+        connection.query('INSERT INTO Items VALUES (?, ?)', [itemName, quantity], function(err, result){
+            if(err){
+                next(err);
+                return;
+            };
+        });
+        console.log(req.body);
+        res.render('edit-list');
+});
 
 
 

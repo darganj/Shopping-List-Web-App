@@ -4,8 +4,20 @@ var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
+
+var app = express();
+// immediately create header security options
+app.use(helmet());
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
+// force all connections to ssl
+app.enable('trust proxy');
+app.use(express_enforces_ssl());
 
 if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -16,39 +28,49 @@ if(process.env.JAWSDB_URL){
     password        : 'ztb0cti8o5648gsw',
     database        : 'zv3sbfb4eij4y18x'
   });
-
-
 }
-var options = {
-	// Host name for database connection:
-	host: 'localhost',
-	// Port number for database connection:
-	port: 3306,
-	// Database user:
-	user: 'flj1jzapfhtiwjjo',
-	// Password for the above database user:
-	password: 'ztb0cti8o5648gsw',
-	// Database name:
-	database: 'zv3sbfb4eij4y18x',
-	// Whether or not to automatically check for and clear expired sessions:
-	clearExpired: true,
-	// How frequently expired sessions will be cleared; milliseconds:
-	checkExpirationInterval: 900000,
-	// The maximum age of a valid session; milliseconds:
-	expiration: 86400000,
-	// Whether or not to create the sessions database table, if one does not already exist:
-	createDatabaseTable: true,
-	// Number of connections when creating a connection pool:
-	connectionLimit: 1,
-	// Whether or not to end the database connection when the store is closed.
-	// The default value of this option depends on whether or not a connection was passed to the constructor.
-	// If a connection object is passed to the constructor, the default value for this option is false.
-	endConnectionOnClose: true
-};
+// var options = {
+// 	// Host name for database connection:
+// 	host: 'localhost',
+// 	// Port number for database connection:
+// 	port: 3306,
+// 	// Database user:
+// 	user: 'flj1jzapfhtiwjjo',
+// 	// Password for the above database user:
+// 	password: 'ztb0cti8o5648gsw',
+// 	// Database name:
+// 	database: 'zv3sbfb4eij4y18x',
+// 	// Whether or not to automatically check for and clear expired sessions:
+// 	clearExpired: true,
+// 	// How frequently expired sessions will be cleared; milliseconds:
+// 	checkExpirationInterval: 900000,
+// 	// The maximum age of a valid session; milliseconds:
+// 	expiration: 86400000,
+// 	// Whether or not to create the sessions database table, if one does not already exist:
+// 	createDatabaseTable: true,
+// 	// Number of connections when creating a connection pool:
+// 	connectionLimit: 1,
+// 	// Whether or not to end the database connection when the store is closed.
+// 	// The default value of this option depends on whether or not a connection was passed to the constructor.
+// 	// If a connection object is passed to the constructor, the default value for this option is false.
+// 	endConnectionOnClose: true
+// };
 
-var sessionStore = new MySQLStore(options, connection);
+// var sessionStore = new MySQLStore(connection);
 
-var app = express();
+var sessionStore = new MySQLStore({
+  checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
+  expiration: 86400000,// The maximum age of a valid session; milliseconds.
+  createDatabaseTable: true,// Whether or not to create the sessions database table, if one does not already exist.
+  schema: {
+      tableName: 'sessions',
+      columnNames: {
+          session_id: 'session_id',
+          expires: 'expires',
+          data: 'data'
+      }
+  }
+}, connection);
 
 var expireDate = new Date();
 expireDate.setDate(expireDate.getDate() + 1);
@@ -56,9 +78,8 @@ expireDate.setDate(expireDate.getDate() + 1);
 app.use(session({
   secret: process.env.SESSION_SECRET || "supersecretword",
   resave: true,
-  saveUninitialized: true
-  // ,
-  // store: sessionStore, 
+  saveUninitialized: true,
+  store: sessionStore
 }));
 
 //TO-DO:  change saveUninitialized to false
@@ -68,7 +89,7 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-app.disable('x-powered-by');
+// app.disable('x-powered-by');  // replaced by helmet
 app.set('port', process.env.PORT || 5001);
 
 
@@ -85,7 +106,7 @@ var queryParams = function(req, res, next) {
 };
 app.use(queryParams);
 
-async function validPassword(password, hash) {
+async function validatePassword(password, hash) {
   try {
 
     const correctPassword = await argon2.verify(hash, password);
@@ -112,81 +133,106 @@ async function genPassword(password) {
     console.log("error in hashing3");
   }
 }
-// console.log(genPassword("bob"));
-// console.log(validPassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+console.log(genPassword("bob"));
+console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
-      connection.query("SELECT * from Users where userName=?", 
-      [username],
-      function(err, rows, fields){
-        if(err){
-          next(err);
-          return;
+    console.log("request info");
+    console.log(username);
+    console.log(password);
+    var sql = "SELECT * FROM Users WHERE userName = ?";
+
+    if (username && password){
+      connection.query(sql, [username], async function (err, results, fields) {
+        if (err) {
+            console.log(err);
+            return done(null, false);
+
         }
-        console.log(rows);
+        if (results.length == 0){
+          return done(null, false);
+        }else{
+          context = results;
+          console.log("I'm the results from use local-login");
+          console.log(context);
+          console.log("I'm results[0]");
+          console.log(results[0].userID);
+          console.log("password");
+          console.log(results[0].password);
+
+          try{
+            var validHashMatch = await argon2.verify(results[0].password, password)
+            console.log("validHashMatch");
+            console.log(validHashMatch);
+          }catch(err){
+            return done(null, false);
+          }
+
+          if ((results[0].userName == username) && (validHashMatch == true)){
+            
+            return done(null, results[0]);
+
+          }else{
+
+            return done(null, false);
+          }
+            // req.session.loggedin = true;
+            // req.session.username = username;
+            // res.redirect('shoppinglist');
+        }
+        
+        // res.render('shoppinglist', { context: context });
+    // });
+  
       })
-          // .then((user) => {
-          //     if (!user) { return done(null, false) }
-              
-        const isValid = validPassword(password, user.hash, user.salt);
-              
-          //     if (isValid) {
-          //         return done(null, user);
-          //     } else {
-          //         return done(null, false);
-          //     }
-          // })
-          // .catch((err) => {   
-          //     done(err);
-          // });
+    }
+  }
+))
+  
+passport.use('is-admin', new LocalStrategy(
+  async function(username, done) {
+    var sql = "SELECT * FROM Users WHERE userName = ?";
 
+    console.log("made it into is-admin");
+    connection.query(sql, [username], async function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          return done(null, false);
 
-          // function getTable(res,next){
-          //   var context = {};
-          //   mysql.pool.query("SELECT * FROM workouts", function(err, rows, fields){
-          //     if(err){
-          //       next(err);
-          //       return;
-          //     }
-          //     res.json({rows:rows});
-          //   })
-          // }
+      }
+      if (results.length == 0){
+        console.log("is-admin, something is empty");
+        return done(null, false);
+      }else{
+        context = results;
+        console.log("I'm the results from use is-admin");
+        console.log(context);
+        console.log("I'm results[0]");
+        console.log(results[0].isAdmin)
+      }
+    })
 
+    if (results[0].isAdmin == 1){
+            
+      return done(null, results[0]);
 
+    }else{
 
-}));
-
-passport.use('local-register', new LocalStrategy(
-  async function(username, password, done) {
-    let user = connection.query("SELECT * from Users where userName=?", [username]);
-    if (user == null){
       return done(null, false);
     }
-    let saltHash = genPassword(password);
-    connection.query("INSERT INTO Users (`username`, `saltHash`) VALUES (?, ?, ?)", [username, saltHash],)
-          // .then((user) => {
-          //     if (!user) { return done(null, false) }
-              
-          //     const isValid = genPassword(password, user.hash, user.salt);
-              
-          //     if (isValid) {
-          //         return done(null, user);
-          //     } else {
-          //         return done(null, false);
-          //     }
-          // })
-          // .catch((err) => {   
-          //     done(err);
-          // });
+
 }));
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+passport.serializeUser(function(user, done) {
+  console.log("serializeUser");
+  console.log(user);
+  console.log(user.userID);
+  done(null, user.userID);
 });
-passport.deserializeUser(function(id, cb) {
-  connection.query("SELECT * from users where id=?", [id], function (err, user) {
+passport.deserializeUser(function(userID, cb) {
+  connection.query("SELECT * from Users where userID=?", [userID], function (err, results, fields) {
       if (err) { return cb(err); }
-      cb(null, rows[0]);
+      cb(null, results[0]);
   });
 });
 app.use(passport.initialize());
@@ -197,115 +243,116 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var fakeData = 
-            {"name":"bob", 
-             "username":"bob@gmail.com",
-             "salt":"e0d2fddd8185e1e585f3c3de74a340abfd4f81c90636ac62bcd63059ce2a38eb",
-             "hash":"$argon2i$v=19$m=4096,t=3,p=1$qnSNsiZ+NGFZ1m3xdr9Tew$2BV7U4v1BYnTWdyc2CyZBQTV2JH1gLIBov8wXYWUXwM",
-             "isAdmin":"false",
-             "lists":
-              [
-                {"nameList":"April", 
-                "listItems":
-                    {"item1":"apple",
-                    "item2":"pear",
-                    "item3":"peach"
-                    }
-                },
-                {"nameList":"May", 
-                "listItems":
-                    {"item1":"beetle",
-                    "item2":"ant",
-                    "item3":"ladybug"
-                    }
-                },
-                {"nameList":"June", 
-                "listItems":
-                    {"item1":"meat",
-                    "item2":"meatier",
-                    "item3":"meatiest"
-                    }
-                }
-              ]
-                
-            };
-
 
 app.get('/', function(req,res,next){
-    res.render('home');
+  res.locals.login = req.isAuthenticated();
+  res.render('home');
 
 });
 
 app.get('/about',function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   res.render('about');
 });
 
 app.get('/login',function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   res.render('login');
 });
 
-// app.post('/login',passport.authenticate('local', { failureRedirect: '/login' }), function(req,res,next){
-//   const salt = fakeData.salt;
-//   const storedHash = fakeData.hash;
 
-//   try {
+app.post('/login', passport.authenticate('local-login', 
+    {failureRedirect: '/login'}), 
+  function(req,res,next){
+    res.locals.login = req.isAuthenticated();
+    res.redirect('shoppinglist');
 
-//     const correctPassword = await argon2.verify(fakeData.hash, req.body.password);
-//     console.log(correctPassword);
-//   } catch (err) {
-//     console.log("error in hashing");
-//   }
-
-//   res.redirect('shoppinglist');
-// });
-
-// app.post('/login', passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
-
-//   res.redirect('shoppinglist');
-// });
-
-app.post('/login', function(req,res,next){
-
-  res.redirect('shoppinglist');
 });
 
+
 app.get('/register',function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   res.render('register');
 });
 
 
 app.post('/register',async function(req,res,next){
-  //create salt for new user
-  const salt = crypto.randomBytes(32);
-  console.log(
-  `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+  res.locals.login = req.isAuthenticated();
 
-  let username = req.body.username;
+  var username = req.body.username;
+  var password = req.body.password;
+  var sqlOut = "SELECT * FROM Users WHERE userName = ?";
+  var sqlIn = "INSERT INTO Users (`username`, `password`) VALUES (?, ?)";
+
+  if (username && password){
+    connection.query(sqlOut, [username], async function (err, results, fields) {
+      if (err) {
+          console.log(err);
+          return done(null, false);
+
+      }
+      if (results.length != 0){
+        // if the query gets a user, we cannot reuse a user name
+        console.log("Error:  user already exists");
+        res.redirect('register');
+      }
+
+      //create salt for new user
+      const salt = crypto.randomBytes(32);
+      console.log(
+      `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+
+      try {
+        const hash = await argon2.hash(req.body.password, salt);
+        console.log("the hash generated from the random salt and user password is:");
+        console.log(hash);
+        
+        try{
+          connection.query(sqlIn, [username, hash], function (err, results, fields) {
+            if (err) {
+              console.log(err);
+              res.redirect('register');
+      
+            }else{
+              console.log("trying to fix query/promise")
+              res.redirect('shoppinglist');
+            }
+          }
+          )
+
+        }catch (err) {
+          console.log("error in query");
+          res.redirect('register');
+        }
+        
+
+
+      } catch (err) {
+        console.log("error in hashing");
+        res.redirect('register');
+      }
+
+      
+
+
+    })
+  }  
+  // form submitted without fields filled out correctly
+  // console.log("Error:  issue with username/password submitted");
+  // res.redirect('register');
   
-  try {
-    const hash = await argon2.hash(req.body.password, salt);
-    console.log(hash);
-  } catch (err) {
-    console.log("error in hashing");
-  }
-
-  res.redirect('shoppinglist');
 });
 
-// app.post('/register',passport.authenticate('local-register',{failureRedirect: '/'}), function(req,res,next){
-//   res.redirect('shoppinglist');
-// });
 
-
-app.get('/userlanding', function (req, res, next) {
-
-    res.render('user_landing');
+app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
+  res.render('user_landing');
 
 });
 
 
-app.get('/shoppinglist', function (req, res, next) {
-
+app.get('/shoppinglist', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
     var context = {};
     //Using user id = 1 for testing, TODO: Change to req.body and ensure 
     var userID = 1;
@@ -326,7 +373,8 @@ app.get('/shoppinglist', function (req, res, next) {
 
 
 
-app.get('/chooselist', function (req, res, next) {
+app.get('/chooselist', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
@@ -351,16 +399,16 @@ app.get('/chooselist', function (req, res, next) {
 
 
 
-app.get('/delete', function (req, res) {
-
+app.get('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res) {
+    res.locals.login = req.isAuthenticated();
 
     res.render('deletelist');
 });
 
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
-app.post('/shoppingList',function(req,res,next){
-
+app.post('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
   if (date == "") { // if date not provided by user, enter current date into database
     var current_date = new Date();
@@ -396,8 +444,9 @@ app.post('/shoppingList',function(req,res,next){
 });
 
 // route to delete shopping list based on listID, userID in req.body
-app.delete('/shoppingList',function(req,res,next){
-    // delete list with listID provided in req.body
+app.delete('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+  // delete list with listID provided in req.body
     var listID = req.body.listID;
     console.log(listID);
     console.log("delete shopping list route");
@@ -425,7 +474,8 @@ app.delete('/shoppingList',function(req,res,next){
 
 
 // route to update an existing shopping list's name and/or date for a user
-app.put('/shoppingList',function(req,res,next){
+app.put('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -479,8 +529,8 @@ app.put('/shoppingList',function(req,res,next){
 });
 */
 
-app.get('/edit-list', function (req, res, next) {
-
+app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
     var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
     " FROM Users" +
@@ -548,8 +598,8 @@ app.get('/edit-list', function (req, res, next) {
 });
 
 // route for adding a new item to a shopping list
-app.post('/edit-list',function(req,res,next){
-
+app.post('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
         var {listID, itemID, quantity} = req.body;
         connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
             if(err){
@@ -562,13 +612,14 @@ app.post('/edit-list',function(req,res,next){
 });
 
 
-app.delete('/edit-list',function(req,res,next){
+app.delete('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   res.render('edit-list');
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-app.put('/edit-list',function(req,res,next){
-
+app.put('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
         var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
@@ -595,7 +646,8 @@ app.put('/edit-list',function(req,res,next){
 
 });
 
-app.get('/defaultlist',function(req,res,next){
+app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   var context = {};
 
   // sql placeholder variable
@@ -615,18 +667,28 @@ app.get('/defaultlist',function(req,res,next){
   });
 });
 
-app.get('/admin-portal',function(req,res,next){
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
+  function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   res.render('admin-portal');
 });
 
+app.get('/logout', function(req, res){
+  res.locals.login = req.isAuthenticated();
+  req.logout();
+  res.redirect('/');
+})
+
 // 404 error route
 app.use(function(req,res){
+  res.locals.login = req.isAuthenticated();
   res.status(404);
   res.render('404');
 });
   
 // 500 server error route
 app.use(function(err, req, res, next){
+  res.locals.login = req.isAuthenticated();
   console.error(err.stack);
   res.status(500);
   res.render('500');

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav role="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Sh-sh-sh-Shopping</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,19 +20,35 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/about">About</a>
         </li>
+        {{#if login}}
+        <li class="nav-item">
+          <a class="nav-link" href="/shoppinglist">My Shopping Lists</a>
+        </li>
+        {{/if}}
       </ul>
+      {{#unless login}}
       <form id="loginNav" action="/login" method="GET" class="form-inline my-2 my-lg-0">
         <button id="loginButton" class="btn btn-primary my-2 my-sm-0" type="submit" value="login">Login</button>
       </form>
+      {{/unless}}
+      {{#unless login}}
       <form id="registerNav" action="/register" method="GET" class="form-inline my-2 my-lg-0">
         <button id="registerButton" class="btn btn-warning my-2 my-sm-0" type="submit" value="register">Register</button>
       </form>
+      {{/unless}}
+      {{#if login}}
+      <form id="adminNav" action="/admin-portal" method="GET" class="form-inline my-2 my-lg-0">
+        <button id="adminButton" class="btn btn-info my-2 my-sm-0" type="submit" value="admin">For Admins</button>
+      </form>
+      {{/if}}
+      {{#if login}}
+      <form id="logoutNav" action="/logout" method="GET" class="form-inline my-2 my-lg-0">
+        <button id="logoutButton" class="btn btn-danger my-2 my-sm-0" type="submit" value="logout">Logout</button>
+      </form>
+      {{/if}}
     </div>
   </nav>
 

@@ -264,7 +264,7 @@ app.get('/login',function(req,res,next){
 app.post('/login', passport.authenticate('local-login', 
     {failureRedirect: '/login'}), 
   function(req,res,next){
-    res.locals.login = req.isAuthenticated();
+    //res.locals.login = req.isAuthenticated();
     res.redirect('shoppinglist');
 
 });
@@ -352,8 +352,8 @@ app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, 
 });
 
 
-app.get('/shoppinglist', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
+app.get('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
     var context = {};
     //Using user id = 1 for testing, TODO: Change to req.body and ensure 
     var userID = 1;
@@ -374,8 +374,8 @@ app.get('/shoppinglist', ensureLoggedIn.ensureLoggedIn('/login'), function (req,
 
 
 
-app.get('/chooselist', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
+app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
     var context = {};
     var listName = 'Guacamole'; //Hard coded for testing
    // var listName = req.body; //Required arguments (listName to display list)
@@ -400,16 +400,16 @@ app.get('/chooselist', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
 
 
-app.get('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res) {
-    res.locals.login = req.isAuthenticated();
+app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res) {
+    //res.locals.login = req.isAuthenticated();
 
     res.render('deletelist');
 });
 
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
-app.post('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.post('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
   var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
   if (date == "") { // if date not provided by user, enter current date into database
     var current_date = new Date();
@@ -445,8 +445,8 @@ app.post('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,r
 });
 
 // route to delete shopping list based on listID, userID in req.body
-app.delete('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
   // delete list with listID provided in req.body
     var listID = req.body.listID;
     console.log(listID);
@@ -475,8 +475,8 @@ app.delete('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req
 
 
 // route to update an existing shopping list's name and/or date for a user
-app.put('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+ // res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -530,8 +530,8 @@ app.put('/shoppingList', ensureLoggedIn.ensureLoggedIn('/login'),function(req,re
 });
 */
 
-app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-  res.locals.login = req.isAuthenticated();
+app.get('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
+  //res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
     var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
     " FROM Users" +
@@ -599,8 +599,8 @@ app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, re
 });
 
 // route for adding a new item to a shopping list
-app.post('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
         var {listID, itemID, quantity} = req.body;
         connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
             if(err){
@@ -613,14 +613,14 @@ app.post('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,
 });
 
 
-app.delete('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
   res.render('edit-list');
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-app.put('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
         var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
@@ -647,8 +647,8 @@ app.put('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,n
 
 });
 
-app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  //res.locals.login = req.isAuthenticated();
   var context = {};
 
   // sql placeholder variable
@@ -668,9 +668,9 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
   });
 });
 
-app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
+app.get('/admin-portal', /*ensureLoggedIn.ensureLoggedIn('/login'),*/
   function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+  //res.locals.login = req.isAuthenticated();
   res.render('admin-portal');
 });
 

@@ -23,10 +23,10 @@ if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
   var connection = mysql.createConnection({
-    host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user            : 'oumwqrox1u690kyf',
-    password        : 'dp0jxu78jfqeqry1',
-    database        : 'rtfqihn2cy96dcmm'
+    host            : 'e11wl4mksauxgu1w.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user            : 'h4sfdn7cq5862o1j',
+    password        : 'rleay56p0i32f3f7',
+    database        : 'hc7us78z7bnktq7s'
   });
 }
 // var options = {

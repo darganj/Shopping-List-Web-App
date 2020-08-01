@@ -181,7 +181,8 @@ CREATE TABLE `Users` (
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `password` varchar(50) NOT NULL,
+  'isAdmin'  int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -189,9 +190,9 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userID`, `dateJoined`, `firstName`, `lastName`, `userName`, `password`) VALUES
-(1, '2020-07-08', 'Jane', 'Smith', 'jsmith10', 'smithj10'),
-(2, '2020-07-10', 'Aiden', 'Karlten', 'ninja_moves', 'porkchop'),
-(3, '2020-07-11', 'Brad', 'Jonson', 'B_Jonson', 'food_1997');
+(1, '2020-07-08', 'Jane', 'Smith', 'jsmith10', 'smithj10', 1),
+(2, '2020-07-10', 'Aiden', 'Karlten', 'ninja_moves', 'porkchop', 0),
+(3, '2020-07-11', 'Brad', 'Jonson', 'B_Jonson', 'food_1997', 0);
 
 --
 -- Indexes for dumped tables

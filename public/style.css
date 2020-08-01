@@ -93,3 +93,22 @@ table .dl_hidden_cell {
     display: none;
 }
 
+
+/*CSS For Edit-List*/
+
+#shoplist{
+    width:100%;
+    height: 100%;
+    background-color: aliceblue
+}
+
+#blur {
+    
+    background-color: aquamarine;
+    position: absolute;
+    width:100%;
+    height:100%;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    
+}

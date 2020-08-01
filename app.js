@@ -99,6 +99,17 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+
+
+
+
+
+
+
+
+
+
+
 // make url encoded info in query string usable
 var queryParams = function(req, res, next) {
   res.parts = req.query;
@@ -246,11 +257,10 @@ app.use(bodyParser.json());
 
 //New Functions for each section
 app.set('connection', connection);
+app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
 app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 /*
-app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
-
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
 app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list
 app.use('/login', require('./login.js')); //Routes for logging in
@@ -258,13 +268,13 @@ app.use('/register', require('./register.js')); //Routes for registering a new u
 app.use('/testitems', function (req, res, next) {
     res.render('itemcard');
 });
+
+
 */
-
-
-
 app.get('/', function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('home');
+
 
 });
 
@@ -279,12 +289,12 @@ app.get('/login',function(req,res,next){
 });
 
 
+
 app.post('/login', passport.authenticate('local-login', 
     {failureRedirect: '/login'}), 
   function(req,res,next){
     //res.locals.login = req.isAuthenticated();
     res.redirect('shoppinglist');
-
 });
 
 
@@ -346,6 +356,7 @@ app.post('/register',async function(req,res,next){
         
 
 
+
       } catch (err) {
         console.log("error in hashing");
         res.redirect('register');
@@ -364,7 +375,6 @@ app.post('/register',async function(req,res,next){
 
 
 
-
 app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
     //res.locals.login = req.isAuthenticated();
     var context = {};
@@ -372,22 +382,9 @@ app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (re
    // var listName = req.body; //Required arguments (listName to display list)
     var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
 
-    connection.query( sql, listName, function (err, results, fields) {
-        if (err) {
-            console.log(err);
-            next(err);
-            return;
-        };
-        context = results;
-        console.log(context);
-        res.render('shoppinglist', { context: context });
-    });
-
-
-
-   
 });
 //Need to fix post route to add item. DB table changes needed.
+
 
 app.post('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
   //res.locals.login = req.isAuthenticated();
@@ -410,6 +407,7 @@ app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, r
 
     res.render('deletelist');
 });
+
 
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
@@ -644,19 +642,6 @@ app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,r
         res.render('edit-list');
     }
 
-    // 2) unmarking an item
-    else if (req.body.unmarkItem) { // include "unmarkItem" value in submit element to indicate option 2
-        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [0, listID, itemID], function(err, result){
-            if(err){
-                next(err);
-                return;
-            };
-        });
-        res.render('edit-list');
-    };
-
-});
 
 app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
   //res.locals.login = req.isAuthenticated();

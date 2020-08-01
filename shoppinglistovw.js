@@ -60,6 +60,7 @@ function getAllShoppingLists(res, connection, context, complete) {
 
 
 
+
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain
     * the user ID in the URL*/
@@ -84,6 +85,7 @@ router.get('/:id', function (req, res, next) {
 
 /*This ROUTE Currently doesn't work, connection is broken, commenting out*/
 
+
 /*Router Function for Adding a new empty Shopping List to a Users Shopping Lists
  * Input params - req, required data in req:
  * userID: ID of User 
@@ -92,6 +94,7 @@ router.get('/:id', function (req, res, next) {
  * Date - Date of new Database, if left empty will use current date*/
 
 /*
+
 router.post('/', function (req, res, next) {
 
 
@@ -103,7 +106,9 @@ router.post('/', function (req, res, next) {
         var formatted_date = JSON.stringify(current_date).slice(1, 11);
         date = formatted_date;
     };
+
     //Assert userID, nameList input
+
     if (userID = "") {
         console.log("Error no userID provided");
         //TODO: Send notification to user of error
@@ -140,13 +145,16 @@ router.post('/', function (req, res, next) {
     
 });
 
+
 */
+
 
 /*Router Function for Deleting an existing Shopping List from a Users Shopping Lists
  * Input params - req, required data in req:
  * userID - User ID, needed to render users shopping lists
  * listID - ID of shopping list to be deleted*/
 router.delete('/', function (req, res, next) {
+
 
     console.log('using the js route');
     console.log('');
@@ -210,6 +218,10 @@ router.put('/', function (req, res, next) {
     }
 });
 
+
+
+//Catch all
+router.get('/', function (req, res, next) {
 
 //GET method if no user ID input, will select all shopping lists
 router.get('/', function (req, res, next) {

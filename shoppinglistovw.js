@@ -219,10 +219,6 @@ router.put('/', function (req, res, next) {
 });
 
 
-
-//Catch all
-router.get('/', function (req, res, next) {
-
 //GET method if no user ID input, will select all shopping lists
 router.get('/', function (req, res, next) {
 

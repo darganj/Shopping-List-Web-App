@@ -43,7 +43,7 @@ function getAllShoppingLists(res, connection, context, complete) {
 
     var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID';
 
-    connection.query(query, userID, function (err, results, fields) {
+    connection.query(query, function (err, results, fields) {
         if (err) {
             console.log("error");
             next(err);

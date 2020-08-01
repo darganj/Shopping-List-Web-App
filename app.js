@@ -628,19 +628,20 @@ app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
-        var {listID, itemID, quantity} = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [1, listID, itemID], function(err, result){
-            if(err){
+        var { listID, itemID, quantity } = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [1, listID, itemID], function (err, result) {
+            if (err) {
                 next(err);
                 return;
             };
         });
         res.render('edit-list');
     }
+});
 
 
 app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){

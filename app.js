@@ -435,8 +435,10 @@ app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, r
 
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
-app.post('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
   //res.locals.login = req.isAuthenticated();
+    console.log("testing if it goes to this route");
+    console.log("");
   var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
   if (date == "") { // if date not provided by user, enter current date into database
     var current_date = new Date();

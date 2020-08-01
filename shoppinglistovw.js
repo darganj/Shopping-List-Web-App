@@ -58,12 +58,16 @@ router.get('/:id', function (req, res, next) {
 });
 
 
+/*This ROUTE Currently doesn't work, connection is broken, commenting out*/
+
 /*Router Function for Adding a new empty Shopping List to a Users Shopping Lists
  * Input params - req, required data in req:
  * userID: ID of User 
  * nameList - name of the list
  * Optional data in req
  * Date - Date of new Database, if left empty will use current date*/
+
+/*
 router.post('/', function (req, res, next) {
 
 
@@ -75,7 +79,7 @@ router.post('/', function (req, res, next) {
         var formatted_date = JSON.stringify(current_date).slice(1, 11);
         date = formatted_date;
     };
-    /*Assert userID, nameList input*/
+    //Assert userID, nameList input
     if (userID = "") {
         console.log("Error no userID provided");
         //TODO: Send notification to user of error
@@ -112,6 +116,7 @@ router.post('/', function (req, res, next) {
     
 });
 
+*/
 
 /*Router Function for Deleting an existing Shopping List from a Users Shopping Lists
  * Input params - req, required data in req:

@@ -182,14 +182,14 @@ CREATE TABLE `Users` (
   `lastName` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  'isAdmin'  int(1) NOT NULL
+  `isAdmin`  int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`userID`, `dateJoined`, `firstName`, `lastName`, `userName`, `password`) VALUES
+INSERT INTO `Users` (`userID`, `dateJoined`, `firstName`, `lastName`, `userName`, `password`, `isAdmin`) VALUES
 (1, '2020-07-08', 'Jane', 'Smith', 'jsmith10', 'smithj10', 1),
 (2, '2020-07-10', 'Aiden', 'Karlten', 'ninja_moves', 'porkchop', 0),
 (3, '2020-07-11', 'Brad', 'Jonson', 'B_Jonson', 'food_1997', 0);

@@ -258,13 +258,13 @@ app.use('/testitems', function (req, res, next) {
     res.render('itemcard');
 });
 */
-/*
-app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+
+app.get('/userlanding', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.render('user_landing');
 
 });
-*/
+
 
 
 app.get('/', function(req,res,next){

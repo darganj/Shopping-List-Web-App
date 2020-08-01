@@ -243,11 +243,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/*
+
 //New Functions for each section
 app.set('connection', connection);
-//app.use('/', require('./landing.js'));
-app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+//app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+/*
 app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
@@ -258,6 +258,11 @@ app.use('/testitems', function (req, res, next) {
     res.render('itemcard');
 });
 */
+app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.render('user_landing');
+
+});
 
 
 
@@ -362,11 +367,6 @@ app.post('/register',async function(req,res,next){
 });
 
 
-app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-  res.locals.login = req.isAuthenticated();
-  res.render('user_landing');
-
-});
 
 
 app.get('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {

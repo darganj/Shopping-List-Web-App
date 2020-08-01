@@ -365,28 +365,6 @@ app.post('/register',async function(req,res,next){
 
 
 
-app.get('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
-    //res.locals.login = req.isAuthenticated();
-    var context = {};
-    //Using user id = 1 for testing, TODO: Change to req.body and ensure 
-    var userID = 1;
-    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-
-    connection.query(sql,userID, function (err, results, fields) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        }
-        context = results;
-        console.log(context);
-         res.render('shoppinglistovw', { context: context });
-        
-    });
-});
-
-
-
 app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
     //res.locals.login = req.isAuthenticated();
     var context = {};
@@ -477,6 +455,10 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
   //res.locals.login = req.isAuthenticated();
   // delete list with listID provided in req.body
+
+    console.log('using the app route');
+    console.log('');
+
     var listID = req.body.listID;
     console.log(listID);
     console.log("delete shopping list route");

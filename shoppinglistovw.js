@@ -32,6 +32,30 @@ function getShoppingLists(res, userID, connection, context, complete) {
 
 }
 
+/*getAllShopping Lists
+    * This function returns All shopping lists int he database in JSON form in the context variable
+Input Params: - res containing server response to call
+                - connection - existing mySQL connection to database
+                - context - to be populated with shopping list info
+                - complete - callback function
+Returns: context is filled with all info on user Shopping Lists*/
+function getAllShoppingLists(res, connection, context, complete) {
+
+    var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID';
+
+    connection.query(query, userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+
+        context.userlists = results;
+        complete();
+    });
+
+
+}
 
 
 
@@ -124,6 +148,9 @@ router.post('/', function (req, res, next) {
  * listID - ID of shopping list to be deleted*/
 router.delete('/', function (req, res, next) {
 
+    console.log('using the js route');
+    console.log('');
+
     var connection = req.app.get('connection');
     var { listID, userID } = req.body;
     console.log(listID);
@@ -184,8 +211,21 @@ router.put('/', function (req, res, next) {
 });
 
 
-//Catch all
+//GET method if no user ID input, will select all shopping lists
 router.get('/', function (req, res, next) {
+    var context = {};
+    var callbackCount = 0;
+    var userID = req.params.id;
+    var connection = req.app.get('connection');
+
+    getAllShoppingLists(res, connection, context, complete);
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 1) {
+            res.render('shoppinglistovw', { context: context.userlists });
+        }
+    }
+
     res.render('shoppinglistovw');
 });
 

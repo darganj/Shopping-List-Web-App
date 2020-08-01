@@ -215,7 +215,6 @@ router.put('/', function (req, res, next) {
 router.get('/', function (req, res, next) {
     var context = {};
     var callbackCount = 0;
-    var userID = req.params.id;
     var connection = req.app.get('connection');
 
     getAllShoppingLists(res, connection, context, complete);

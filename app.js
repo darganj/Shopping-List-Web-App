@@ -244,6 +244,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+
+
+
+
 app.get('/', function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('home');

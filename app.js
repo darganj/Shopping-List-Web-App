@@ -243,8 +243,21 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
+/*
+//New Functions for each section
+app.set('connection', connection);
+//app.use('/', require('./landing.js'));
+app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
+app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
+app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
+app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list
+app.use('/login', require('./login.js')); //Routes for logging in
+app.use('/register', require('./register.js')); //Routes for registering a new user user
+app.use('/testitems', function (req, res, next) {
+    res.render('itemcard');
+});
+*/
 
 
 

@@ -213,6 +213,8 @@ router.put('/', function (req, res, next) {
 
 //GET method if no user ID input, will select all shopping lists
 router.get('/', function (req, res, next) {
+
+    /*
     var context = {};
     var callbackCount = 0;
     var connection = req.app.get('connection');
@@ -224,6 +226,7 @@ router.get('/', function (req, res, next) {
             res.render('shoppinglistovw', { context: context.userlists });
         }
     }
+    */
 
     res.render('shoppinglistovw');
 });

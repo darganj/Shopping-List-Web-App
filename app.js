@@ -375,14 +375,8 @@ app.post('/register',async function(req,res,next){
 
 
 
-app.get('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
-    //res.locals.login = req.isAuthenticated();
-    var context = {};
-    var listName = 'Guacamole'; //Hard coded for testing
-   // var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
 
-});
+
 //Need to fix post route to add item. DB table changes needed.
 
 

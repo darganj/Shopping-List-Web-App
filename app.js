@@ -378,25 +378,6 @@ app.post('/register',async function(req,res,next){
 
 
 
-//Need to fix post route to add item. DB table changes needed.
-
-
-app.post('/chooselist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
-        var {itemName, quantity} = req.body;
-        connection.query('INSERT INTO Items VALUES (?, ?)', [itemName, quantity], function(err, result){
-            if(err){
-                next(err);
-                return;
-            };
-        });
-        console.log(req.body);
-        res.render('edit-list');
-});
-
-
-
-
 app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res) {
     //res.locals.login = req.isAuthenticated();
 
@@ -507,6 +488,37 @@ app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
     });
 });
 
+// route for adding a new item to a shopping list
+app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
+    var { listID, itemID, quantity } = req.body;
+    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function (err, result) {
+        if (err) {
+            next(err);
+            return;
+        };
+    });
+    console.log(req.body);
+
+    //Render the shopping list view with correct items
+
+    var query = 'SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
+    var context = {};
+       
+    connection.query(query, listID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.listitems = results;
+        cres.render('shoppinglist', { context: context.listitems });
+    });
+
+
+
+
+});
 
 
 // route to update the item in the list

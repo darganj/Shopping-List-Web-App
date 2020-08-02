@@ -1,6 +1,6 @@
 <h1>All my shopping lists</h1>
 
-<p>Username: <!-- TODO--></p>
+<p>Username: {{context.userName}}</p>
 
 
 
@@ -9,60 +9,68 @@
 <div class="shopping_list_box">
 
     <form action="/shoppinglist" method="GET">
-        <button type="submit" class="btn btn-info">
-            <p> Name: {{nameList}}<br>>Date:{{listCreated}} </p>
-        </button>
+        <fieldset>
+            <input type="hidden" id="nameList" name="nameList" value="{{nameList}}" />
+            <button type="submit" class="btn btn-info">
+                <p>
+                    Name: {{nameList}}<br>
+                    >Date:{{listCreated}}
+                </p>
+            </button>
+        </fieldset>
+
     </form>
 
 </div>
 
 {{/each}}
 
-    <div class="shopping_list_box">
-        <form action="/createlist" method="GET">
-            <button type="button" class="btn btn-info">
+<div class="shopping_list_box">
+    <form action="/createlist" method="GET">
+        <button type="button" class="btn btn-info">
             <p> Add List + </p>
         </button>
-        </form>
+    </form>
 
-    </div>
+</div>
 
-{{!--}
-<h2>Add Shopping List</h2>
 
- 
-<form action="/edit-list" method="POST"> 
- <fieldset>
-
-    <label for="listName">List name:</label><br>
-    <input type="text" id="listName" name="listName" placeholder="listName" required><br>
-    
-    <input type="submit" value="Submit">
-
- </fieldset>
-  
-
-</form>
-
-{--}}
-
-<h2> (test) Add new Shopping List </h2>
+<h2> (This one works) Add new Shopping List </h2>
 <form action="/shoppinglistovw" method="post">
 
-                                <label>
-                                    List Name:
-                                    <input type="text" name="nameList" required>
-                                </label>
-                                <label>
-                                    List Date:
-                                    <input type="date" name="date">
-                                </label>
-                                <label>
-                                    (test)userID:
-                                    <input style="width:40px;" type="number" name="userID" value="1">
-                                </label>
-                                <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
-                            </form>
+    <label>
+        List Name:
+        <input type="text" name="nameList" required>
+    </label>
+    <label>
+        List Date:
+        <input type="date" name="date">
+    </label>
+    <label>
+        (test)userID:
+        <input style="width:40px;" type="number" name="userID" value="1">
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
+</form>
+
+<h2> Test Add new Shopping List </h2>
+<form action="/shoppinglistovw" method="post">
+    <fieldset>
+        <label>
+            List Name:
+            <input type="text" name="nameList" required>
+        </label>
+        <label>
+            List Date:
+            <input type="date" name="date">
+        </label>
+        <input type="text" name="userID" value="{{context.userID}}" />
+        <input type="hidden" name="userID" value="{{context.userID}}" />
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
+    </fieldset>
+</form>
+
+
 
 
 

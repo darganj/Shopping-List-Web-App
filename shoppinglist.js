@@ -4,18 +4,17 @@ var express = require('express');
 var router = express.Router();
 
 
-function getItems(res, userID, connection, context, complete) {
+function getItems(res, listName, connection, context, complete) {
 
-    var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    var query = 'SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
 
-    connection.query(query, userID, function (err, results, fields) {
+    connection.query(query, listName, function (err, results, fields) {
         if (err) {
             console.log("error");
             next(err);
             return;
         }
-
-        context.userlists = results;
+        context.listitems = results;
         complete();
     });
 
@@ -27,23 +26,19 @@ function getItems(res, userID, connection, context, complete) {
 router.get('/', function (req, res, next) {
     var context = {};
     var connection = req.app.get('connection');
-    var listName = 'Guacamole'; //Hard coded for testing
-    // var listName = req.body; //Required arguments (listName to display list)
-    var sql = "SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = 'Guacamole'";
+    var listName = req.query.nameList
+    var callbackCount = 0;
+    
 
-    connection.query(sql, listName, function (err, results, fields) {
-        if (err) {
-            console.log(err);
-            next(err);
-            return;
-        };
-        context = results;
-        console.log(context);
-        res.render('shoppinglist', { context: context });
-    });
-
-
-
+    getItems(res, listName, connection, context, complete);
+    function complete() {
+        console.log('made it to callback');
+        callbackCount++;
+        if (callbackCount >= 1) {
+            res.render('shoppinglist', { context: context.listitems });
+        }
+    }
+    
 
 });
 

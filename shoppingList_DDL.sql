@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `Categories`
 --
 
-CREATE TABLE `Categories` (
+CREATE TABLE IF NOT EXISTS `Categories` (
   `categoryID` int(11) NOT NULL,
   `categoryName` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -52,7 +52,7 @@ INSERT INTO `Categories` (`categoryID`, `categoryName`) VALUES
 -- Table structure for table `Items`
 --
 
-CREATE TABLE `Items` (
+CREATE TABLE IF NOT EXISTS `Items` (
   `itemID` int(11) NOT NULL,
   `categoryID` int(11) NOT NULL,
   `itemName` varchar(50) NOT NULL,
@@ -80,7 +80,7 @@ INSERT INTO `Items` (`itemID`, `categoryID`, `itemName`, `price`, `linkID`, `nut
 -- Table structure for table `Links`
 --
 
-CREATE TABLE `Links` (
+CREATE TABLE IF NOT EXISTS `Links` (
   `linkID` int(11) NOT NULL,
   `nameLink` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -104,7 +104,7 @@ INSERT INTO `Links` (`linkID`, `nameLink`) VALUES
 -- Table structure for table `Lists`
 --
 
-CREATE TABLE `Lists` (
+CREATE TABLE IF NOT EXISTS `Lists` (
   `listID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `listCreated` date NOT NULL,
@@ -126,7 +126,7 @@ INSERT INTO `Lists` (`listID`, `userID`, `listCreated`, `nameList`) VALUES
 -- Table structure for table `List_of_Items`
 --
 
-CREATE TABLE `List_of_Items` (
+CREATE TABLE IF NOT EXISTS `List_of_Items` (
   `listOfItems` int(11) NOT NULL,
   `listID` int(11) NOT NULL,
   `itemID` int(11) NOT NULL,
@@ -151,7 +151,7 @@ INSERT INTO `List_of_Items` (`listOfItems`, `listID`, `itemID`, `quantity`) VALU
 -- Table structure for table `Nutritions`
 --
 
-CREATE TABLE `Nutritions` (
+CREATE TABLE IF NOT EXISTS `Nutritions` (
   `nutritionID` int(11) NOT NULL,
   `calories` int(11) NOT NULL,
   `fatContent` int(11) NOT NULL
@@ -175,14 +175,14 @@ INSERT INTO `Nutritions` (`nutritionID`, `calories`, `fatContent`) VALUES
 -- Table structure for table `Users`
 --
 
-CREATE TABLE `Users` (
+CREATE TABLE IF NOT EXISTS `Users` (
   `userID` int(11) NOT NULL,
   `dateJoined` date NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `isAdmin`  int(11) NOT NULL
+  `isAdmin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

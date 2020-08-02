@@ -1,9 +1,11 @@
 <h1>User Landing Page</h1>
 
-<p>Username: <!-- TODO--></p>
+<p>Username: {{context.userName}}</p>
+<p>UserID: {{context.userID}} </p>
 
 <form action="/shoppinglistovw" method="get">
     <fieldset>
+        <input type="hidden" id="userID" name="userID" value="{{context.userID}}" />
         <input type="submit" value="Go to My Shopping Lists" />
 
     </fieldset>

@@ -120,7 +120,8 @@ app.use(queryParams);
 async function validatePassword(password, hash) {
   try {
 
-    const correctPassword = await argon2.verify(hash, password);
+      const correctPassword = await argon2.verify(hash, password);
+      console.log('the correct pw is:');
     console.log(correctPassword);
     return correctPassword;
   } catch (err) {
@@ -171,11 +172,13 @@ passport.use('local-login', new LocalStrategy(
           console.log("password");
           console.log(results[0].password);
 
-          try{
+            try {
+
             var validHashMatch = await argon2.verify(results[0].password, password)
             console.log("validHashMatch");
             console.log(validHashMatch);
-          }catch(err){
+            } catch (err) {
+                console.log('There was an error in hash match function');
             return done(null, false);
           }
 
@@ -261,9 +264,12 @@ app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landin
 app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
-/*
-app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list
 app.use('/login', require('./login.js')); //Routes for logging in
+
+
+/* All routes below this line are not used yet, inside the app
+app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list
+
 app.use('/register', require('./register.js')); //Routes for registering a new user user
 app.use('/testitems', function (req, res, next) {
     res.render('itemcard');
@@ -283,19 +289,7 @@ app.get('/about',function(req,res,next){
   res.render('about');
 });
 
-app.get('/login',function(req,res,next){
-  res.locals.login = req.isAuthenticated();
-  res.render('login');
-});
 
-
-
-app.post('/login', passport.authenticate('local-login', 
-    {failureRedirect: '/login'}), 
-  function(req,res,next){
-    //res.locals.login = req.isAuthenticated();
-    res.redirect('shoppinglist');
-});
 
 
 app.get('/register',function(req,res,next){
@@ -343,8 +337,9 @@ app.post('/register',async function(req,res,next){
               res.redirect('register');
       
             }else{
-              console.log("trying to fix query/promise")
-              res.redirect('shoppinglist');
+                console.log("trying to fix query/promise")
+                //TODO: Make it redirect with the correct user info
+              res.redirect('userlanding');
             }
           }
           )

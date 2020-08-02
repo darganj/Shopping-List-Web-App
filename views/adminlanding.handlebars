@@ -1,9 +1,11 @@
 <h1>Admin Landing Page</h1>
 
-<p>Username: <!-- TODO--></p>
+<p>Username: {{context.userName}}</p>
+<p>UserID: {{context.userID}} </p>
 
 <form action="/shoppinglistovw" method="get">
     <fieldset>
+        <input type="hidden" id="userID" name="userID" value="{{context.userID}}" />
         <input type="submit" value="Go to My Shopping Lists" />
 
     </fieldset>
@@ -11,13 +13,14 @@
 
 <form action="/userpref" method="get">
     <fieldset>
+        Doesn't Work Currently
         <input type="submit" value="User Preferences" />
-
     </fieldset>
 </form>
 
 <form action="/createlist" method="get">
     <fieldset>
+        Doesn't work Currently
         <input type="submit" value="Create New Shopping List" />
 
     </fieldset>
@@ -26,6 +29,7 @@
 
 <form action="/analytics" method="get">
     <fieldset>
+        Doesn't Work Currently'
         <input type="submit" value="Analytics" />
 
     </fieldset>
@@ -34,6 +38,7 @@
 
 <form action="/adddefaultlist" method="get">
     <fieldset>
+        Doesn't Work Currently
         <input type="submit" value="Add Default List" />
 
     </fieldset>

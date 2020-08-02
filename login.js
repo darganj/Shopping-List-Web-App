@@ -4,23 +4,23 @@ var express = require('express');
 var router = express.Router();
 
 
-/*isUserAdmin Function
- * This function returns if a provided userID is an admin
+/*getUserAData Function
+ * This function returns data for a specified userName
  * Input Params: - connection - existing mySQL connection to database
- *               - userID - userID to check
- * Returns:      - 1 if admin, 0 if user*/
-function isUserAdmin(connection, userID, callback) {
+ *               - userName - userName
+ * Returns:      - datablock of user data*/
+function getUserData(connection, context, userName, complete) {
 
-    var query = "SELECT isAdmin FROM Users Where UserID = ?";
+    var query = "SELECT * FROM Users Where UserName = ?";
 
-    connection.query(query, userID, function (err, results, fields) {
+    connection.query(query, userName, function (err, results, fields) {
         if (err) {
             console.log("error");
             next(err);
             return;
         }
-
-        return callback(results[0].isAdmin);
+        context.userData = results[0];
+        complete();
     });
 }
 
@@ -28,34 +28,46 @@ function isUserAdmin(connection, userID, callback) {
 /*Login GET Route
  * Renders the Login Page for Users
  */
-router.get('/',function(req,res,next){
+router.get('/', function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
   res.render('login');
 });
 
 /*Login POST ROute
  * used for user logging in. Logs the User in and Sends them to Admin Landing 
  * if they are an admin and User Landing if they are a User*/
-router.post('/', function (req, res, next) {
+router.post('/', /* passport.authenticate('local-login', {failureRedirect: '/login'}), */
+    function (req, res, next) {
 
-    //var userID = req.params.userID;  
+        context = {};
+        var callbackCount = 0;
+        var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage
+        var connection = req.app.get('connection');
 
-    var userID = 2; //HARD CODE FOR NOW, INPUT 1 for ADMIN, 2 for USER
-    var connection = req.app.get('connection');
-    isUserAdmin(connection, userID, function (result) {
-        var isAdmin = result;
-        console.log('is it an admin ' + isAdmin);
+        getUserData(connection, context, userName, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                var isAdmin = context.userData.isAdmin;
+                var id = context.userData.userID;
+                console.log('is it an admin ' + isAdmin);
+                console.log('the userID is ' + id);
+                console.log(context.userData);
 
-        if (isAdmin) {
-            res.redirect('adminlanding');
-        }
-        else {
-            res.redirect('userlanding');
+                if (isAdmin) {
+                    res.render('adminlanding', { context: context.userData });
+                }
+                else {
+                    res.render('userlanding', { context: context.userData });
+                }
+
+            }
         }
     });
 
 
 
-});
+
 
 
 module.exports = router;

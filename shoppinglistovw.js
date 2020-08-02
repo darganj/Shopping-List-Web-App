@@ -32,55 +32,39 @@ function getShoppingLists(res, userID, connection, context, complete) {
 
 }
 
-/*getAllShopping Lists
-    * This function returns All shopping lists int he database in JSON form in the context variable
-Input Params: - res containing server response to call
-                - connection - existing mySQL connection to database
-                - context - to be populated with shopping list info
-                - complete - callback function
-Returns: context is filled with all info on user Shopping Lists*/
-function getAllShoppingLists(res, connection, context, complete) {
-
-    var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID';
-
-    connection.query(query, function (err, results, fields) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        }
-
-        context.userlists = results;
-        complete();
-    });
-
-
-}
-
-
-
 
 
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain
     * the user ID in the URL*/
-router.get('/:id', function (req, res, next) {
+router.get('/', function (req, res, next) {
 
     var context = {};
     var callbackCount = 0;
-    var userID = req.params.id;
-    var connection = req.app.get('connection');
+    var userID = req.query.userID;
+    console.log('userID is');
+    console.log(userID);
+    if (userID) {
+        var connection = req.app.get('connection');
 
-    getShoppingLists(res, userID, connection, context, complete);
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) {
-            res.render('shoppinglistovw', { context: context.userlists });
+        getShoppingLists(res, userID, connection, context, complete);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                console.log(context.userlists);
+                res.render('shoppinglistovw', { context: context.userlists });
+            }
         }
+    } else {
+        console.log("No user ID provided");
+        res.render('shoppinglistovw'); //if no userID is provided render basic view.
     }
 
 
+
 });
+
+
 
 
 /*This ROUTE Currently doesn't work, connection is broken, commenting out*/
@@ -219,25 +203,7 @@ router.put('/', function (req, res, next) {
 });
 
 
-//GET method if no user ID input, will select all shopping lists
-router.get('/', function (req, res, next) {
 
-    /*
-    var context = {};
-    var callbackCount = 0;
-    var connection = req.app.get('connection');
-
-    getAllShoppingLists(res, connection, context, complete);
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) {
-            res.render('shoppinglistovw', { context: context.userlists });
-        }
-    }
-    */
-
-    res.render('shoppinglistovw');
-});
 
 
 

@@ -3,7 +3,7 @@
 
 
 <div>
-    <h2>This one works through edit-list post route</h2>
+    <h2>This one works using edit-list post route</h2>
 <table class="default_list_table">
         <thead>
             <tr>
@@ -46,9 +46,9 @@
         </tbody>
     </table>
 </div>
-
+<br /><br />
 <div>
-    <h2> this one works this /shoppinglist post route</h2>
+    <h2> this one works using /shoppinglist post route</h2>
     <table class="default_list_table">
         <thead>
             <tr>
@@ -62,7 +62,7 @@
             <tr>
                 <td> {{itemName}} </td>
                 <td>
-                    <form action="/edit-list" method="post">
+                    <form action="/shoppinglist" method="post">
                         <label>
                             Quantity:
                             <input style="width:40px;" type="number" name="quantity">

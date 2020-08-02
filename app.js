@@ -512,7 +512,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
             return;
         }
         context.listitems = results;
-        cres.render('shoppinglist', { context: context.listitems });
+        res.render('shoppinglist', { context: context.listitems });
     });
 
 

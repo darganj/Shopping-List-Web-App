@@ -30,6 +30,7 @@ function getUserData(connection, context, userName, complete) {
  */
 router.get('/', function (req, res, next) {
     res.locals.login = req.isAuthenticated();
+
   res.render('login');
 });
 

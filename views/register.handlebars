@@ -1,15 +1,19 @@
 <h1>I'm the registration page.</h1>
 
  <form action="/register" method="POST"> 
- <fieldset>
+     <fieldset>
 
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" placeholder="username" required><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" placeholder="password" required><br><br>
-    <input type="submit" value="Submit">
+         <label for="username">Username:</label><br>
+         <input type="text" id="username" name="username" placeholder="username" required><br>
+         <label for="password">Password:</label><br>
+         <input type="password" id="password" name="password" placeholder="password" required><br>
+         <input type="radio" id="admin" name="userType" value="Admin" />
+         <label for="admin">Admin</label>
+         <input type="radio" id="user" name="userType" value="User" />
+         <label for="user">User</label><br /><br />
+         <input type="submit" value="Submit">
 
- </fieldset>
+     </fieldset>
   
 
 </form>

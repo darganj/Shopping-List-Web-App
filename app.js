@@ -291,7 +291,6 @@ app.get('/about',function(req,res,next){
 
 
 
-
 app.get('/register',function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('register');
@@ -303,8 +302,13 @@ app.post('/register',async function(req,res,next){
 
   var username = req.body.username;
   var password = req.body.password;
+    var userType = req.body.userType;
+    var isAdmin = 0;
+    if (userType == "Admin") {
+        isAdmin = 1;
+    }
   var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-  var sqlIn = "INSERT INTO Users (`username`, `password`) VALUES (?, ?)";
+  var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`) VALUES (?, ?, ?)";
 
   console.log("picking an existing user is bad");
   if (username && password){
@@ -331,15 +335,17 @@ app.post('/register',async function(req,res,next){
         console.log(hash);
         
         try{
-          connection.query(sqlIn, [username, hash], function (err, results, fields) {
+          connection.query(sqlIn, [username, hash, isAdmin], function (err, results, fields) {
             if (err) {
               console.log(err);
               res.redirect('register');
       
             }else{
                 console.log("trying to fix query/promise")
-                //TODO: Make it redirect with the correct user info
-              res.redirect('userlanding');
+
+               
+                res.redirect(307,'/login'); //redirects to login post
+
             }
           }
           )

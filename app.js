@@ -638,7 +638,7 @@ app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req
   var context = {};
 
   // sql placeholder variable
-  var getDefaultItemsList = "SELECT * FROM Items LEFT JOIN Nutritions ON Items.nutritionID = Nutritions.nutritionID";
+  var getDefaultItemsList = "SELECT * FROM Items";
 
   // execute the sql to render and display the shopping list
   connection.query(getDefaultItemsList, function(err, result){

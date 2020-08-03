@@ -404,7 +404,7 @@ app.post('/register',async function(req,res,next){
         // if the query gets a user, we cannot reuse a user name
         console.log("Error:  user already exists");
         res.redirect('register');
-        next(err);
+        return;
       }
 
       //create salt for new user

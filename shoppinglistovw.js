@@ -41,7 +41,7 @@ function getShoppingLists(res, userID, connection, context, complete) {
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain
     * the user ID in the URL*/
-router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+router.get('/', function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     var context = {};
     var callbackCount = 0;

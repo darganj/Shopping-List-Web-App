@@ -381,11 +381,14 @@ app.post('/register',async function(req,res,next){
 
   var username = req.body.username;
   var password = req.body.password;
-    var userType = req.body.userType;
-    var isAdmin = 0;
-    if (userType == "Admin") {
-        isAdmin = 1;
-    }
+  var userType = req.body.userType;
+
+  // default is user, not admin
+  var isAdmin = 0;
+  if (userType == "Admin") {
+      isAdmin = 1;
+  }
+
   var sqlOut = "SELECT * FROM Users WHERE userName = ?";
   var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`) VALUES (?, ?, ?)";
 
@@ -651,7 +654,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 });
 */
 
-app.get('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
+app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
   res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
     var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
@@ -756,7 +759,7 @@ app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req,
 });
 
 
-app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
   res.locals.login = req.isAuthenticated();
   var context = {};
 
@@ -777,7 +780,7 @@ app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req
   });
 });
 
-app.get('/admin-portal', /*ensureLoggedIn.ensureLoggedIn('/login'),*/
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('admin-portal');

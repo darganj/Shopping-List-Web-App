@@ -463,9 +463,11 @@ app.get('/adminlanding', ensureLoggedIn.ensureLoggedIn('/login'),
 
     if(res.locals.user.isAdmin != 1){
       res.redirect('userlanding');
+    }else{
+      res.render('adminlanding', { context: context });
     }
 
-    res.render('adminlanding', { context: context });
+    
 });
 
 app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {

@@ -453,7 +453,7 @@ app.post('/register',async function(req,res,next){
   
 });
 
-app.get('/adminlanding', passport.authenticate('local-login', {failureRedirect: '/login'},
+app.get('/adminlanding', passport.authenticate('local-login', {failureRedirect: '/login'}),
   function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
@@ -464,7 +464,7 @@ app.get('/adminlanding', passport.authenticate('local-login', {failureRedirect: 
     if(res.locals.user.isAdmin != 1){
       res.direct('userlanding');
     }
-    
+
     res.render('adminlanding', { context: context });
 });
 

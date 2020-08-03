@@ -146,12 +146,17 @@ async function genPassword(password) {
     console.log("error in hashing3");
   }
 }
+
+// test that generate password and validate password work on app startup
 console.log(genPassword("bob"));
 console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
     console.log("request info");
+    console.log("submitted username is")
     console.log(username);
+    console.log("submitted password is")
     console.log(password);
     var sql = "SELECT * FROM Users WHERE userName = ?";
 
@@ -162,18 +167,20 @@ passport.use('local-login', new LocalStrategy(
             return done(null, false);
 
         }
+
+        // if the user is not in the database, then length of results is zero
         if (results.length == 0){
           return done(null, false);
         }else{
           context = results;
           console.log("I'm the results from use local-login");
           console.log(context);
-          console.log("I'm results[0]");
+          console.log("I'm results[0].userID");
           console.log(results[0].userID);
-          console.log("password");
+          console.log("I'm results[0].password");
           console.log(results[0].password);
 
-            try {
+          try {
 
             var validHashMatch = await argon2.verify(results[0].password, password)
             console.log("validHashMatch");
@@ -342,10 +349,10 @@ app.post('/login', passport.authenticate('local-login', {failureRedirect: '/logi
               console.log(context.userData);
 
               if (isAdmin) {
-                  res.render('adminlanding', { context: context.userData });
+                  res.redirect('adminlanding', { context: context.userData });
               }
               else {
-                  res.render('userlanding', { context: context.userData });
+                  res.redirect('userlanding', { context: context.userData });
               }
 
           }

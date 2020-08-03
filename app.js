@@ -336,31 +336,38 @@ app.post('/login', passport.authenticate('local-login', {failureRedirect: '/logi
       res.locals.user = req.user;
       console.log("res.locals.user");
       console.log(res.locals.user);
-      context = {};
-      var callbackCount = 0;
-      var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage
-      var connection = req.app.get('connection');
-
-      getUserData(connection, context, userName, complete);
-      function complete() {
-          callbackCount++;
-          if (callbackCount >= 1) {
-              var isAdmin = context.userData.isAdmin;
-              var id = context.userData.userID;
-              console.log('loginPOST is it an admin ' + isAdmin);
-              console.log('loginPOST the userID is ' + id);
-              console.log('loginPOST context.userData')
-              console.log(context.userData);
-
-              if (isAdmin) {
-                  res.render('adminlanding', { context: context.userData });
-              }
-              else {
-                  res.render('userlanding', { context: context.userData });
-              }
-
-          }
+      // context = {};
+      // var callbackCount = 0;
+      // var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage
+      // var connection = req.app.get('connection');
+      console.log("res.locals.user.isAdmin");
+      console.log(res.locals.user.isAdmin);
+      if (res.locals.user.isAdmin==1){
+        res.redirect('adminlanding');
+      }else{
+        res.redirect('userlanding');
       }
+
+      // getUserData(connection, context, userName, complete);
+      // function complete() {
+      //     callbackCount++;
+      //     if (callbackCount >= 1) {
+      //         var isAdmin = context.userData.isAdmin;
+      //         var id = context.userData.userID;
+      //         console.log('loginPOST is it an admin ' + isAdmin);
+      //         console.log('loginPOST the userID is ' + id);
+      //         console.log('loginPOST context.userData')
+      //         console.log(context.userData);
+
+      //         if (isAdmin) {
+      //             res.render('adminlanding', { context: context.userData });
+      //         }
+      //         else {
+      //             res.render('userlanding', { context: context.userData });
+      //         }
+
+      //     }
+      // }
   });
 
 app.get('/register',function(req,res,next){

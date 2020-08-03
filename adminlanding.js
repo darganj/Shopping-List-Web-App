@@ -9,8 +9,12 @@ var router = express.Router();
 
 
 router.get('/', function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
-    res.render('adminlanding');
+  res.locals.login = req.isAuthenticated();
+
+  context = {};
+  res.locals.user.userName = context.userName;
+  res.locals.user.userID = context.userID;
+  res.render('adminlanding', { context: context });
 });
 
 

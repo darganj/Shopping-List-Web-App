@@ -1,6 +1,12 @@
 // JavaScript source code
 
 var express = require('express');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
+var session = require('express-session');
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
@@ -23,7 +29,8 @@ function getItems(res, listName, connection, context, complete) {
 
 
 
-router.get('/', function (req, res, next) {
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
     var context = {};
     var connection = req.app.get('connection');
     var listName = req.query.nameList

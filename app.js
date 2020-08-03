@@ -333,6 +333,8 @@ res.render('login');
 app.post('/login', passport.authenticate('local-login', {failureRedirect: '/login'}),
   function (req, res, next) {
       res.locals.login = req.isAuthenticated();
+      res.locals.user = req.user;
+      console.log(res.locals.user)
       context = {};
       var callbackCount = 0;
       var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage

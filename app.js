@@ -349,10 +349,10 @@ app.post('/login', passport.authenticate('local-login', {failureRedirect: '/logi
               console.log(context.userData);
 
               if (isAdmin) {
-                  res.redirect('adminlanding', { context: context.userData });
+                  res.render('adminlanding', { context: context.userData });
               }
               else {
-                  res.redirect('userlanding', { context: context.userData });
+                  res.render('userlanding', { context: context.userData });
               }
 
           }

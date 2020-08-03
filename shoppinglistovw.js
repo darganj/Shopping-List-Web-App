@@ -1,6 +1,12 @@
 // JavaScript source code
 
 var express = require('express');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
+var session = require('express-session');
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
@@ -37,8 +43,8 @@ function getShoppingLists(res, userID, connection, context, complete) {
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain
     * the user ID in the URL*/
-router.get('/', function (req, res, next) {
-
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
     var context = {};
     var callbackCount = 0;
     var userID = req.query.userID;

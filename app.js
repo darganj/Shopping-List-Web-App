@@ -22,12 +22,13 @@ app.use(express_enforces_ssl());
 if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
-  var connection = mysql.createConnection({
-    host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user            : 'oumwqrox1u690kyf',
-    password        : 'dp0jxu78jfqeqry1',
-    database        : 'rtfqihn2cy96dcmm'
-  });
+  console.log("Error: You need to configure your local database parameters");
+  // var connection = mysql.createConnection({
+  //   host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+  //   user            : 'oumwqrox1u690kyf',
+  //   password        : 'dp0jxu78jfqeqry1',
+  //   database        : 'rtfqihn2cy96dcmm'
+  // });
 }
 // var options = {
 // 	// Host name for database connection:
@@ -145,12 +146,17 @@ async function genPassword(password) {
     console.log("error in hashing3");
   }
 }
+
+// test that generate password and validate password work on app startup
 console.log(genPassword("bob"));
 console.log(validatePassword("bob", "$argon2i$v=19$m=4096,t=3,p=1$TdSx6GD+drh0HiqwZc5JPQ$SrwzrA3g6rSJWdl8kYD3+CjsoIEgrZ2R1UYolE22JQ0"));
+
 passport.use('local-login', new LocalStrategy(
   async function(username, password, done) {
     console.log("request info");
+    console.log("submitted username is")
     console.log(username);
+    console.log("submitted password is")
     console.log(password);
     var sql = "SELECT * FROM Users WHERE userName = ?";
 
@@ -161,18 +167,20 @@ passport.use('local-login', new LocalStrategy(
             return done(null, false);
 
         }
+
+        // if the user is not in the database, then length of results is zero
         if (results.length == 0){
           return done(null, false);
         }else{
           context = results;
           console.log("I'm the results from use local-login");
           console.log(context);
-          console.log("I'm results[0]");
+          console.log("I'm results[0].userID");
           console.log(results[0].userID);
-          console.log("password");
+          console.log("I'm results[0].password");
           console.log(results[0].password);
 
-            try {
+          try {
 
             var validHashMatch = await argon2.verify(results[0].password, password)
             console.log("validHashMatch");
@@ -260,11 +268,11 @@ app.use(bodyParser.json());
 
 //New Functions for each section
 app.set('connection', connection);
-app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
-app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+// app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
+// app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
-app.use('/login', require('./login.js')); //Routes for logging in
+// app.use('/login', require('./login.js')); //Routes for logging in
 
 
 /* All routes below this line are not used yet, inside the app
@@ -289,7 +297,78 @@ app.get('/about',function(req,res,next){
   res.render('about');
 });
 
+/*getUserAData Function
+ * This function returns data for a specified userName
+ * Input Params: - connection - existing mySQL connection to database
+ *               - userName - userName
+ * Returns:      - datablock of user data*/
+function getUserData(connection, context, userName, complete) {
 
+  var query = "SELECT * FROM Users Where UserName = ?";
+
+  connection.query(query, userName, function (err, results, fields) {
+      if (err) {
+          console.log("error");
+          next(err);
+          return;
+      }
+      context.userData = results[0];
+      complete();
+  });
+}
+
+
+/*Login GET Route
+* Renders the Login Page for Users
+*/
+app.get('/login', function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
+
+res.render('login');
+});
+
+/*Login POST Route
+* used for user logging in. Logs the User in and Sends them to Admin Landing 
+* if they are an admin and User Landing if they are a User*/
+app.post('/login', passport.authenticate('local-login', {failureRedirect: '/login'}),
+  function (req, res, next) {
+      res.locals.login = req.isAuthenticated();
+      res.locals.user = req.user;
+      console.log("res.locals.user");
+      console.log(res.locals.user);
+      // context = {};
+      // var callbackCount = 0;
+      // var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage
+      // var connection = req.app.get('connection');
+      console.log("res.locals.user.isAdmin");
+      console.log(res.locals.user.isAdmin);
+      if (res.locals.user.isAdmin==1){
+        res.redirect('adminlanding');
+      }else{
+        res.redirect('userlanding');
+      }
+
+      // getUserData(connection, context, userName, complete);
+      // function complete() {
+      //     callbackCount++;
+      //     if (callbackCount >= 1) {
+      //         var isAdmin = context.userData.isAdmin;
+      //         var id = context.userData.userID;
+      //         console.log('loginPOST is it an admin ' + isAdmin);
+      //         console.log('loginPOST the userID is ' + id);
+      //         console.log('loginPOST context.userData')
+      //         console.log(context.userData);
+
+      //         if (isAdmin) {
+      //             res.render('adminlanding', { context: context.userData });
+      //         }
+      //         else {
+      //             res.render('userlanding', { context: context.userData });
+      //         }
+
+      //     }
+      // }
+  });
 
 app.get('/register',function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -302,11 +381,14 @@ app.post('/register',async function(req,res,next){
 
   var username = req.body.username;
   var password = req.body.password;
-    var userType = req.body.userType;
-    var isAdmin = 0;
-    if (userType == "Admin") {
-        isAdmin = 1;
-    }
+  var userType = req.body.userType;
+
+  // default is user, not admin
+  var isAdmin = 0;
+  if (userType == "Admin") {
+      isAdmin = 1;
+  }
+
   var sqlOut = "SELECT * FROM Users WHERE userName = ?";
   var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`) VALUES (?, ?, ?)";
 
@@ -322,6 +404,7 @@ app.post('/register',async function(req,res,next){
         // if the query gets a user, we cannot reuse a user name
         console.log("Error:  user already exists");
         res.redirect('register');
+        return;
       }
 
       //create salt for new user
@@ -374,12 +457,38 @@ app.post('/register',async function(req,res,next){
   
 });
 
+app.get('/adminlanding', ensureLoggedIn.ensureLoggedIn('/login'),
+  function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+    context = {};
+    context.userName = res.locals.user.userName;
+    context.userID = res.locals.user.userID;
 
+    if(res.locals.user.isAdmin != 1){
+      res.redirect('userlanding');
+    }else{
+      res.render('adminlanding', { context: context });
+    }
+
+    
+});
+
+app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
+  res.locals.user = req.user;
+  context = {};
+  res.locals.user.userName = context.userName;
+  res.locals.user.userID = context.userID;
+
+  res.render('userlanding', { context: context });
+
+});
 
 
 
 app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res) {
-    //res.locals.login = req.isAuthenticated();
+    res.locals.login = req.isAuthenticated();
 
     res.render('deletelist');
 });
@@ -388,9 +497,9 @@ app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, r
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
-    console.log("testing if it goes to this route");
-    console.log("");
+  res.locals.login = req.isAuthenticated();
+    // console.log("testing if it goes to this route");
+    // console.log("");
   var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
   if (date == "") { // if date not provided by user, enter current date into database
     var current_date = new Date();
@@ -427,7 +536,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
 // route to delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+    res.locals.login = req.isAuthenticated();
   // delete list with listID provided in req.body
 
     console.log('using the app route');
@@ -461,7 +570,7 @@ app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function
 
 // route to update an existing shopping list's name and/or date for a user
 app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
- // res.locals.login = req.isAuthenticated();
+  res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -490,7 +599,7 @@ app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
 
 // route for adding a new item to a shopping list
 app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
-    //res.locals.login = req.isAuthenticated();
+    res.locals.login = req.isAuthenticated();
     var { listID, itemID, quantity } = req.body;
     connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function (err, result) {
         if (err) {
@@ -546,8 +655,8 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 });
 */
 
-app.get('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
-  //res.locals.login = req.isAuthenticated();
+app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
     var sql = "SELECT Users.userName, Categories.categoryName, Lists.nameList, List_of_Items.quantity, Items.itemName" +
     " FROM Users" +
@@ -616,7 +725,7 @@ app.get('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req
 
 // route for adding a new item to a shopping list
 app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+  res.locals.login = req.isAuthenticated();
         var {listID, itemID, quantity} = req.body;
         connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
             if(err){
@@ -630,13 +739,13 @@ app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,
 
 
 app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+  res.locals.login = req.isAuthenticated();
   res.render('edit-list');
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
 app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
-    //res.locals.login = req.isAuthenticated();
+    res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
         var { listID, itemID, quantity } = req.body; // required front-end args: listID, itemID, quantity
@@ -651,8 +760,8 @@ app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req,
 });
 
 
-app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
+  res.locals.login = req.isAuthenticated();
   var context = {};
 
   // sql placeholder variable
@@ -672,9 +781,9 @@ app.get('/defaultlist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req
   });
 });
 
-app.get('/admin-portal', /*ensureLoggedIn.ensureLoggedIn('/login'),*/
+app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
-  //res.locals.login = req.isAuthenticated();
+  res.locals.login = req.isAuthenticated();
   res.render('admin-portal');
 });
 

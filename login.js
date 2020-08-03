@@ -34,10 +34,10 @@ router.get('/', function (req, res, next) {
   res.render('login');
 });
 
-/*Login POST ROute
+/*Login POST Route
  * used for user logging in. Logs the User in and Sends them to Admin Landing 
  * if they are an admin and User Landing if they are a User*/
-router.post('/', /* passport.authenticate('local-login', {failureRedirect: '/login'}), */
+router.post('/', passport.authenticate('local-login', {failureRedirect: '/login'}),
     function (req, res, next) {
 
         context = {};

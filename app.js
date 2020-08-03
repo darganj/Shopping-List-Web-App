@@ -269,7 +269,7 @@ app.use(bodyParser.json());
 //New Functions for each section
 app.set('connection', connection);
 // app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
-app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+// app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
 // app.use('/login', require('./login.js')); //Routes for logging in
@@ -453,7 +453,7 @@ app.post('/register',async function(req,res,next){
   
 });
 
-app.get('/adminlanding',
+app.get('/adminlanding', ensureLoggedIn.ensureLoggedIn('/login'),
   function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
@@ -468,6 +468,16 @@ app.get('/adminlanding',
     res.render('adminlanding', { context: context });
 });
 
+app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
+  res.locals.user = req.user;
+  context = {};
+  res.locals.user.userName = context.userName;
+  res.locals.user.userID = context.userID;
+
+  res.render('userlanding', { context: context });
+
+});
 
 
 

@@ -265,7 +265,7 @@ app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landin
 app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
-app.use('/login', require('./login.js')); //Routes for logging in
+// app.use('/login', require('./login.js')); //Routes for logging in
 
 
 /* All routes below this line are not used yet, inside the app

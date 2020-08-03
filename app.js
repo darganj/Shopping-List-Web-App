@@ -334,7 +334,8 @@ app.post('/login', passport.authenticate('local-login', {failureRedirect: '/logi
   function (req, res, next) {
       res.locals.login = req.isAuthenticated();
       res.locals.user = req.user;
-      console.log(res.locals.user)
+      console.log("res.locals.user");
+      console.log(res.locals.user);
       context = {};
       var callbackCount = 0;
       var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage
@@ -346,8 +347,9 @@ app.post('/login', passport.authenticate('local-login', {failureRedirect: '/logi
           if (callbackCount >= 1) {
               var isAdmin = context.userData.isAdmin;
               var id = context.userData.userID;
-              console.log('is it an admin ' + isAdmin);
-              console.log('the userID is ' + id);
+              console.log('loginPOST is it an admin ' + isAdmin);
+              console.log('loginPOST the userID is ' + id);
+              console.log('loginPOST context.userData')
               console.log(context.userData);
 
               if (isAdmin) {

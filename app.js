@@ -325,7 +325,7 @@ res.render('login');
 * if they are an admin and User Landing if they are a User*/
 app.post('/login', passport.authenticate('local-login', {failureRedirect: '/login'}),
   function (req, res, next) {
-
+      res.locals.login = req.isAuthenticated();
       context = {};
       var callbackCount = 0;
       var userName = req.body.username; //Pulls username from req.body, queries database for userID/isAdmin to render correct webpage

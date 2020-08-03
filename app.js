@@ -453,13 +453,19 @@ app.post('/register',async function(req,res,next){
   
 });
 
-app.get('/adminlanding', function (req, res, next) {
-  res.locals.login = req.isAuthenticated();
+app.get('/adminlanding', passport.authenticate('local-login', {failureRedirect: '/login'},
+  function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+    context = {};
+    context.userName = res.locals.user.userName;
+    context.userID = res.locals.user.userID;
 
-  context = {};
-  res.locals.user.userName = context.userName;
-  res.locals.user.userID = context.userID;
-  res.render('adminlanding', { context: context });
+    if(res.locals.user.isAdmin != 1){
+      res.direct('userlanding');
+    }
+    
+    res.render('adminlanding', { context: context });
 });
 
 

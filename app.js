@@ -453,7 +453,7 @@ app.post('/register',async function(req,res,next){
   
 });
 
-app.get('/adminlanding', passport.authenticate('local-login', {failureRedirect: '/login'}),
+app.get('/adminlanding',
   function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;

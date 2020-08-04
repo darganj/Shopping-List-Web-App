@@ -1,0 +1,20 @@
+<div class="container">
+	<form action="/" class="form-group" method="post">
+		<table>
+			<thread class="table">
+				<tr>
+					<th scope="col">Item</th>
+					<th scope="col">Count</th>
+				</tr>
+			</thread>
+			<tbody>
+				{{#each results}}
+				<tr>
+					<td>{{itemName}}</td>
+					<td>{{quantity}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</form>	
+</div>

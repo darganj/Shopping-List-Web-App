@@ -274,6 +274,7 @@ app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View g
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
 // app.use('/login', require('./login.js')); //Routes for logging in
 
+app.use('/routepath',require('results.js')); // Route to display popular and unpopular items
 
 /* All routes below this line are not used yet, inside the app
 app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list

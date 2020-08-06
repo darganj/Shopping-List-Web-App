@@ -34,8 +34,6 @@ function getUserName(res, userID, connection, context, complete) { //if any info
  * If I put /routepath in this router then the route to get there would be www.website/routepath/routepath*/
 
 
-console.log(1);
-
 // Display page
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
@@ -45,12 +43,12 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     
     var callbackcount = 0; //Used to test query worked
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
-    console.log(2);
+    console.log(1);
     
 
     getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well
     
-    console.log(3);
+    console.log(2);
     function complete() {
         callbackCount++;
         if (callbackCount >= 1) { //If multiple queries, need to increase
@@ -58,10 +56,10 @@ router.get('/', function (req, res, next) { //Include any data required for quer
             console.log("in Complete() function now...");
             res.render('analytics', {context: context.userlists}); //If multiple queries and data, may need to adjust
         }
-        console.log(5);
+        console.log(3);
     }
 
-    console.log(6)
+    console.log(4)
 
 });
 

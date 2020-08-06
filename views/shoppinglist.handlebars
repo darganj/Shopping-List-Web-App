@@ -23,11 +23,14 @@
             <tr>
                 <td>{{ itemName }}</td>
                 <td>{{ quantity }}</td>
-                <td>{{#if markStatus }} marked {{/if}}
+                <td>{{#if markStatus }} 
+                            marked                
+                    {{/if}}
                     {{#unless markStatus }} unmarked {{/unless}}
-                
+            
                 
                 </td>
+                <td>{{ listID }}</td>
                 <!--<td>{{ itemNote }}</td>-->
             </tr>
             {{/each}}

@@ -49,7 +49,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
         if (callbackCount >= 1) { //If multiple queries, need to increase
             console.log(context.userlists);
             console.log(4);
-            res.render('analytics', { context: context.userlists}); //If multiple queries and data, may need to adjust
+            res.render('analytics', context); //If multiple queries and data, may need to adjust
         }
         console.log(5);
     }

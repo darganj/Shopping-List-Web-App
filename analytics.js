@@ -7,7 +7,7 @@ var router = express.Router(); //Creates the router middleware variable
 
 
 // Get UserName
-function getUserName(res, userID, connection, context, complete) { //if any info required for query, need it here as well
+/* function getUserName(res, userID, connection, context, complete) { //if any info required for query, need it here as well
 
     var getUserNameQuery = "SELECT * FROM Users WHERE Users.userID = ?";
 
@@ -23,6 +23,7 @@ function getUserName(res, userID, connection, context, complete) { //if any info
     });
 
 }
+*/
 
 
 /*Sample Get Route, Some imporant notes:
@@ -36,17 +37,27 @@ console.log(1);
 
 // Display page
 router.get('/analytics', function (req, res, next) { //Include any data required for query as well
-    var context = {};
-    var userID = req.getUserNameQuery.userID; // define userID
-    
+    var context = {};    
+    context.userID = req.body.userID;
     
     var callbackcount = 0; //Used to test query worked
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(2);
     
-
-    getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well
+    var getUserName = "SELECT * FROM Users WHERE Users.userID = ?";
     
+    connection.query(getUserName, function(err, result){
+        if(err){
+            console.log(err);
+            console.log("ERROR: QUERY");
+            return;
+        }
+        context.userName = result;
+        res.render('/analytics', context);
+    });
+
+    // getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well
+    /*
     console.log(3);
     function complete() {
         callbackCount++;
@@ -59,7 +70,7 @@ router.get('/analytics', function (req, res, next) { //Include any data required
     }
 
     console.log(6)
-
+*/
 });
 
 

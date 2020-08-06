@@ -42,8 +42,10 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     // var userID = req.body.userID;
     // var userName = req.body.userName;
     
-    context.userName = res.locals.user.userName;
-    context.userID = res.locals.user.userID;
+    var userID = res.locals.user.userName;
+    var userName = res.locals.user.userID;
+    // context.userName = res.locals.user.userName;
+    // context.userID = res.locals.user.userID;
     
     
     var callbackcount = 0; //Used to test query worked

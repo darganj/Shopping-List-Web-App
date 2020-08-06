@@ -3,14 +3,6 @@
 
 
 var express = require('express'); //Have to require express again since this is a separate js file
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
-var helmet = require('helmet');
-var session = require('express-session');
-var express_enforces_ssl = require('express-enforces-ssl');
-var ensureLoggedIn = require('connect-ensure-login');
-
 var router = express.Router(); //Creates the router middleware variable
 
 
@@ -42,6 +34,7 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 
 console.log(1);
 
+// Display page
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
     var callbackcount = 0; //Used to test query worked
@@ -49,7 +42,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     console.log(2);
     
 
-    getUserName(res, connection, context, complete); //Pulls data into context, Include any data required for query as well
+    getUserName(res, userID connection, context, complete); //Pulls data into context, Include any data required for query as well
     
     console.log(3);
     function complete() {

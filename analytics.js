@@ -6,10 +6,10 @@ var express = require('express'); //Have to require express again since this is 
 var router = express.Router(); //Creates the router middleware variable
 
 
-//Sample Query
+// Get UserName
 function query(res, connection, context, complete) { //if any info required for query, need it here as well
 
-    var query = SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    var query = "SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?";
 
     connection.query(query, function (err, results, fields) {
         if (err) {

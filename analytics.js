@@ -30,24 +30,31 @@ function getUserName(res, connection, context, complete) { //if any info require
  * Whatever 'use' route you put in app.js to get here, that is already accounted for
  * For example if i put in app.js app.use'/routepath' to get here then this route will work for www.website/routepath
  * If I put /routepath in this router then the route to get there would be www.website/routepath/routepath*/
+
+
+console.log(1);
+
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
     var callbackcount = 0; //Used to test query worked
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
-    
+    console.log(2);
     
 
     getUserName(res, connection, context, complete); //Pulls data into context, Include any data required for query as well
-
+    
+    console.log(3);
     function complete() {
         callbackCount++;
         if (callbackCount >= 1) { //If multiple queries, need to increase
             console.log(context.userlists);
+            console.log(4);
             res.render('analytics', { context: context.userlists}); //If multiple queries and data, may need to adjust
         }
+        console.log(5);
     }
 
-
+    console.log(6)
 
 });
 

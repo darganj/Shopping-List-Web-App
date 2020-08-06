@@ -37,7 +37,8 @@ console.log(1);
 // Display page
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
-    context.userID = res.query.userID; // get the datavariable for userID
+    // context.userID = res.query.userID; // get the datavariable for userID
+    var userID = req.body.userID;
     
     
     var callbackcount = 0; //Used to test query worked

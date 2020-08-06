@@ -3,6 +3,14 @@
 
 
 var express = require('express'); //Have to require express again since this is a separate js file
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
+var session = require('express-session');
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
+
 var router = express.Router(); //Creates the router middleware variable
 
 

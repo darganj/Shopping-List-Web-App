@@ -37,6 +37,9 @@ console.log(1);
 // Display page
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
+    context.userID = res.locals.userID; // get the datavariable for userID
+    
+    
     var callbackcount = 0; //Used to test query worked
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(2);

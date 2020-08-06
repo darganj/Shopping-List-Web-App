@@ -48,7 +48,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     console.log(1);
     
     //var query = "SELECT * FROM Users WHERE Users.userID = ?";
-    connection.query("SELECT * FROM Users WHERE Users.userID=4", userID, function(err, result){
+    connection.query("SELECT * FROM Users WHERE Users.userID=?", userID, function(err, result){
         if(err){
             console.log("Query Error");
             next(err);

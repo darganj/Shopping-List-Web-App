@@ -10,7 +10,7 @@ var router = express.Router(); //Creates the router middleware variable
 function getUserName(res, userID, connection, context, complete) { //if any info required for query, need it here as well
 
     var query = "SELECT * FROM Users WHERE Users.userID = ?";
-
+    console.log("Implementing the query...");
     connection.query(query, userID, function (err, results, fields) {
         if (err) {
             console.log("Danger, Danger Will Robinson");
@@ -18,7 +18,9 @@ function getUserName(res, userID, connection, context, complete) { //if any info
             return;
 
         }
+        console.log("Querying completed...");
         context.userlists = results; //Can't just put results in context, will cause problems
+        console.log("Stored results in userlists...");
         complete(); //Routes back to your router function so data can be displayed
     });
 
@@ -53,7 +55,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
         callbackCount++;
         if (callbackCount >= 1) { //If multiple queries, need to increase
             console.log(context.userlists);
-            console.log(4);
+            console.log("in Complete() function now...");
             res.render('analytics', {context: context.userlists}); //If multiple queries and data, may need to adjust
         }
         console.log(5);

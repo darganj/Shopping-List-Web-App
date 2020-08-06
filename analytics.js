@@ -42,7 +42,8 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     function complete() {
         callbackCount++;
         if (callbackCount >= 1) { //If multiple queries, need to increase
-            res.render('view', { context: context.context}); //If multiple queries and data, may need to adjust
+            console.log(context.userlists);
+            res.render('analytics', { context: context.userlists}); //If multiple queries and data, may need to adjust
         }
     }
 

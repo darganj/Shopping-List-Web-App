@@ -36,7 +36,7 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 
 
 // Display page
-router.get('/analytics', function (req, res, next) { //Include any data required for query as well
+router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
     // context.userID = res.query.userID; // get the datavariable for userID
     var userID = req.body.userID;
@@ -55,7 +55,7 @@ router.get('/analytics', function (req, res, next) { //Include any data required
         }
         console.log(2);
         context.userlist = result;
-        res.render('/populated-data', context);
+        res.render('/analytics', context);
         console.log(3);
     });
     // getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well

@@ -54,7 +54,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
             return;
         }
         console.log(2);
-        context.userlist = result;
+        context.admin = result;
         res.render('analytics', context);
         console.log(3);
     });

@@ -39,8 +39,11 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
     // context.userID = res.query.userID; // get the datavariable for userID
-    var userID = req.body.userID;
-    var userName = req.body.userName;
+    // var userID = req.body.userID;
+    // var userName = req.body.userName;
+    
+    context.userName = res.locals.user.userName;
+    context.userID = res.locals.user.userID;
     
     
     var callbackcount = 0; //Used to test query worked

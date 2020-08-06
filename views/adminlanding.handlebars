@@ -27,14 +27,20 @@
 
 </form>
 
+<!-- GET METHOD
 <form action="/analytics" method="get">
     <fieldset>
         TEMP REMOVED BUTTON (would crash - 503 ERROR)
         <input type="hidden" id="userID" name="userID" value="{{context.userID}}" />
         <input type="submit" value="Analytics" /> 
-
     </fieldset>
+</form>
+-->
 
+
+<form action="/" method="post">
+    <input type="hidden" name="cardID" id="cardID" value="{{context.userID}}">
+    <button type="submit" formaction="/analytics">Card</button>
 </form>
 
 <form action="/adddefaultlist" method="get">

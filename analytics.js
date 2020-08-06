@@ -56,7 +56,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
         }
         console.log(2);
         context.admin = result;
-        res.render('analytics', context);
+        res.render('analytics', {context:result});
         console.log(3);
     });
     // getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well

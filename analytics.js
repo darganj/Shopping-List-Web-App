@@ -39,8 +39,8 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
     // context.userID = res.query.userID; // get the datavariable for userID
-    var userID = req.body.userID;
-    
+    // var userID = req.body.userID;
+    context.userID = res.locals.user.userID;
     
     var callbackcount = 0; //Used to test query worked
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route

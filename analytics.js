@@ -7,11 +7,11 @@ var router = express.Router(); //Creates the router middleware variable
 
 
 // Get UserName
-function query(res, connection, context, complete) { //if any info required for query, need it here as well
+function getUserName(res, connection, context, complete) { //if any info required for query, need it here as well
 
-    var query = "SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?";
+    var userName = "SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?";
 
-    connection.query(query, function (err, results, fields) {
+    connection.userName(userName, function (err, results, fields) {
         if (err) {
             console.log("Danger, Danger Will Robinson");
             next(err);
@@ -24,7 +24,6 @@ function query(res, connection, context, complete) { //if any info required for 
 
 }
 
-/*
 
 /*Sample Get Route, Some imporant notes:
  * Must be router.path, not app.path
@@ -38,7 +37,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     
     
 
-    query(res, connection, context, complete); //Pulls data into context, Include any data required for query as well
+    getUserName(res, connection, context, complete); //Pulls data into context, Include any data required for query as well
 
     function complete() {
         callbackCount++;
@@ -51,6 +50,5 @@ router.get('/', function (req, res, next) { //Include any data required for quer
 
 });
 
-*/
 
 module.exports = router;

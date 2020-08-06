@@ -35,7 +35,7 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 console.log(1);
 
 // Display page
-router.get('/', function (req, res, next) { //Include any data required for query as well
+router.get('/analytics', function (req, res, next) { //Include any data required for query as well
     var context = {};
     var userID = req.getUserNameQuery.userID; // define userID
     

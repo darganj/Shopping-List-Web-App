@@ -275,7 +275,7 @@ app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an indi
 // app.use('/login', require('./login.js')); //Routes for logging in
 
 
-app.use('/analytics', require('/analytics.js'));
+app.use('/analytics', require('./analytics.js'));
 
 /* All routes below this line are not used yet, inside the app
 app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list

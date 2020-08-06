@@ -7,7 +7,7 @@ var router = express.Router(); //Creates the router middleware variable
 
 
 // Get UserName
-function getUserName(res, connection, context, complete) { //if any info required for query, need it here as well
+function getUserName(res, userID, connection, context, complete) { //if any info required for query, need it here as well
 
     var userName = "SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?";
 

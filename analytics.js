@@ -11,7 +11,7 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 
     var query = "SELECT * FROM Users WHERE Users.userID = ?";
     console.log("Implementing the query...");
-    connection.query(query, userID, function (err, results, fields) {
+    connection.query(userID, function (err, results, fields) {
         if (err) {
             console.log("Danger, Danger Will Robinson");
             next(err);

@@ -46,8 +46,8 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(1);
     
-    var query = "SELECT * FROM Users WHERE Users.userID = ?";
-    connection.query(query, userID, function(err, result){
+    //var query = "SELECT * FROM Users WHERE Users.userID = ?";
+    connection.query("SELECT * FROM Users WHERE Users.userID = ?", userID, function(err, result){
         if(err){
             console.log("Query Error");
             next(err);

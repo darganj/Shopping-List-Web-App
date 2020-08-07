@@ -611,7 +611,8 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     // marking an item
     if (req.body.Unchecked) { // include "markItem" value in submit element to indicate option 1
         console.log("check item reached");
-        var { listID, itemID } = req.body; // required front-end args: listID, itemID, quantity
+        var listID = req.body.listID; // required front-end args: listID, itemID, quantity
+        var itemID = req.body.itemID;
         console.log(listID, itemID);
         connection.query('UPDATE List_of_Items SET markStatus=1 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
             if (err) {

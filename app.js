@@ -609,6 +609,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
     // marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
+        console.log("markItem reached");
         var { nameList, itemID } = req.body; // required front-end args: nameList, itemID, quantity
         connection.query('UPDATE List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID SET markStatus=1 WHERE nameList=? AND itemID= ?', [nameList, itemID], function (err, result) {
             if (err) {
@@ -619,7 +620,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
         // fetch & re-render updated list of items
         var context = {};
-        var sql = 'SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
+        var sql = 'SELECT Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
         connection.query(sql,req.body.nameList, function (err, results, fields) {
             if (err) {
                 console.log("error");
@@ -646,7 +647,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
         // fetch & re-render updated list of items
         var context = {};
-        var sql = 'SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
+        var sql = 'SELECT Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
         connection.query(sql,req.body.nameList, function (err, results, fields) {
             if (err) {
                 console.log("error");
@@ -675,7 +676,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
         //Render the shopping list view with correct items
 
-        var query = 'SELECT List_of_Items.itemID, List_of_Items.quantity, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
+        var query = 'SELECT Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
         var context = {};
        
         connection.query(query, listID, function (err, results, fields) {

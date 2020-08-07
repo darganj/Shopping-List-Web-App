@@ -1,3 +1,26 @@
 <h1> This is the analytics page </h1>
 
 <p>Username: {{admin.userName}}</p>
+
+<div class="container">
+	<form action="/" class="form-group" method="post">
+		<table>
+			<thread class="table">
+				<tr>
+					<th scope="col">Item Name</th>
+					<th scope="col">Quantity</th>
+				</tr>
+			</thread>
+			<tbody>
+				{{#each results}}
+				<tr>
+					<td>{{itemName}}</td>
+					<td>{{count}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</form>
+
+  	
+</div>

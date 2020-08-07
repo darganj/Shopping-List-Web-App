@@ -23,12 +23,12 @@ if(process.env.JAWSDB_URL){
     var connection = mysql.createConnection(process.env.JAWSDB_URL);
 }else{
   console.log("Error: You need to configure your local database parameters");
-  // var connection = mysql.createConnection({
-  //   host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user            : 'oumwqrox1u690kyf',
-  //   password        : 'dp0jxu78jfqeqry1',
-  //   database        : 'rtfqihn2cy96dcmm'
-  // });
+   var connection = mysql.createConnection({
+     host            : 'l7cup2om0gngra77.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+     user            : 'tmv8d7qj589e99c6',
+     password        : 'hvvpuf3ukxg6k2vs',
+     database        : 'd4ioe90vkekzoxed'
+   });
 }
 // var options = {
 // 	// Host name for database connection:

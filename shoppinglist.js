@@ -29,8 +29,8 @@ function getItems(res, listName, connection, context, complete) {
 
 
 
-router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
+router.get('/', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
     var context = {};
     var connection = req.app.get('connection');
     var listName = req.query.nameList

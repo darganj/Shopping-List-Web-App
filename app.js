@@ -538,7 +538,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
 // route to delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-    res.locals.login = req.isAuthenticated();
+    //res.locals.login = req.isAuthenticated();
   // delete list with listID provided in req.body
 
     console.log('using the app route');
@@ -572,7 +572,7 @@ app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function
 
 // route to update an existing shopping list's name and/or date for a user
 app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+  //res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -601,7 +601,7 @@ app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
 
 // route for adding a new item to a shopping list
 app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
+   // res.locals.login = req.isAuthenticated();
     var { listID, itemID, quantity } = req.body;
     connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function (err, result) {
         if (err) {

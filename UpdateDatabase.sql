@@ -14,14 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
+/*SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN; Commented out for testing*/
+/*SET @@SESSION.SQL_LOG_BIN= 0; Commented out for testing*/
 
 --
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+--SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ ''; Commented out for testing
 
 --
 -- Table structure for table `Categories`
@@ -86,7 +86,7 @@ CREATE TABLE `List_of_Items` (
   `listID` int(11) NOT NULL,
   `itemID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  'itemNote' varchar(255) DEFAULT NULL,
+  'itemNote' varchar(255),
   PRIMARY KEY (`listOfItems`),
   KEY `listID` (`listID`),
   KEY `itemID` (`itemID`),
@@ -186,7 +186,7 @@ LOCK TABLES `sessions` WRITE;
 INSERT INTO `sessions` VALUES ('0NSaBbal1pZz-DPff0FttTFBp-XhERJh',1596176873,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('0b2zGf1leoJqKxiW1C5bs7qxPuFbx9KW',1596095686,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":4}}'),('5q4rzGBQLivUyThDUAz-tpkKEswYlK-q',1596173449,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"returnTo\":\"/edit-list\"}'),('C-wnuxeiKXjA865Bya6hTTlQZmLdS8j3',1596094549,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":1}}'),('EFB_m9qld9oR6YbJ0gFD6PnyMuJRnGeq',1596177345,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('GPyu-AHUqZsAFA34AcSl0qYjDv2kG79i',1596175877,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{}}'),('NyNwfY4xCS96Fk9AR-MG0PfRzFKyMPcQ',1596181693,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{}}'),('QfPpZ8Pmk0vWlOcJHCHbXbhWOC1PCjHV',1596176714,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('S-i4ifQrIB24wBIEdmBO_2gbBMBIh9hK',1596175311,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"returnTo\":\"/shoppinglist\"}'),('SLvhIbnAk7zg0jt65YE5LpEL_GQ-A9o-',1596161720,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":4}}'),('UtngaVcimk3NsqQ__D-E2DLPFmppduQ8',1596158768,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"returnTo\":\"/admin-portal\",\"passport\":{\"user\":4}}'),('XbcGERXPmI7lu4u6CPrbxbOVkfnbLA2V',1596176664,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('ZOYzZIWDMA1W3ezVnAlkqSfLL57IdUao',1596094576,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('_2RCPpg-nLhKdr8nBhizVEw0sUCRZWdQ',1596175997,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('f2jgVEr3z9x9Vj6WeMpmYkuI7dDLAWOz',1596182677,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"returnTo\":\"/shoppinglist\"}'),('gEzodfvE-8lK2JRQw-p4rOOWWhjN5roY',1596095709,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('gO2hoJc30Yvot5zNi_87lI86w1NPjpKq',1596095749,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('gkmRK6Yu2FUCnZtE5ElDERdMhkYQcY2o',1596176664,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('iVsbuFdyYuh3o1DydpA2WaPLuKpQHvmb',1596094576,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('k4Im_YcMt_4v-9qFBYZUjTyBmtl-IMCO',1596094576,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('kFjepf7nBPo3DtDtTk3KzluitXJh4zOW',1596176664,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('lBB7nt9ghMBevExsWksnjkjFS4-AkPEh',1596094361,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":4}}'),('pD1w47yauUSEWa59VLwcXlejD2zM63ra',1596181975,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('rKSJBlYt2zZD5Yb-58_84T6UtPjNDK4U',1596176624,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('rNMRaEKsj07Y7UXT9epe2yJWLtHue9LM',1596176068,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"}}'),('yimq8su9D5tH6-ZMuB1KzPys1RBFXyDh',1596181975,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"returnTo\":\"/shoppinglist\"}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN; Commented out for testing*/
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

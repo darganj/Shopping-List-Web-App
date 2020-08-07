@@ -21,6 +21,7 @@ function getItems(res, listName, connection, context, complete) {
             return;
         }
         context.listitems = results;
+        console.log(context);
         complete();
     });
 

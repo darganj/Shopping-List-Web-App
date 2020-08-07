@@ -628,7 +628,9 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
                 next(err);
                 return;
             }
+            console.log(req.body.nameList);
             context.context = results;
+            console.log(results);
             console.log(context);
             //TODO RENDER ACTUAL DATA
             res.render('shoppinglist', context);

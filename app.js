@@ -611,7 +611,8 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     // marking an item
     if (req.body.Unchecked) { // include "markItem" value in submit element to indicate option 1
         console.log("check item reached");
-        var { ListID, itemID } = req.body; // required front-end args: nameList, itemID, quantity
+        var { listID, itemID } = req.body; // required front-end args: listID, itemID, quantity
+        console.log(listID, itemID);
         connection.query('UPDATE List_of_Items SET markStatus=1 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
             if (err) {
                 next(err);
@@ -638,7 +639,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     // unmarking an item
     else if (req.body.Checked) {
         console.log("uncheck item reached");
-        var { listID, itemID } = req.body; // required front-end args: nameList, itemID, quantity
+        var { listID, itemID } = req.body; // required front-end args: listID, itemID, quantity
         connection.query('UPDATE List_of_Items SET markStatus=0 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
             if (err) {
                 next(err);

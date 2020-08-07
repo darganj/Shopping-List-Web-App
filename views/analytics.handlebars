@@ -3,6 +3,13 @@
 <p>Username: {{admin.userName}}</p>
 
 <div class="container">
+<div class="dropdown">
+	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by Category</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    	<a class="dropdown-item" href="/edit-list?ascending=Ascending">Ascending</a>
+      <a class="dropdown-item" href="/edit-list?descending=Descending">Descending</a>
+    </div>
+</div>
 	<form action="/" class="form-group" method="post">
 		<table>
 			<thread class="table">

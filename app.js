@@ -612,7 +612,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
         console.log("markItem reached");
         var { ListID, itemID } = req.body; // required front-end args: nameList, itemID, quantity
-        connection.query('UPDATE List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID SET markStatus=1 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
+        connection.query('UPDATE List_of_Items SET markStatus=1 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
             if (err) {
                 next(err);
                 return;
@@ -639,7 +639,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     else if (req.body.unmarkItem) {
 
         var { listID, itemID } = req.body; // required front-end args: nameList, itemID, quantity
-        connection.query('UPDATE List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID SET markStatus=0 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
+        connection.query('UPDATE List_of_Items SET markStatus=0 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
             if (err) {
                 next(err);
                 return;

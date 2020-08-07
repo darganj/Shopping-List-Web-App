@@ -610,8 +610,8 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     // marking an item
     if (req.body.Unchecked) { // include "markItem" value in submit element to indicate option 1
         console.log("check item reached");
-        var {listID, itemID} = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('UPDATE List_of_Items SET markStatus=1 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
+        var {listID, listOfItems} = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=1 WHERE listID=? AND listOfItems=?', [listID, listOfItems], function (err, result) {
             if (err) {
                 next(err);
                 return;
@@ -620,7 +620,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
         // fetch & re-render updated list of items
         var context = {};
-        var sql = 'SELECT Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList =?';
+        var sql = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList =?';
         connection.query(sql,req.body.nameList, function (err, results, fields) {
             if (err) {
                 console.log("error");
@@ -639,8 +639,8 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     // unmarking an item
     else if (req.body.Checked) {
         console.log("uncheck item reached");
-        var { listID, itemID } = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('UPDATE List_of_Items SET markStatus=0 WHERE listID=? AND itemID=?', [listID, itemID], function (err, result) {
+        var { listID, listOfItems } = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=0 WHERE listID=? AND listOfItems=?', [listID, listOfItems], function (err, result) {
             if (err) {
                 next(err);
                 return;
@@ -649,7 +649,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
         // fetch & re-render updated list of items
         var context = {};
-        var sql = 'SELECT Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
+        var sql = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
         connection.query(sql,req.body.nameList, function (err, results, fields) {
             if (err) {
                 console.log("error");

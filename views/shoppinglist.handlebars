@@ -24,7 +24,7 @@
                 <td>{{ itemName }}</td>
                 <td>{{ quantity }}</td>
                 <td>{{#if markStatus }} 
-                            marked   
+
                     <form action="/shoppinglist" method="post">
                         <label>
 
@@ -42,7 +42,7 @@
                     </form>
                     {{/if}}
                     
-                    {{#unless markStatus }} unmarked
+                    {{#unless markStatus }}
                     <form action="/shoppinglist" method="post">
                         <label>
 

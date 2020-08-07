@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     
     // Descending Order - Most popular to least
     if (req.query.descending){
-        var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) " +
+        var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS `total` " +
             "FROM List_of_Items " + 
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
             "GROUP BY itemName " +
@@ -43,7 +43,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
     }
     // Ascending Order - least popular to most
     else if(req.query.ascending){
-            var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) " +
+            var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS `total` " +
             "FROM List_of_Items " + 
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
             "GROUP BY itemName " +

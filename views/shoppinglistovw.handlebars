@@ -1,10 +1,10 @@
 <h1>All my shopping lists</h1>
-
+{{#each context}}
 <p>Username: {{context.userName}}</p>
 
 <!-- To do: Grid layout for lists, DATE_FORMAT(listCreated, "%dd, %mm, %YY")-->
 
-{{#each context}}
+<!--{{#each context}}-->
 
 <div class="shopping_list_box">
 
@@ -14,7 +14,7 @@
             <button type="submit" class="btn btn-info">
                 <p>
                     Name: {{nameList}}<br>
-                    >Date:{{listCreated}}
+                    Date:{{listCreated}} 
                 </p>
             </button>
         </fieldset>

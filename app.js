@@ -379,6 +379,8 @@ app.get('/register',function(req,res,next){
 app.post('/register',async function(req,res,next){
   res.locals.login = req.isAuthenticated();
 
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
   var username = req.body.username;
   var password = req.body.password;
   var userType = req.body.userType;
@@ -390,7 +392,7 @@ app.post('/register',async function(req,res,next){
   }
 
   var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-  var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`) VALUES (?, ?, ?)";
+  var sqlIn = "INSERT INTO Users ('firstName', 'lastName', `username`, `password`,`isAdmin`) VALUES (?, ?, ?, ?, ?)";
 
   console.log("picking an existing user is bad");
   if (username && password){
@@ -507,7 +509,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
     date = formatted_date;
   };
   // add new list for user
-  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, date, nameList], function(err, result){
+  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, CONVERT(VARCHAR(10), getdate(), 110), ?)', [userID, date, nameList], function(err, result){
 
     if(err){
       next(err);

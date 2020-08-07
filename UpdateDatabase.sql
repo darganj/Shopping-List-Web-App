@@ -86,6 +86,7 @@ CREATE TABLE `List_of_Items` (
   `listID` int(11) NOT NULL,
   `itemID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  'itemNote' varchar(255) DEFAULT NULL,
   PRIMARY KEY (`listOfItems`),
   KEY `listID` (`listID`),
   KEY `itemID` (`itemID`),

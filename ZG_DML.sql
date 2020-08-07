@@ -103,7 +103,7 @@ DELETE FROM Lists WHERE Lists.listID=:input_listID;
 -- ---------------------------------------------------------------------------------------------------------
 -- Order from the least items to most popular  in the the Shopping List 8/7
 -- ---------------------------------------------------------------------------------------------------------
-SELECT Items.itemName, COUNT(List_of_Items.itemID)
+SELECT Items.itemName, COUNT(List_of_Items.itemID) AS `total`
 FROM List_of_Items
 JOIN Items ON List_of_Items.itemID=Items.itemID
 GROUP BY itemName
@@ -112,7 +112,7 @@ ORDER BY COUNT(List_of_Items.itemID) ASC
 -- ---------------------------------------------------------------------------------------------------------
 -- Order from the most popular items to least popular in the the Shopping List 8/7
 -- ---------------------------------------------------------------------------------------------------------
-SELECT Items.itemName, COUNT(List_of_Items.itemID)
+SELECT Items.itemName, COUNT(List_of_Items.itemID) AS `total`
 FROM List_of_Items
 JOIN Items ON List_of_Items.itemID=Items.itemID
 GROUP BY itemName

@@ -121,3 +121,13 @@ table .dl_hidden_cell {
   padding: 15px;
 
 }
+
+.regMsg{
+  display: block;
+  text-align: center;
+}
+
+.regLogo{
+  display: block;
+  width: 100px;
+}

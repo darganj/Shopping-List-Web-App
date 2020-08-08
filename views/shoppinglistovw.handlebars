@@ -3,32 +3,26 @@
 <p>Username: {{userdata.userName}}</p>
 
 
-<div class="grid">
+
 {{#each userlists}}
-    <div class="row"></div>
-    {{#each userlists}}
+    
 <div class="shopping_list_box">
 
     <form action="/shoppinglist" method="GET">
         <fieldset>
             <input type="hidden" id="listID" name="listID" value="{{listID}}" />
             <button type="submit" class="btn btn-info">
-                <div class="cell">
                 <p>
                     ID: {{listID}} <br />
                     Name: {{nameList}}<br>
                     Date:{{listCreated}}
                 </p>
-                </div>
             </button>
         </fieldset>
-
     </form>
 
 </div>
-</div>
-{{/each}}
-</div>
+
 
 <div class="shopping_list_box">
     <form action="/createlist" method="GET">

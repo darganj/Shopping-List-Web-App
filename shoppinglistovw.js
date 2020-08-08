@@ -78,14 +78,14 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
             next(err);
             return;
         }
-        console.log("connection query working");
-        context.userlists = transform(results);//results;
+        console.log("Sepc Shop List query working");
+        context.userlists = results;
         complete();
     });
 
 
 }
-
+/*
 function transform (arr) {
     var result = [], temp = [];
     console.log("starting transform function");
@@ -103,7 +103,7 @@ function transform (arr) {
     return result;
 }
 //data = transform(context.userlists);
-
+*/
 
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain

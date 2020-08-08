@@ -114,8 +114,8 @@ table .dl_hidden_cell {
 }
 
 #regContainer{
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
   justify-content: center;
   align-items: center;
   padding: 15px;

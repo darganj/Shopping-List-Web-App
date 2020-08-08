@@ -136,6 +136,7 @@ table .dl_hidden_cell {
   margin-top: 10px;
   margin-bottom: 1px;
 }
-/* #regContainer form{
-  width: 100;
-} */
+
+#regRequired{
+  margin-bottom: 25px;
+}

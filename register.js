@@ -61,7 +61,7 @@ router.post('/',async function(req,res,next){
     var day = myDate.getDate();
     var month = myDate.getMonth();
     var year = myDate.getFullYear();
-    var dateJoined = year + month + day;
+    var dateJoined = year + '-' + month + '-' + day;
     console.log(dateJoined);
 
     // default is user, not admin
@@ -71,7 +71,7 @@ router.post('/',async function(req,res,next){
     }
 
     var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-    var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, ?)";
+    var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, NOW())";
 
     console.log("picking an existing user is bad");
     if (username && password){

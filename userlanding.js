@@ -25,8 +25,8 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
     context = {};
-    res.locals.user.userName = context.userName;
-    res.locals.user.userID = context.userID;
+    context.userName = res.locals.user.userName;
+    context.userID = res.locals.user.userID;
   
     res.render('userlanding', { context: context });
   

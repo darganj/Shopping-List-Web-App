@@ -1,14 +1,22 @@
 // JavaScript source code
 
 // var express = require('express');
+// var passport = require('passport');
+// var LocalStrategy = require('passport-local');
+// var helmet = require('helmet');
+// var session = require('express-session');
+// var express_enforces_ssl = require('express-enforces-ssl');
+// var ensureLoggedIn = require('connect-ensure-login');
 // var router = express.Router();
 
 
 // router.get('/', function (req, res, next) {
+    // res.locals.login = req.isAuthenticated();
 //     res.render('register');
 // });
 
 // router.post('/', async function (req, res, next) {
+    // res.locals.login = req.isAuthenticated();
 //     //create salt for new user
 //     const salt = crypto.randomBytes(32);
 //     console.log(

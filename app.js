@@ -268,8 +268,8 @@ app.use(bodyParser.json());
 
 //New Functions for each section
 app.set('connection', connection);
-// app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
-// app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
+app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page
+app.use('/userlanding', require('./userlanding.js')); //Routes to user landing page
 app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View groups of shopping lists
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
 app.use('/login', require('./login.js')); //Routes for logging in
@@ -320,43 +320,11 @@ function getUserData(connection, context, userName, complete) {
   });
 }
 
-app.get('/adminlanding', ensureLoggedIn.ensureLoggedIn('/login'),
-  function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
-    res.locals.user = req.user;
-    context = {};
-    context.userName = res.locals.user.userName;
-    context.userID = res.locals.user.userID;
-
-    if(res.locals.user.isAdmin != 1){
-      res.redirect('userlanding');
-    }else{
-      res.render('adminlanding', { context: context });
-    }
-
-    
-});
-
-app.get('/userlanding', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
-  res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  res.locals.user.userName = context.userName;
-  res.locals.user.userID = context.userID;
-
-  res.render('userlanding', { context: context });
-
-});
-
-
-
 app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res) {
     res.locals.login = req.isAuthenticated();
 
     res.render('deletelist');
 });
-
-
 
   // route for adding an empty shopping list for a user (can add more features to this route later)
 app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){

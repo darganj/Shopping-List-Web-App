@@ -38,13 +38,13 @@ var router = express.Router();
 
 // module.exports = router;
 
-router.get('/register',function(req,res,next){
+router.get('/',function(req,res,next){
     res.locals.login = req.isAuthenticated();
     res.render('register');
   });
   
   
-router.post('/register',async function(req,res,next){
+router.post('/',async function(req,res,next){
     res.locals.login = req.isAuthenticated();
 
     var username = req.body.username;

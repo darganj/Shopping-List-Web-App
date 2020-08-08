@@ -123,12 +123,12 @@ table .dl_hidden_cell {
 }
 
 .regMsg{
-  display: block;
+  /* display: block; */
   text-align: center;
 }
 
 .regLogo{
-  display: block;
+  /* display: block; */
   width: 100px;
 }
 

@@ -51,7 +51,16 @@ router.post('/',async function(req,res,next){
 
     var username = req.body.username;
     var password = req.body.password;
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
     var userType = req.body.userType;
+
+    var myDate = new Date();
+    var day = myDate.getDate();
+    var month = myDate.getMonth();
+    var year = myDate.getFullYear();
+    var dateJoined = year + month + day;
+    console.log(dateJoined);
 
     // default is user, not admin
     var isAdmin = 0;
@@ -60,7 +69,7 @@ router.post('/',async function(req,res,next){
     }
 
     var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-    var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`) VALUES (?, ?, ?)";
+    var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, ?)";
 
     console.log("picking an existing user is bad");
     if (username && password){
@@ -81,14 +90,14 @@ router.post('/',async function(req,res,next){
         const salt = crypto.randomBytes(32);
         console.log(
         `${salt.length} bytes of random data: ${salt.toString('hex')}`);
-
+        
         try {
             const hash = await argon2.hash(req.body.password, salt);
             console.log("the hash generated from the random salt and user password is:");
             console.log(hash);
             
             try{
-            connection.query(sqlIn, [username, hash, isAdmin], function (err, results, fields) {
+            connection.query(sqlIn, [username, hash, isAdmin, firstName, lastName, dateJoined], function (err, results, fields) {
                 if (err) {
                 console.log(err);
                 res.redirect('register');

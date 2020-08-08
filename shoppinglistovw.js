@@ -1,6 +1,8 @@
 // JavaScript source code
 
 var express = require('express');
+var myConnection = require('./dbcon.js');
+var connection = myConnection.connection;
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var helmet = require('helmet');
@@ -45,9 +47,13 @@ function getShoppingLists(res, userID, connection, context, complete) {
     * the user ID in the URL*/
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+
+
+
     var context = {};
     var callbackCount = 0;
-    var userID = req.query.userID;
+    var userID = res.locals.user.userID; // Pulled from session data
     console.log('userID is');
     console.log(userID);
     if (userID) {
@@ -83,13 +89,15 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
  * Optional data in req
  * Date - Date of new Database, if left empty will use current date*/
 
-/*
+router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
 
-router.post('/', function (req, res, next) {
 
+    var nameList = req.body.nameList; // Required ARgument
+    var userID = res.locals.user.userID; // Pulled from session data
+    var date = req.body.date; // Not required
 
-    var connection = req.app.get('connection');
-    var { date, userID, nameList } = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
 
     if (date == "") { // if date not provided by user, enter current date into database
         var current_date = new Date();
@@ -98,18 +106,19 @@ router.post('/', function (req, res, next) {
     };
 
     //Assert userID, nameList input
-
-    if (userID = "") {
+   
+    if (userID == "") {
         console.log("Error no userID provided");
         //TODO: Send notification to user of error
         return;
     }
-    if (nameList = "") {
+    if (nameList == "") {
         console.log("Error, no nameList provdied");
         //TODO: Send notification to user of error
         return;
     }
-    console.log("POST: Server received" + date + ", " + nameList + ", " + userID);
+   
+
     // add new list for user
     connection.query('INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)', [userID, date, nameList], function (err, result) {
 
@@ -136,7 +145,7 @@ router.post('/', function (req, res, next) {
 });
 
 
-*/
+
 
 
 /*Router Function for Deleting an existing Shopping List from a Users Shopping Lists

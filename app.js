@@ -328,44 +328,6 @@ app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, r
     res.render('deletelist');
 });
 
-  // route for adding an empty shopping list for a user (can add more features to this route later)
-app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  res.locals.login = req.isAuthenticated();
-    // console.log("testing if it goes to this route");
-    // console.log("");
-  var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
-  if (date == "") { // if date not provided by user, enter current date into database
-    var current_date = new Date();
-    var formatted_date = JSON.stringify(current_date).slice(1,11);
-    date = formatted_date;
-  };
-  // add new list for user
-  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, date, nameList], function(err, result){
-
-    if(err){
-      next(err);
-      return;
-    };
-  });
-
-  // fetch & render all lists for user including newly added list
-  var context = {};
-  var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-  connection.query(sql,userID, function (err, results, fields) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        }
-        context.context = results;
-        //console.log(context);
-           //TODO RENDER ACTUAL DATA
-        res.render('shoppinglistovw', context);
-  });
-
-
-
-});
 
 // route to delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){

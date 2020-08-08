@@ -70,7 +70,7 @@ Input Params: -  res containing server response to call
 Returns: context is filled with all info on user Shopping Lists*/
 function getSpecificShoppingList(res, listID, connection, context, complete) {
 
-    var query = 'SELECT listID, userID, DATE_FORMAT(listCreated, "%m %d %Y"), nameList FROM Lists WHERE Lists.listID = ?';
+    var query = 'SELECT listID, userID, DATE_FORMAT(listCreated, "%m-%d-%Y"), nameList FROM Lists WHERE Lists.listID = ?';
 
     connection.query(query, listID, function (err, results, fields) {
         if (err) {

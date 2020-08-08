@@ -322,45 +322,6 @@ function getUserData(connection, context, userName, complete) {
   });
 }
 
-app.get('/delete', /*ensureLoggedIn.ensureLoggedIn('/login'),*/ function (req, res) {
-    res.locals.login = req.isAuthenticated();
-
-    res.render('deletelist');
-});
-
-
-// route to delete shopping list based on listID, userID in req.body
-app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-    res.locals.login = req.isAuthenticated();
-  // delete list with listID provided in req.body
-
-    console.log('using the app route');
-    console.log('');
-
-    var listID = req.body.listID;
-    console.log(listID);
-    console.log("delete shopping list route");
-    connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function(err, result) {
-        if(err){
-            next(err);
-            return;
-        }
-    });
-    // fetch & render all remaining lists for user after deletion
-    var context = {};
-    var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-    connection.query(sql,req.body.userID, function (err, results, fields) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        }
-        context.context = results;
-        //console.log(context);
-           //TODO RENDER ACTUAL DATA
-        res.render('shoppinglistovw', context);
-    });
-});
 
 
 // route to update an existing shopping list's name and/or date for a user
@@ -425,7 +386,10 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
             console.log(results);
             console.log(context);
             //TODO RENDER ACTUAL DATA
-            res.render('shoppinglist', context);
+           // res.render('shoppinglist', context);
+            var querystr = listID;
+            res.redirect('/shoppinglist/?listID=' + querystr);
+
         });
     }
 
@@ -452,7 +416,9 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
             context.context = results;
             //console.log(context);
             //TODO RENDER ACTUAL DATA
-            res.render('shoppinglist', context);
+            // res.render('shoppinglist', context);
+            var querystr = listID;
+            res.redirect('/shoppinglist/?listID=' + querystr);
         });
 
     }
@@ -481,7 +447,9 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
                 return;
             }
             context.listitems = results;
-            res.render('shoppinglist', { context: context.listitems });
+            // res.render('shoppinglist', context);
+            var querystr = listID;
+            res.redirect('/shoppinglist/?listID=' + querystr);
         });
 
     };

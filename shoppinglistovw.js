@@ -12,6 +12,26 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
+/*getUserAData Function
+ * This function returns data for a specified userName
+ * Input Params: - connection - existing mySQL connection to database
+ *               - userName - userName
+ * Returns:      - datablock of user data*/
+function getUserData(connection, context, userID, complete) {
+
+    var query = "SELECT * FROM Users Where userID = ?";
+
+    connection.query(query, userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.userdata = results[0];
+        complete();
+    });
+}
+
 
 
 /*getShopping Lists
@@ -40,6 +60,33 @@ function getShoppingLists(res, userID, connection, context, complete) {
 
 }
 
+/*getSpecificShoppingList
+    * This function returns a shopping list row based on a listID
+Input Params: -  res containing server response to call
+                - listID - listID of shoppingList
+                - connection - existing mySQL connection to database
+                - context - to be populated with shopping list info
+                - complete - callback function
+Returns: context is filled with all info on user Shopping Lists*/
+function getSpecificShoppingList(res, listID, connection, context, complete) {
+
+    var query = 'SELECT * FROM Lists WHERE Lists.listID = ?';
+
+    connection.query(query, listID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+
+        context.userlists = results;
+        complete();
+    });
+
+
+}
+
+
 
 
 /*Router Function for Shopping List Overview
@@ -54,17 +101,18 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var context = {};
     var callbackCount = 0;
     var userID = res.locals.user.userID; // Pulled from session data
-    console.log('userID is');
-    console.log(userID);
+
     if (userID) {
-        var connection = req.app.get('connection');
+        
 
         getShoppingLists(res, userID, connection, context, complete);
+        getUserData(connection, context, userID, complete);
         function complete() {
             callbackCount++;
-            if (callbackCount >= 1) {
-                console.log(context.userlists);
-                res.render('shoppinglistovw', { context: context.userlists });
+            if (callbackCount >= 2) {
+                console.log(context);
+                console.log(context.userData);
+                res.render('shoppinglistovw', context);
             }
         }
     } else {
@@ -152,36 +200,71 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
  * Input params - req, required data in req:
  * userID - User ID, needed to render users shopping lists
  * listID - ID of shopping list to be deleted*/
-router.delete('/', function (req, res, next) {
+router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
 
 
-    console.log('using the js route');
-    console.log('');
+    var listID = req.body.listID;
+    var userID = res.locals.user.userID; // Pulled from session data
 
-    var connection = req.app.get('connection');
-    var { listID, userID } = req.body;
-    console.log(listID);
-    console.log("delete shopping list route");
-
-    //TODO - Assure List Requested to be deleted exists
-
-    connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
-        if (err) {
-            next(err);
-            return;
-        }
-    });
-    // fetch & render all remaining lists for user after deletion
+    /*Ensure the list is owned by  the user*/
     var context = {};
     var callbackCount = 0;
-    getShoppingLists(res, userID, connection, context, complete);
+    if (listID) { //Verify that a listID was input in the Form
+        
 
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) {
-            res.render('shoppinglistovw', { context: context.userlists });
+        getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+
+                if (context.userlists[0]) {  // Check if a value was returned from SELECT query
+
+                    var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
+                                       
+                    if (userID == foundUserID) { 
+
+                        //Delete list, cascades and will delete list references in list_of_items table
+
+                        connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
+                            if (err) {
+                                next(err);
+                                return;
+                            }
+                        });
+                        
+                        res.redirect('/shoppinglistovw'); //Reroute back to users overview
+                        return;
+
+                    } else {
+                       
+                        console.log("user doesn't own list");
+                        res.redirect('/shoppinglistovw'); //Reroute back to users overview
+                        return;
+                    }
+
+
+
+                } else {
+                    
+                    console.log('shopping list id not found');
+                    res.redirect('/shoppinglistovw'); //Reroute back to users overview
+                    return;
+                }
+
+            }
         }
+    } else {
+        console.log("No listID provided");
+        res.redirect('/shoppinglistovw'); //Reroute back to users overview
     }
+
+
+
+
+
+    
 });
 
 

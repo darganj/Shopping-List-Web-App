@@ -86,11 +86,12 @@ CREATE TABLE `List_of_Items` (
   `listID` int(11) NOT NULL,
   `itemID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `markStatus` int(11),
   PRIMARY KEY (`listOfItems`),
   KEY `listID` (`listID`),
   KEY `itemID` (`itemID`),
-  CONSTRAINT `List_of_Items_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`itemID`),
-  CONSTRAINT `List_of_Items_ibfk_2` FOREIGN KEY (`listID`) REFERENCES `Lists` (`listID`)
+  CONSTRAINT `List_of_Items_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `Items` (`itemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `List_of_Items_ibfk_2` FOREIGN KEY (`listID`) REFERENCES `Lists` (`listID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,7 +119,7 @@ CREATE TABLE `Lists` (
   `nameList` varchar(50) NOT NULL,
   PRIMARY KEY (`listID`),
   KEY `userID` (`userID`),
-  CONSTRAINT `Lists_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`)
+  CONSTRAINT `Lists_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -13,10 +13,54 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
-function getItems(res, listName, connection, context, complete) {
 
-    var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.nameList = ?';
-    connection.query(query, listName, function (err, results, fields) {
+/*getUserAData Function
+ * This function returns data for a specified userID
+ * Input Params: - connection - existing mySQL connection to database
+ *               - userID - userName
+ * Returns:      - datablock of user data*/
+function getUserData(connection, context, userID, complete) {
+
+    var query = "SELECT * FROM Users Where userID = ?";
+
+    connection.query(query, userID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.userdata = results[0];
+        complete();
+    });
+}
+
+/*getShoppingListData Function
+ * This function returns shopping list data for a specified shopping list
+ * Input Params - connection - existing mySql connection to database
+ *              - listID - ID of list to return
+ *              - context - data is filled in here
+ *               - complete - callback function
+ * Returns      - block of list data in context.listdata*/
+function getShoppingListData(connection, listID, context, complete) {
+
+    var query = "SELECT * FROM Lists Where listID = ?";
+    connection.query(query, listID, function (err, results, fields) {
+        if (err) {
+            console.log("query error");
+            next(err);
+            return;
+        }
+        context.listdata = results[0];
+        complete();
+    });
+
+}
+
+
+function getItems(res, listID, connection, context, complete) {
+
+    var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
+    connection.query(query, listID, function (err, results, fields) {
         if (err) {
             console.log("error");
             next(err);
@@ -34,17 +78,24 @@ function getItems(res, listName, connection, context, complete) {
 
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+
     var context = {};
-    var listName = req.query.nameList
+
+    var userID = res.locals.user.userID; // Pulled from session data
+    var listID = req.query.listID
+
     var callbackCount = 0;
     
 
-    getItems(res, listName, connection, context, complete);
+    getItems(res, listID, connection, context, complete);
+    getUserData(connection, context, userID, complete);
+    getShoppingListData(connection, listID, context, complete);
     function complete() {
-        console.log('made it to callback');
+        
         callbackCount++;
-        if (callbackCount >= 1) {
-            res.render('shoppinglist', { context: context.listitems });
+        if (callbackCount >= 3) {
+            res.render('shoppinglist', context);
         }
     }
     

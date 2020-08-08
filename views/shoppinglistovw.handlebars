@@ -1,18 +1,19 @@
-<h1>All my shopping lists</h1>
+<h1>All of {{userdata.userName}}'s shopping lists</h1>
 
-<p>Username: {{context.userName}}</p>
+<p>Username: {{userdata.userName}}</p>
 
 
 
-{{#each context}}
+{{#each userlists}}
 
 <div class="shopping_list_box">
 
     <form action="/shoppinglist" method="GET">
         <fieldset>
-            <input type="hidden" id="nameList" name="nameList" value="{{nameList}}" />
+            <input type="hidden" id="listID" name="listID" value="{{listID}}" />
             <button type="submit" class="btn btn-info">
                 <p>
+                    ID: {{listID}} <br />
                     Name: {{nameList}}<br>
                     >Date:{{listCreated}}
                 </p>
@@ -48,6 +49,18 @@
     </label>
     <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
 </form>
+
+
+<h2>Delete List </h2>
+<form action="/shoppinglistovw/delete" method="post">
+
+    <label>
+        List Name (Required):
+        <input type="number" name="listID" required>
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
+</form>
+
 
 
 

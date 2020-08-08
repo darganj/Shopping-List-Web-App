@@ -79,14 +79,28 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
             return;
         }
 
-        context.userlists = results;
+        context.userlists = transform(results);//results;
         complete();
     });
 
 
 }
 
-
+function transform (arr) {
+    var result = [], temp = [];
+    arr.forEach(function(elem, i) {
+        if (i > 0 && i % 3 === 0) {
+            result.push(temp);
+            temp = [];
+        }
+        temp.push(elem);
+    });
+    if (temp.length > 0) {
+        result.push(temp);
+    }
+    return result;
+}
+//data = transform(context.userlists);
 
 
 /*Router Function for Shopping List Overview

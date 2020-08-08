@@ -23,7 +23,18 @@ div.shopping_list_box{
     height:150px;
 
 }
-
+.grid {
+  border: 1px solid gray;
+}
+.row {
+  overflow: auto;
+}
+.cell {
+  width: 20%;
+  float: left;
+  border: 1px solid gray;
+  padding: 1em;
+}
 
 #aboutContainer{
   /* gradient generated with uigradients.com */

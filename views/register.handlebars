@@ -1,25 +1,26 @@
 <h1>I'm the registration page.</h1>
+<div id="regContainer" class="container">
+    <form action="/register" method="POST"> 
+        <fieldset>
 
- <form action="/register" method="POST"> 
-     <fieldset>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" placeholder="username" required><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" placeholder="password" required><br>
+            <label for="firstName">First Name:</label><br>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name"><br>
+            <label for="lastName">Last Name:</label><br>
+            <input type="text" id="lastName" name="lastName" placeholder="lastName"><br>
+            <label for="dateJoined">Date Joined:</label><br>
+            <input type="text" id="dateJoined" name="dateJoined" placeholder="dateJoined"><br>
+            <input type="radio" id="admin" name="userType" value="Admin" />
+            <label for="admin">Admin</label>
+            <input type="radio" id="user" name="userType" value="User" />
+            <label for="user">User</label><br /><br />
+            <input type="submit" value="Submit">
 
-         <label for="username">Username:</label><br>
-         <input type="text" id="username" name="username" placeholder="username" required><br>
-         <label for="password">Password:</label><br>
-         <input type="password" id="password" name="password" placeholder="password" required><br>
-         <label for="firstName">First Name:</label><br>
-         <input type="text" id="firstName" name="firstName" placeholder="First Name"><br>
-         <label for="lastName">Last Name:</label><br>
-         <input type="text" id="lastName" name="lastName" placeholder="lastName"><br>
-         <label for="dateJoined">Date Joined:</label><br>
-         <input type="text" id="dateJoined" name="dateJoined" placeholder="dateJoined"><br>
-         <input type="radio" id="admin" name="userType" value="Admin" />
-         <label for="admin">Admin</label>
-         <input type="radio" id="user" name="userType" value="User" />
-         <label for="user">User</label><br /><br />
-         <input type="submit" value="Submit">
+        </fieldset>
+    
 
-     </fieldset>
-  
-
-</form>
+    </form>
+</div>

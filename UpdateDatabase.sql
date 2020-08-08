@@ -101,7 +101,7 @@ CREATE TABLE `List_of_Items` (
 
 LOCK TABLES `List_of_Items` WRITE;
 /*!40000 ALTER TABLE `List_of_Items` DISABLE KEYS */;
-INSERT INTO `List_of_Items` VALUES (1,1,4,2),(2,1,5,1),(3,2,3,3),(4,2,2,4),(5,2,1,2),(6,3,7,1);
+INSERT INTO `List_of_Items` VALUES (1,1,4,2,0),(2,1,5,1,0),(3,2,3,3,0),(4,2,2,4,0),(5,2,1,2,0),(6,3,7,1,0);
 /*!40000 ALTER TABLE `List_of_Items` ENABLE KEYS */;
 UNLOCK TABLES;
 

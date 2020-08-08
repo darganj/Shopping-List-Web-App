@@ -1,7 +1,7 @@
 // JavaScript source code
 
 var express = require('express');
-var myConnection = require('dbcon.js');
+var myConnection = require('/dbcon.js');
 var connection = myConnection.connection;
 var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it

@@ -1,5 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
+var myConnection = require('dbcon.js');
+var connection = myConnection.connection;
 var argon2 = require('argon2');
 var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
@@ -19,17 +21,17 @@ app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
 app.enable('trust proxy');
 app.use(express_enforces_ssl());
 
-if(process.env.JAWSDB_URL){
-    var connection = mysql.createConnection(process.env.JAWSDB_URL);
-}else{
-  console.log("Error: You need to configure your local database parameters");
-  // var connection = mysql.createConnection({
-  //   host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user            : 'oumwqrox1u690kyf',
-  //   password        : 'dp0jxu78jfqeqry1',
-  //   database        : 'rtfqihn2cy96dcmm'
-  // });
-}
+// if(process.env.JAWSDB_URL){
+//     var connection = mysql.createConnection(process.env.JAWSDB_URL);
+// }else{
+//   console.log("Error: You need to configure your local database parameters");
+//   // var connection = mysql.createConnection({
+//   //   host            : 'mwgmw3rs78pvwk4e.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+//   //   user            : 'oumwqrox1u690kyf',
+//   //   password        : 'dp0jxu78jfqeqry1',
+//   //   database        : 'rtfqihn2cy96dcmm'
+//   // });
+// }
 // var options = {
 // 	// Host name for database connection:
 // 	host: 'localhost',

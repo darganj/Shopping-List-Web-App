@@ -53,8 +53,7 @@ function getShoppingLists(res, userID, connection, context, complete) {
             return;
         }
         
-        context.userlists = results[];
-        results = transform(results);
+        context.userlists = results;
              complete();
     });
 
@@ -86,7 +85,7 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 }
 
-function transform (arr) {
+/*function transform (arr) {
     var result = [], temp = [];
     console.log("starting transform function");
     arr.forEach(function(elem, i) {
@@ -103,7 +102,7 @@ function transform (arr) {
     return result;
 }
 //data = transform(context.userlists);
-
+*/
 
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain

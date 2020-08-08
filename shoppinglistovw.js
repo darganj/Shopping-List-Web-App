@@ -78,7 +78,7 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
             next(err);
             return;
         }
-
+        console.log("connection query working");
         context.userlists = transform(results);//results;
         complete();
     });
@@ -88,6 +88,7 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 function transform (arr) {
     var result = [], temp = [];
+    console.log("starting transform function");
     arr.forEach(function(elem, i) {
         if (i > 0 && i % 3 === 0) {
             result.push(temp);
@@ -95,6 +96,7 @@ function transform (arr) {
         }
         temp.push(elem);
     });
+    console.log("finished forEa Loop");
     if (temp.length > 0) {
         result.push(temp);
     }

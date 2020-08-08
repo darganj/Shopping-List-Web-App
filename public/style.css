@@ -132,7 +132,10 @@ table .dl_hidden_cell {
   width: 100px;
 }
 
-#regContainer label {
+#regContainer label{
   margin-top: 10px;
   margin-bottom: 1px;
+}
+#regContainer form{
+  width: 100;
 }

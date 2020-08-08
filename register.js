@@ -1,6 +1,8 @@
 // JavaScript source code
 
 var express = require('express');
+var argon2 = require('argon2');
+var crypto = require('crypto'); //built into Node.js, but must require it
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var helmet = require('helmet');

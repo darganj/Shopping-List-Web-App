@@ -112,3 +112,31 @@ table .dl_hidden_cell {
     -webkit-filter: blur(8px);
     
 }
+
+#regContainer{
+  /* display: flex;
+  flex-wrap: wrap; */
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+}
+
+.regMsg{
+  /* display: block; */
+  text-align: center;
+}
+
+.regLogo{
+  /* display: block; */
+  width: 100px;
+}
+
+#regContainer label{
+  margin-top: 10px;
+  margin-bottom: 1px;
+}
+
+#regRequired{
+  margin-bottom: 25px;
+}

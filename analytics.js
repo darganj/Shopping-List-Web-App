@@ -28,9 +28,8 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     }
     // console.log(4)
 
-    var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     if (req.query.ascending){
-        
+        var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
         var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
@@ -49,7 +48,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         });
     }
     else if (req.query.descending){
-        
+        var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
         var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +

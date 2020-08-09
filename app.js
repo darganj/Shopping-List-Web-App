@@ -504,12 +504,14 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
     // console.log("");
 
   if (req.body.mergeLists) {
+
     console.log("reached merge lists");
     var {nameListTo, nameListFrom} = req.body;
     var merge_sql = 'SELECT * FROM List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
     var from_list;
     var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
-    var to_list;
+    var to_list_id;
+    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)';
     connection.query(to_sql, [nameListTo], function(err1, result_to, to_list){
 
         console.log("reached fetch to list ID");
@@ -518,8 +520,8 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
           return;
         };
 
-        to_list = result_to;
-        console.log("to_list:", to_list);
+        to_list_id = result_to[0].listID;
+        console.log("to_list:", to_list_id);
 
         connection.query(merge_sql, [nameListFrom], function(err2, result_from, from_list){
 
@@ -532,13 +534,25 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
             from_list = result_from;
             for (var element in from_list) {
+                console.log("listID:", from_list[element].listID);
                 console.log("itemID:", from_list[element].itemID);
+                console.log("quantity:", from_list[element].quantity);
+                console.log("markStatus:", from_list[element].markStatus);
+                connection.query(add_items_sql, [from_list[element].listID, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_from, from_list){
+
+                    console.log("reached adding each item");
+
+                    if(err3){
+                      next(err3);
+                      return;
+                    };
+                });
             };
 
         });
 
     });
-    //console.log("from_list:", from_list);
+
   }
 
   else {

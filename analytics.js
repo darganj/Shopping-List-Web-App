@@ -28,6 +28,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     }
     // console.log(4)
 
+    var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     if (req.query.ascending){
         
         var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +

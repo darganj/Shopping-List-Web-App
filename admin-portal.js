@@ -19,15 +19,17 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   var sqlOut = "SELECT * FROM Users";
 
   connection.query(sqlOut, async function (err, results, fields) {
-    if (err) {
-        console.log(err);
-        next();
+        if (err) {
+            console.log(err);
+            next();
 
-    }
-    if (results.length != 0){
-        console.log(results.userName);
-        
-    }
+        }
+        if (results.length != 0){
+            console.log(results.userName);
+            
+        }
+    });
+    
   res.render('admin-portal');
 });
 

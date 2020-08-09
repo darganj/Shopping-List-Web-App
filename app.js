@@ -508,7 +508,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
     var {nameListTo, nameListFrom} = req.body;
     var merge_sql = 'SELECT * FROM List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
     var from_list;
-    connection.query(merge_sql, [nameListFrom], function(err, result){
+    connection.query(merge_sql, [nameListFrom], function(err, result, from_list){
 
         if(err){
           next(err);
@@ -516,7 +516,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
         };
 
         console.log("result:", result);
-        from_list = JSON.parse(result);
+        from_list = result;
     });
     console.log("from_list:", from_list);
   }

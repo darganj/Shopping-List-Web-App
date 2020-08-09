@@ -507,6 +507,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
     console.log("reached merge lists");
     var {nameListTo, nameListFrom} = req.body;
+    var userID;
     var merge_sql = 'SELECT * FROM List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
     var from_list;
     var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
@@ -533,6 +534,8 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
             };
 
             from_list = result_from;
+            userID = result_from[0].userID;
+            console.log("userID: ", userID);
 
             for (var element in from_list) {
                 console.log("reached adding each item");

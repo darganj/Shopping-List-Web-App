@@ -118,3 +118,11 @@ JOIN Items ON List_of_Items.itemID=Items.itemID
 GROUP BY itemName
 ORDER BY counted DESC
 
+-- ---------------------------------------------------------------------------------------------------------
+-- DEFAULT list of counted itemNames in the Shopping List 8/9
+-- ---------------------------------------------------------------------------------------------------------
+SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted
+FROM List_of_Items
+JOIN Items ON List_of_Items.itemID=Items.itemID
+GROUP BY itemName
+ORDER BY itemName ASC

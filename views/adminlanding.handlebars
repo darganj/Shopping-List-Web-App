@@ -3,30 +3,28 @@
 <p>Username: {{context.userName}}</p>
 <p>UserID: {{context.userID}} </p>
 
-<form action="/shoppinglistovw" method="get">
+<form action="/shoppinglistovw" method="GET">
     <fieldset>
         <input type="submit" value="Go to My Shopping Lists" />
 
     </fieldset>
 </form>
 
-<form action="/userpref" method="get">
+<form action="/userpref" method="GET">
     <fieldset>
         Doesn't Work Currently
         <input type="submit" value="User Preferences" />
     </fieldset>
 </form>
 
-<form action="/createlist" method="get">
+<form action="/createlist" method="GET">
     <fieldset>
         Doesn't work Currently
         <input type="submit" value="Create New Shopping List" />
-
     </fieldset>
-
 </form>
 
-<form action="/analytics" method="get">
+<form action="/analytics" method="GET">
     <fieldset>
         WORK IN PROGRESS
         <input type="hidden" id="userID" name="userID" value="{{context.userID}}">
@@ -35,13 +33,19 @@
 </form>
 
 
-<form action="/adddefaultlist" method="get">
+<form action="/adddefaultlist" method="GET">
     <fieldset>
         Doesn't Work Currently
         <input type="submit" value="Add Default List" />
-
     </fieldset>
+</form>
 
+<form action="/admin-portal" method="GET">
+    <fieldset>
+        WORK IN PROGRESS
+        <input type="hidden" id="userID" name="userID" value="{{context.userID}}">
+        <input type="submit" value="admin-portal"> 
+    </fieldset>
 </form>
 
 

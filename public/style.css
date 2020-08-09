@@ -141,7 +141,7 @@ table .dl_hidden_cell {
 }
 
 .regLogo{
-  /* display: block; */
+  margin: auto;
   width: 100px;
 }
 

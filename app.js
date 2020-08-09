@@ -519,7 +519,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
         console.log("from_list:", from_list);
 
         for (var element in from_list) {
-            console.log(from_list[element], from_list[element].listID);
+            console.log("itemID:", from_list[element].itemID);
         };
     });
     //console.log("from_list:", from_list);

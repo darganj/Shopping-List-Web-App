@@ -47,7 +47,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             };
             context.order = popAscResults;
             console.log("Ascending Order Querying Completed");
-            res.redirect('analytics', context);
+            res.render('analytics', context);
         });
     }
     else if (req.query.descending){
@@ -65,7 +65,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             };
             context.order = popDescResults;
             console.log("Descending Order Querying Completed");
-            res.redirect('analytics', context);
+            res.render('analytics', context);
         });
     }
     else

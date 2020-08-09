@@ -27,7 +27,23 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     if(res.locals.user.isAdmin != 1){
       res.redirect('userlanding');
     }else{
-      res.render('analytics', { context: context });
+        
+        var defaultOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY itemName ASC";
+        
+        connection.query(defaultOrder, function(err, defaultOrderResults){
+            if(err){
+                console.log("ERROR: Default Order Query");
+                next(err);
+                return;
+            };
+            context.order = defaultOrderResults;
+            console.log("Default Order Querying Completed");
+            res.render('analytics', context);
+        });
     }
  
     // console.log(4)

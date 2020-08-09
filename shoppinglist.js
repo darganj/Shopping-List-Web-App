@@ -102,7 +102,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
 
 });
 
-router.post('/save', ensureLoggedIn.ensureLoggedIn('/login', function (req, res, next) {
+router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
 

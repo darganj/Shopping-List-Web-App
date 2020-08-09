@@ -24,12 +24,12 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
             next();
 
         }
-        if (results.length != 0){
-            console.log(results.userName);
+        if (results.length != -1){
+            console.log(results);
             
         }
     });
-    
+
   res.render('admin-portal');
 });
 

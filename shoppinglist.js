@@ -19,7 +19,7 @@ var router = express.Router();
  * Input Params: - connection - existing mySQL connection to database
  *               - userID - userName
  * Returns:      - datablock of user data*/
-function getUserData(connection, context, userID, complete) {
+function getUserData(connection, context, userID, complete, next) {
 
     var query = "SELECT * FROM Users Where userID = ?";
 
@@ -41,7 +41,7 @@ function getUserData(connection, context, userID, complete) {
  *              - context - data is filled in here
  *               - complete - callback function
  * Returns      - block of list data in context.listdata*/
-function getShoppingListData(connection, listID, context, complete) {
+function getShoppingListData(connection, listID, context, complete, next) {
 
     var query = "SELECT * FROM Lists Where listID = ?";
     connection.query(query, listID, function (err, results, fields) {
@@ -57,7 +57,7 @@ function getShoppingListData(connection, listID, context, complete) {
 }
 
 
-function getItems(res, listID, connection, context, complete) {
+function getItems(res, listID, connection, context, complete, next) {
 
     var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, List_of_Items.itemNote, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
     connection.query(query, listID, function (err, results, fields) {
@@ -88,9 +88,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var callbackCount = 0;
     
 
-    getItems(res, listID, connection, context, complete);
-    getUserData(connection, context, userID, complete);
-    getShoppingListData(connection, listID, context, complete);
+    getItems(res, listID, connection, context, complete, next);
+    getUserData(connection, context, userID, complete, next);
+    getShoppingListData(connection, listID, context, complete, next);
     function complete() {
         
         callbackCount++;
@@ -127,9 +127,9 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 
     var context = {};
     var callbackCount = 0;
-    getItems(res, listID, connection, context, complete);
-    getUserData(connection, context, userID, complete);
-    getShoppingListData(connection, listID, context, complete);
+    getItems(res, listID, connection, context, complete, next);
+    getUserData(connection, context, userID, complete, next);
+    getShoppingListData(connection, listID, context, complete, next);
 
     function complete() {
         callbackCount++;

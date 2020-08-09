@@ -16,8 +16,8 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
     var context = {};
-    context.userID = res.locals.user.userName;
-    context.userName = res.locals.user.userID;
+    context.userID = res.locals.user.userID;
+    context.userName = res.locals.user.userName;
   
     // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(1);

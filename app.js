@@ -534,20 +534,33 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
             from_list = result_from;
             for (var element in from_list) {
-                console.log("listID:", from_list[element].listID);
-                console.log("itemID:", from_list[element].itemID);
-                console.log("quantity:", from_list[element].quantity);
-                console.log("markStatus:", from_list[element].markStatus);
                 connection.query(add_items_sql, [from_list[element].listID, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_from, from_list){
 
                     console.log("reached adding each item");
-
+                    console.log("listID:", to_list_id);
+                    console.log("itemID:", from_list[element].itemID);
+                    console.log("quantity:", from_list[element].quantity);
+                    console.log("markStatus:", from_list[element].markStatus);
                     if(err3){
                       next(err3);
                       return;
                     };
                 });
             };
+
+            // fetch & render all lists for user including newly added list
+            var context = {};
+            var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+            connection.query(sql,userID, function (err, results, fields) {
+                    if (err) {
+                        console.log("error");
+                        next(err);
+                        return;
+                    }
+                    context.context = results;
+                    //console.log(context);
+                    res.render('shoppinglistovw', context);
+            });
 
         });
 

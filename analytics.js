@@ -43,9 +43,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                 next(err);
                 return;
             };
-            context.context = popAscResults;
+            context.order = popAscResults;
             console.log("Ascending Order Querying Completed");
-            res.render('analytics', {context: context});
+            res.render('analytics', context);
         });
     }
     else if (req.query.descending){
@@ -61,9 +61,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                 next(err);
                 return;
             };
-            context.context = popDescResults;
-            console.log("Descending Order Querying Completed");
-            res.render('analytics', {context: context});
+            context.order = popDescResults;
+            console.order("Descending Order Querying Completed");
+            res.render('analytics', context);
         });
     }
 });

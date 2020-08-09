@@ -1,7 +1,6 @@
 /*Template for making a new router for a view. To add this route into code add following in app.js
  * app.use('/routepath',require('javascriptfile.js'));*/
 
-
 var express = require('express'); //Have to require express again since this is a separate js file
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
@@ -27,41 +26,51 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     }else{
       res.render('analytics', { context: context });
     }
-    
-    //var query = "SELECT * FROM Users WHERE Users.userID = ?";
-    /* connection.query("SELECT * FROM Users WHERE Users.userID=4", userID, function(err, result){
-        if(err){
-            console.log("Query Error");
-            next(err);
-            return;
-        }
-        console.log(2);
-        context.admin = result;
-        res.render('analytics', context);
-        console.log(3);
-    });
-    */
-    
-    // getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well
-    
-   
-    
-    /*
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) { //If multiple queries, need to increase
-            console.log(context.userlists);
-            console.log("in Complete() function now...");
-            res.render('analytics', {context: context.userlists}); //If multiple queries and data, may need to adjust
-        }
-        console.log(3);
-    }
-    */
-    
-
     // console.log(4)
 
 });
 
-
+// Display Results
+router.get('/', function(req, res, next){
+    if (req.query.ascending){
+        
+        var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY COUNT(List_of_Items.itemID) DESC";
+        
+        connection.query(popAscOrder, function(err, results){
+            if(err){
+                console.log("ERROR: Ascending Order Query");
+                next(err);
+                return;
+            };
+            var context = results;
+            console.log("Ascending Order Querying Completed");
+            res.render('analytics', {context: context});
+        });
+    }
+    else if (req.query.descending){
+        
+        var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY counted ASC";
+        
+        connection.query(popDescOrder, function(err, results){
+            if(err){
+                console.log("ERROR: Descending Order Query");
+                next(err);
+                return;
+            };
+            var context = results;
+            console.log("Descending Order Querying Completed");
+            res.render('analytics', {context: context});
+        });
+    }        
+}
+        
+    
 module.exports = router;

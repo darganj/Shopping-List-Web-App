@@ -77,7 +77,20 @@
     <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Update Shopping List Info">
 
 
+<h2> (Test) Merge shopping lists </h2>
+<form action="/shoppinglistovw/mergelists" method="post">
 
+    <label>
+        Destination List Name:
+        <input type="text" name="nameListTo" required>
+    </label>
+    <label>
+        Source List Name:
+        <input type="text" name="nameListFrom" required>
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" name="mergeLists" value="Merge Lists">
+
+</form>
 
 
 

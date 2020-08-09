@@ -3,6 +3,12 @@
 
 
 var express = require('express'); //Have to require express again since this is a separate js file
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
+var session = require('express-session');
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router(); //Creates the router middleware variable
 
 
@@ -36,14 +42,13 @@ function getUserName(res, userID, connection, context, complete) { //if any info
 
 
 // Display page
-router.get('/', function (req, res, next) { //Include any data required for query as well
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) { //Include any data required for query as well
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
     var context = {};
-    var userID = req.body.userID;
-    var userName = req.body.userName;
-
-    
-    
-    var callbackcount = 0; //Used to test query worked
+    var userID = res.locals.user.userName;
+    var userName = res.locals.user.userID;
+  
     var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(1);
     

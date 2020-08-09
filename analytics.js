@@ -1,84 +1,157 @@
 /*Template for making a new router for a view. To add this route into code add following in app.js
  * app.use('/routepath',require('javascriptfile.js'));*/
 
-
 var express = require('express'); //Have to require express again since this is a separate js file
+var myConnection = require('./dbcon.js');
+var connection = myConnection.connection;
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var helmet = require('helmet');
+var session = require('express-session');
+var express_enforces_ssl = require('express-enforces-ssl');
+var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router(); //Creates the router middleware variable
 
-
-// Get UserName
-/*
-function getUserName(res, userID, connection, context, complete) { //if any info required for query, need it here as well
-
-    var query = "SELECT * FROM Users WHERE Users.userID = ?";
-    console.log("Implementing the query...");
-    connection.query(query, userID, function (err, results, fields) {
-        if (err) {
-            console.log("Danger, Danger Will Robinson");
-            next(err);
-            return;
-
-        }
-        console.log("Querying completed...");
-        context.userlists = results; //Can't just put results in context, will cause problems
-        console.log("Stored results in userlists...");
-        complete(); //Routes back to your router function so data can be displayed
-    });
-
-}
-*/
-
-/*Sample Get Route, Some imporant notes:
- * Must be router.path, not app.path
- * Whatever 'use' route you put in app.js to get here, that is already accounted for
- * For example if i put in app.js app.use'/routepath' to get here then this route will work for www.website/routepath
- * If I put /routepath in this router then the route to get there would be www.website/routepath/routepath*/
-
-
 // Display page
-router.get('/', function (req, res, next) { //Include any data required for query as well
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) { //Include any data required for query as well
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
     var context = {};
-    var userID = req.body.userID;
-    var userName = req.body.userName;
-
-    
-    
-    var callbackcount = 0; //Used to test query worked
-    var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
+    // context.userID = res.locals.user.userID;
+    // context.userName = res.locals.user.userName;
+ 
     console.log(1);
     
-    //var query = "SELECT * FROM Users WHERE Users.userID = ?";
-    connection.query("SELECT * FROM Users WHERE Users.userID=4", userID, function(err, result){
-        if(err){
-            console.log("Query Error");
-            next(err);
-            return;
-        }
-        console.log(2);
-        context.admin = result;
-        res.render('analytics', context);
-        console.log(3);
-    });
-    // getUserName(res, userID, connection, context, complete); //Pulls data into context, Include any data required for query as well
-    
-   
-    
-    /*
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) { //If multiple queries, need to increase
-            console.log(context.userlists);
-            console.log("in Complete() function now...");
-            res.render('analytics', {context: context.userlists}); //If multiple queries and data, may need to adjust
-        }
-        console.log(3);
+  /*
+    if(res.locals.user.isAdmin != 1){
+      res.redirect('userlanding');
+    }else{
+            res.render('analytics', context);
+        });
     }
     */
-    
-
+ 
     // console.log(4)
 
+    if (req.query.ascending){
+        var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY COUNT(List_of_Items.itemID) ASC";
+        
+        connection.query(popAscOrder, function(err, popAscResults){
+            if(err){
+                console.log("ERROR: Ascending Order Query");
+                next(err);
+                return;
+            };
+            context.order = popAscResults;
+            console.log("Ascending Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
+    else if (req.query.descending){
+        var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY counted DESC";
+        
+        connection.query(popDescOrder, function(err, popDescResults){
+            if(err){
+                console.log("ERROR: Descending Order Query");
+                next(err);
+                return;
+            };
+            context.order = popDescResults;
+            console.log("Descending Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
+    else
+    {
+        var defaultOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY itemName ASC";
+        
+        connection.query(defaultOrder, function(err, defaultOrderResults){
+            if(err){
+                console.log("ERROR: Default Order Query");
+                next(err);
+                return;
+            };
+            context.order = defaultOrderResults;
+            console.log("Default Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
 });
 
+/*
+router.get('/', function (req, res, next) { //Include any data required for query as well
+    var context = {};
+    // console.log(4)
 
+    if (req.query.ascending){
+        var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY COUNT(List_of_Items.itemID) DESC";
+        
+        connection.query(popAscOrder, function(err, popAscResults){
+            if(err){
+                console.log("ERROR: Ascending Order Query");
+                next(err);
+                return;
+            };
+            context.order = popAscResults;
+            console.log("Ascending Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
+    else if (req.query.descending){
+        var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY counted ASC";
+        
+        connection.query(popDescOrder, function(err, popDescResults){
+            if(err){
+                console.log("ERROR: Descending Order Query");
+                next(err);
+                return;
+            };
+            context.order = popDescResults;
+            console.log("Descending Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
+    else
+    {
+        var defaultOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY itemName ASC";
+        
+        connection.query(defaultOrder, function(err, defaultOrderResults){
+            if(err){
+                console.log("ERROR: Default Order Query");
+                next(err);
+                return;
+            };
+            context.order = defaultOrderResults;
+            console.log("Default Order Querying Completed");
+            res.render('analytics', context);
+        });
+    }
+    
+});
+*/
+    
 module.exports = router;

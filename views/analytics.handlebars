@@ -1,6 +1,6 @@
 <h1> This is the analytics page </h1>
 
-<p>Username: {{admin.userName}}</p>
+<!-- <p>Username: {{context.userName}}</p> -->
 
 <div class="container">
 <div class="dropdown">
@@ -19,10 +19,10 @@
 				</tr>
 			</thread>
 			<tbody>
-				{{#each results}}
+				{{#each order}}
 				<tr>
 					<td>{{itemName}}</td>
-					<td>{{count}}</td>
+					<td>{{counted}}</td>
 				</tr>
 				{{/each}}
 			</tbody>

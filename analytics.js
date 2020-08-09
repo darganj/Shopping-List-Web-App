@@ -106,7 +106,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     */
 });
         
-router.post('/', function (req, res, next) { //Include any data required for query as well
+router.get('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
   
     // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route

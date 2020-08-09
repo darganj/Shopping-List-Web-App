@@ -70,7 +70,11 @@ Input Params: -  res containing server response to call
 Returns: context is filled with all info on user Shopping Lists*/
 function getSpecificShoppingList(res, listID, connection, context, complete) {
 
+
+    var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
+
   var query = 'SELECT * FROM Lists WHERE Lists.listID = ?';
+
 
     connection.query(query, listID, function (err, results, fields) {
         if (err) {
@@ -78,7 +82,6 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
             next(err);
             return;
         }
-
         context.userlists = results;
         complete();
     });
@@ -86,8 +89,24 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 }
 
-
-
+/*function transform (arr) {
+    var result = [], temp = [];
+    console.log("starting transform function");
+    arr.forEach(function(elem, i) {
+        if (i > 0 && i % 3 === 0) {
+            result.push(temp);
+            temp = [];
+        }
+        temp.push(elem);
+    });
+    console.log("finished forEa Loop");
+    if (temp.length > 0) {
+        result.push(temp);
+    }
+    return result;
+}
+//data = transform(context.userlists);
+*/
 
 
 

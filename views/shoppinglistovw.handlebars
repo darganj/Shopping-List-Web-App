@@ -5,7 +5,7 @@
 
 
 {{#each userlists}}
-
+    
 <div class="shopping_list_box">
 
     <form action="/shoppinglist" method="GET">
@@ -15,15 +15,13 @@
                 <p>
                     ID: {{listID}} <br />
                     Name: {{nameList}}<br>
-                    >Date:{{listCreated}}
+                    Date: {{listCreated}}
                 </p>
             </button>
         </fieldset>
-
     </form>
 
 </div>
-
 {{/each}}
 
 <div class="shopping_list_box">

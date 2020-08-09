@@ -59,7 +59,7 @@ function getShoppingListData(connection, listID, context, complete) {
 
 function getItems(res, listID, connection, context, complete) {
 
-    var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
+    var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, List_of_Items.itemNote, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
     connection.query(query, listID, function (err, results, fields) {
         if (err) {
             console.log("error");
@@ -102,7 +102,42 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
 
 });
 
+router.post('/save', /*ensureLoggedIn.ensureLoggedIn('/login',*/ function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
+    //res.locals.user = req.user;
 
+    var itemName = req.body.itemName; 
+    var quantity = req.body.quantity;
+    var itemNote = req.body.itemNote;
+
+    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        };
+    });
+    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        };
+    });
+
+    var context = {};
+    var callbackCount = 0;
+    getItems(res, listID, connection, context, complete);
+    getUserData(connection, context, userID, complete);
+    getShoppingListData(connection, listID, context, complete);
+
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 3) {
+            res.render('shoppinglist', { context: context.listitems });
+        }
+    }
+});
 
 
 

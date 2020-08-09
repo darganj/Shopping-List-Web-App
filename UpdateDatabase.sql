@@ -87,6 +87,7 @@ CREATE TABLE `List_of_Items` (
   `itemID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `markStatus` int(11),
+  'itemNote' varchar(255),
   PRIMARY KEY (`listOfItems`),
   KEY `listID` (`listID`),
   KEY `itemID` (`itemID`),
@@ -101,7 +102,9 @@ CREATE TABLE `List_of_Items` (
 
 LOCK TABLES `List_of_Items` WRITE;
 /*!40000 ALTER TABLE `List_of_Items` DISABLE KEYS */;
-INSERT INTO `List_of_Items` VALUES (1,1,4,2,0),(2,1,5,1,0),(3,2,3,3,0),(4,2,2,4,0),(5,2,1,2,0),(6,3,7,1,0);
+
+INSERT INTO `List_of_Items` VALUES (1,1,4,2,1,'note'),(2,1,5,1,1,'note2'),(3,2,3,3,1,'note again'),(4,2,2,4,1,'another one'),(5,2,1,2,1,'noted'),(6,3,7,1,1,'example note');
+
 /*!40000 ALTER TABLE `List_of_Items` ENABLE KEYS */;
 UNLOCK TABLES;
 

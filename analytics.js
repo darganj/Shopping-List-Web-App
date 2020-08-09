@@ -62,7 +62,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                 return;
             };
             context.order = popDescResults;
-            console.order("Descending Order Querying Completed");
+            console.log("Descending Order Querying Completed");
             res.render('analytics', context);
         });
     }

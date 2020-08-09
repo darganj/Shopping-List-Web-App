@@ -149,10 +149,10 @@ table .dl_hidden_cell {
   text-align: center;
 }
 
-.regLogo{
+.regLogo img{
   display: block;
   margin: auto;
-  width: 100px;
+  /* width: 100px; */
 }
 
 #regContainer label{

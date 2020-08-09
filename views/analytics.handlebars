@@ -19,10 +19,10 @@
 				</tr>
 			</thread>
 			<tbody>
-				{{#each order}}
+				{{#each this.order}}
 				<tr>
-					<td>{{itemName}}</td>
-					<td>{{counted}}</td>
+					<td>{{this.itemName}}</td>
+					<td>{{this.counted}}</td>
 				</tr>
 				{{/each}}
 			</tbody>

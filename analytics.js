@@ -82,7 +82,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             };
             context.order = defaultOrderResults;
             console.log("Default Order Querying Completed");
-            res.redirect('analytics', context);
+            res.render('analytics', context);
         });
     }
     

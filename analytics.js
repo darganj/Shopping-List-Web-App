@@ -19,11 +19,10 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var context = {};
     context.userID = res.locals.user.userID;
     context.userName = res.locals.user.userName;
-  
-    // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
+ 
     console.log(1);
     
-  
+  /*
     if(res.locals.user.isAdmin != 1){
       res.redirect('userlanding');
     }else{
@@ -45,6 +44,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             res.render('analytics', context);
         });
     }
+    */
  
     // console.log(4)
 /*
@@ -104,10 +104,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         });
     }
     */
-    
 });
         
-router.get('/', function (req, res, next) { //Include any data required for query as well
+router.post('/', function (req, res, next) { //Include any data required for query as well
     var context = {};
   
     // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
@@ -137,7 +136,7 @@ router.get('/', function (req, res, next) { //Include any data required for quer
             };
             context.order = popAscResults;
             console.log("Ascending Order Querying Completed");
-            res.render('analytics', context);
+            res.('analytics', context);
         });
     }
     else if (req.query.descending){

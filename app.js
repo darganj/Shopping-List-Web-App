@@ -573,8 +573,6 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                     res.render('shoppinglistovw', context);
             });
 
-
-
         });
 
     });

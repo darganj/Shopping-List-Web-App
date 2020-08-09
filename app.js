@@ -463,12 +463,20 @@ app.post('/save', function (req, re, next) {
   var sql1 = "INSERT INTO Items SET ?";
   var sql2 = "INSERT INTO List_of_Items SET ?";
 
-  connection.query(sql1, sql2, data, context, function (err, results) {
+  connection.query(sql1, data, function (err, results) {
     if (err) {
       console.log("error");
       next(err);
       return;
-    }
+    };
+    connection.query(sql2, context, function (err, results) {
+      if (err) {
+        console.log("error in List_of_items post");
+        next(err);
+        return;
+      };
+    })
+    var querystr = listID;
     res.redirect('/shoppinglist/?listID=' + querystr);
   });
 });

@@ -124,6 +124,8 @@ table .dl_hidden_cell {
     
 }
 
+/*CSS For registration form*/
+
 #regContainer{
   /* display: flex;
   flex-wrap: wrap; */
@@ -152,6 +154,25 @@ table .dl_hidden_cell {
   margin-bottom: 25px;
 }
 
+/*CSS For registration2 form*/
+
+#regContainer2 .container #reg-row #reg-column #reg-box {
+  margin-top: 120px;
+  max-width: 600px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  background-color: #EAEAEA;
+}
+
+#regContainer2 .container #reg-row #reg-column #reg-box #reg-form {
+  padding: 20px;
+}
+#regContainer2 .container #reg-row #reg-column #reg-box #reg-form #login-link {
+  margin-top: -85px;
+}
+
+/*CSS For login form*/
+
 #loginContainer .container #login-row #login-column #login-box {
   margin-top: 120px;
   max-width: 600px;
@@ -166,3 +187,4 @@ table .dl_hidden_cell {
 #loginContainer .container #login-row #login-column #login-box #login-form #register-link {
   margin-top: -85px;
 }
+

@@ -83,6 +83,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             context.order = defaultOrderResults;
             console.log("Default Order Querying Completed");
             res.render('analytics', context);
+        });
     }
     
 });

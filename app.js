@@ -616,6 +616,88 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
 
 });
 
+
+app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+    // console.log("testing if it goes to this route");
+    // console.log("");
+
+    console.log("reached merge lists");
+    var {nameListTo, nameListFrom} = req.body;
+    var userID;
+    var merge_sql = 'SELECT * FROM List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
+    var from_list;
+    var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
+    var to_list_id;
+    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)';
+
+    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list){
+
+        console.log("reached fetch to list ID");
+        if(err1){
+          next(err1);
+          return;
+        };
+
+        to_list_id = result_to[0].listID;
+        console.log("to_list_id:", to_list_id);
+
+        connection.query(merge_sql, [nameListFrom], function(err2, result_from, from_list){
+
+            console.log("reached from list info");
+
+            if(err2){
+              next(err2);
+              return;
+            };
+
+            from_list = result_from;
+            userID = result_from[0].userID;
+            console.log("userID: ", userID);
+
+            for (var element in from_list) {
+                console.log("reached adding each item");
+                console.log("to listID:", to_list_id);
+                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_add){
+
+                    /**
+                    console.log("reached adding each item");
+                    console.log("listID:", from_list[element].listID);
+                    console.log("itemID:", from_list[element].itemID);
+                    console.log("quantity:", from_list[element].quantity);
+                    console.log("markStatus:", from_list[element].markStatus);
+
+                    **/
+                    if (err3){
+                      next(err3);
+                      return;
+                    };
+                });
+            };
+
+
+
+            // fetch & render all lists for user including newly added list
+            var context = {};
+            var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+            connection.query(sql,userID, function (err, results, fields) {
+                    if (err) {
+                        console.log("error");
+                        next(err);
+                        return;
+                    }
+                    context.context = results;
+                    //console.log(context);
+                    res.render('shoppinglistovw', context);
+            });
+
+        });
+
+    });
+
+});
+
+
 // route to delete shopping list based on listID, userID in req.body
 app.delete('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
     res.locals.login = req.isAuthenticated();

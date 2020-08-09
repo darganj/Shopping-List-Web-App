@@ -516,7 +516,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
         };
 
         console.log("result:", result);
-        from_list = result;
+        from_list = JSON.parse(result);
     });
     console.log("from_list:", from_list);
   }

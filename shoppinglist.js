@@ -116,23 +116,23 @@ router.post('/save', /*ensureLoggedIn.ensureLoggedIn('/login',*/ function (req, 
             return;
         };
     });
-   /* connection.query('INSERT INTO List_of_Items (quantity, markStatus, itemNote) VALUES (?, 0, ?', [quantity, itemNote], function (err, result) {
+    connection.query('INSERT INTO List_of_Items (quantity, markStatus, itemNote) VALUES (?, 0, ?', [quantity, itemNote], function (err, result) {
         if (err) {
             next(err);
             return;
         };
-    });*/
+    });
 
     var context = {};
     var callbackCount = 0;
     getItems(res, listID, connection, context, complete);
     getUserData(connection, context, userID, complete);
     getShoppingListData(connection, listID, context, complete);
+
     function complete() {
-        
         callbackCount++;
         if (callbackCount >= 3) {
-            res.render('shoppinglist', context);
+            res.render('shoppinglist', { context: context.listitems });
         }
     }
 });

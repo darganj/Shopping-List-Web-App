@@ -533,9 +533,10 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
             };
 
             from_list = result_from;
+
             for (var element in from_list) {
                 console.log("reached adding each item");
-                connection.query(add_items_sql, [from_list[element].listID, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_from, from_list){
+                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_from, from_list){
 
                     /**
                     console.log("reached adding each item");

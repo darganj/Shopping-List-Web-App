@@ -135,7 +135,7 @@ router.post('/save', /*ensureLoggedIn.ensureLoggedIn('/login',*/ function (req, 
             res.render('shoppinglist', context);
         }
     }
-}));
+});
 
 
 

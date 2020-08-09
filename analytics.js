@@ -23,11 +23,13 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(1);
     
+    /*
     if(res.locals.user.isAdmin != 1){
       res.redirect('userlanding');
     }else{
       res.render('analytics', { context: context });
     }
+    */
     // console.log(4)
 
     if (req.query.ascending){

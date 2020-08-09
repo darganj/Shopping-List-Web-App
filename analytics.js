@@ -38,7 +38,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
             "GROUP BY itemName " +
-            "ORDER BY COUNT(List_of_Items.itemID) DESC";
+            "ORDER BY COUNT(List_of_Items.itemID) ASC";
         
         connection.query(popAscOrder, function(err, popAscResults){
             if(err){
@@ -56,7 +56,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
             "GROUP BY itemName " +
-            "ORDER BY counted ASC";
+            "ORDER BY counted DESC";
         
         connection.query(popDescOrder, function(err, popDescResults){
             if(err){

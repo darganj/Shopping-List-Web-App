@@ -508,19 +508,35 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
     var {nameListTo, nameListFrom} = req.body;
     var merge_sql = 'SELECT * FROM List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
     var from_list;
-    connection.query(merge_sql, [nameListFrom], function(err, result, from_list){
+    var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
+    var to_list;
+    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list){
 
-        if(err){
-          next(err);
+        console.log("reached fetch to list ID");
+        if(err1){
+          next(err1);
           return;
         };
 
-        from_list = result;
-        console.log("from_list:", from_list);
+        to_list = result_to;
+        console.log("to_list:", to_list);
 
-        for (var element in from_list) {
-            console.log("itemID:", from_list[element].itemID);
-        };
+        connection.query(merge_sql, [nameListFrom], function(err2, result_from, from_list){
+
+            console.log("reached from list info");
+
+            if(err2){
+              next(err2);
+              return;
+            };
+
+            from_list = result_from;
+            for (var element in from_list) {
+                console.log("itemID:", from_list[element].itemID);
+            };
+
+        });
+
     });
     //console.log("from_list:", from_list);
   }

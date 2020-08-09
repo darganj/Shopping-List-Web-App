@@ -102,9 +102,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
 
 });
 
-router.post('/save', ensureLoggedIn.ensureLoggedIn('/login', function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
-    res.locals.user = req.user;
+router.post('/save', /*ensureLoggedIn.ensureLoggedIn('/login',*/ function (req, res, next) {
+    //res.locals.login = req.isAuthenticated();
+    //res.locals.user = req.user;
 
     var itemName = req.body.itemName; 
     var quantity = req.body.quantity;
@@ -116,12 +116,12 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login', function (req, res,
             return;
         };
     });
-    connection.query('INSERT INTO List_of_Items (quantity, markStatus, itemNote) VALUES (?, 0, ?', [quantity, itemNote], function (err, result) {
+   /* connection.query('INSERT INTO List_of_Items (quantity, markStatus, itemNote) VALUES (?, 0, ?', [quantity, itemNote], function (err, result) {
         if (err) {
             next(err);
             return;
         };
-    });
+    });*/
 
     var context = {};
     var callbackCount = 0;

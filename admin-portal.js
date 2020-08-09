@@ -15,6 +15,19 @@ var router = express.Router();
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
+
+  var sqlOut = "SELECT * FROM Users";
+
+  connection.query(sqlOut, async function (err, results, fields) {
+    if (err) {
+        console.log(err);
+        next();
+
+    }
+    if (results.length != 0){
+        console.log(results.userName);
+        
+    }
   res.render('admin-portal');
 });
 

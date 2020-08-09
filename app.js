@@ -553,8 +553,6 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                 });
             };
 
-            /**
-
             // fetch & render all lists for user including newly added list
             var context = {};
             var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
@@ -569,7 +567,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                     res.render('shoppinglistovw', context);
             });
 
-            **/
+
 
         });
 

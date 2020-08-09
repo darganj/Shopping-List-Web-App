@@ -136,7 +136,7 @@ router.post('/', function (req, res, next) { //Include any data required for que
             };
             context.order = popAscResults;
             console.log("Ascending Order Querying Completed");
-            res.('analytics', context);
+            res.render('analytics', context);
         });
     }
     else if (req.query.descending){

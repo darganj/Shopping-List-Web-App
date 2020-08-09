@@ -502,35 +502,55 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
   res.locals.login = req.isAuthenticated();
     // console.log("testing if it goes to this route");
     // console.log("");
-  var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
-  if (date == "") { // if date not provided by user, enter current date into database
-    var current_date = new Date();
-    var formatted_date = JSON.stringify(current_date).slice(1,11);
-    date = formatted_date;
+
+  if (req.body.mergeList) {
+    var {nameListTo, nameListFrom} = req.body;
+    var merge_sql = 'SELECT * FROM yvan9rk2m2he5boz.List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
+    var from_list;
+    connection.query(merge_sql, [nameListFrom], function(err, result){
+
+        if(err){
+          next(err);
+          return;
+        };
+
+        from_list = result;
+    });
+    console.log(from_list);
+  }
+
+  else {
+      var {date, userID, nameList} = req.body; // required front-end args: userID (user's ID), nameList (name for new empty list)
+      if (date == "") { // if date not provided by user, enter current date into database
+        var current_date = new Date();
+        var formatted_date = JSON.stringify(current_date).slice(1,11);
+        date = formatted_date;
+      };
+      // add new list for user
+      connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, date, nameList], function(err, result){
+
+        if(err){
+          next(err);
+          return;
+        };
+      });
+
+      // fetch & render all lists for user including newly added list
+      var context = {};
+      var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+      connection.query(sql,userID, function (err, results, fields) {
+            if (err) {
+                console.log("error");
+                next(err);
+                return;
+            }
+            context.context = results;
+            //console.log(context);
+               //TODO RENDER ACTUAL DATA
+            res.render('shoppinglistovw', context);
+      });
+
   };
-  // add new list for user
-  connection.query('INSERT INTO Lists (`userID`, `listCreated`, `nameList`) VALUES (?, ?, ?)', [userID, date, nameList], function(err, result){
-
-    if(err){
-      next(err);
-      return;
-    };
-  });
-
-  // fetch & render all lists for user including newly added list
-  var context = {};
-  var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-  connection.query(sql,userID, function (err, results, fields) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        }
-        context.context = results;
-        //console.log(context);
-           //TODO RENDER ACTUAL DATA
-        res.render('shoppinglistovw', context);
-  });
 
 
 

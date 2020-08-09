@@ -426,7 +426,7 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
     else {
 
         var { listID, itemID, quantity } = req.body;
-        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, 0)', [listID, itemID, quantity, markStatus], function (err, result) {
+        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, 0)', [listID, itemID, quantity], function (err, result) {
             if (err) {
                 next(err);
                 return;

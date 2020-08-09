@@ -12,7 +12,7 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
-router.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
   res.render('admin-portal');

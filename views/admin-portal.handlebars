@@ -1,1 +1,33 @@
-<h1>I'm the admin page.</h1>
+<h1 class="form">Reset Usernames and Passwords</h1>
+
+<div class="regLogo">
+    <img src="/small-logo.png" alt="Sh-sh-sh-Shopping logo">
+</div>
+
+<form id="pickUsernameForm" class="form">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="chooseUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Username</button>
+        <div class="dropdown-menu">
+            <div class="dropdown-item"> Item 1</div>
+            <div class="dropdown-item"> Item 1</div>
+            <div class="dropdown-item"> Item 1</div>
+            <div class="dropdown-item"> Item 1</div>
+        </div>
+    </div>
+</form>
+
+<form id="resetUsernameForm" class="form">
+    <h3 class="text-center text-info">Change a Username</h3>
+    <div class="form-group">
+        <label for="newUsername" class="text-info">New Username: </label><br>
+        <input type="text" name="newUsername" id="newUsername" placeholder="new username" class="form-control" required>
+    </div>
+</form>
+
+<form id="resetPasswordForm" class="form">
+    <h3 class="text-center text-info">Change a Password</h3>
+    <div class="form-group">
+        <label for="newPassword" class="text-info">Password: </label><br>
+        <input type="text" name="newPassword" id="newPassword" placeholder="new password" class="form-control" required>
+    </div>
+</form>

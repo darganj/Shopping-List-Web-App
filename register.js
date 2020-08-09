@@ -57,13 +57,6 @@ router.post('/',async function(req,res,next){
     var lastName = req.body.lastName;
     var userType = req.body.userType;
 
-    var myDate = new Date();
-    var day = myDate.getDate();
-    var month = myDate.getMonth();
-    var year = myDate.getFullYear();
-    var dateJoined = year + '-' + month + '-' + day;
-    console.log(dateJoined);
-
     // default is user, not admin
     var isAdmin = 0;
     if (userType == "Admin") {

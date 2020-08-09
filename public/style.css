@@ -1,3 +1,5 @@
+/*CSS for main page template*/
+
 body{
   /* background-color: lightskyblue; */
 
@@ -16,6 +18,8 @@ body{
   margin-top: 75px;
   text-align: center;
 }
+
+/*CSS for ??????????????*/
 
 div.shopping_list_box{
 
@@ -36,6 +40,8 @@ div.shopping_list_box{
   padding: 1em;
 }
 
+/*CSS for about page*/
+
 #aboutContainer{
   /* gradient generated with uigradients.com */
   background-color: #db7de4;  /* fallback for old browsers */
@@ -44,6 +50,7 @@ div.shopping_list_box{
 
 }
 
+/*CSS for nav bar*/
 
 #loginButton
 {
@@ -86,6 +93,8 @@ div.shopping_list_box{
 	border-bottom: 1px solid;
 }
 
+/*CSS for ??????????????*/
+
 div.shopping_list_box{
 
     width:150px;
@@ -105,7 +114,7 @@ table .dl_hidden_cell {
 }
 
 
-/*CSS For Edit-List*/
+/*CSS for Edit-List*/
 
 #shoplist{
     width:100%;
@@ -124,6 +133,8 @@ table .dl_hidden_cell {
     
 }
 
+/*CSS for registration form*/
+
 #regContainer{
   /* display: flex;
   flex-wrap: wrap; */
@@ -138,9 +149,10 @@ table .dl_hidden_cell {
   text-align: center;
 }
 
-.regLogo{
-  /* display: block; */
-  width: 100px;
+.regLogo img{
+  display: block;
+  margin: auto;
+  /* width: 100px; */
 }
 
 #regContainer label{
@@ -151,6 +163,25 @@ table .dl_hidden_cell {
 #regRequired{
   margin-bottom: 25px;
 }
+
+/*CSS for registration2 form*/
+
+#regContainer2 .container #reg-row #reg-column #reg-box {
+  margin-top: 120px;
+  max-width: 600px;
+  height: 850px;
+  border: 1px solid #9C9C9C;
+  background-color: #EAEAEA;
+}
+
+#regContainer2 .container #reg-row #reg-column #reg-box #reg-form {
+  padding: 20px;
+}
+#regContainer2 .container #reg-row #reg-column #reg-box #reg-form #login-link {
+  margin-top: -85px;
+}
+
+/*CSS for login form*/
 
 #loginContainer .container #login-row #login-column #login-box {
   margin-top: 120px;
@@ -166,3 +197,4 @@ table .dl_hidden_cell {
 #loginContainer .container #login-row #login-column #login-box #login-form #register-link {
   margin-top: -85px;
 }
+

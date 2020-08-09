@@ -276,7 +276,7 @@ app.use('/shoppinglistovw', require('./shoppinglistovw.js')); //Routes to View g
 app.use('/shoppinglist', require('./shoppinglist.js')); //Routes to view an individual shopping list
 app.use('/login', require('./login.js')); //Routes for logging in
 app.use('/register', require('./register.js')); //Routes for registering
-
+app.use('/admin-portal', require('./admin-portal.js')); //Routes for resetting username / password
 
 app.use('/analytics', require('./analytics.js'));
 
@@ -609,12 +609,6 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
     //console.log(context);
     res.render('defaultlist', context);
   });
-});
-
-app.get('/admin-portal', ensureLoggedIn.ensureLoggedIn('/login'),
-  function(req,res,next){
-  res.locals.login = req.isAuthenticated();
-  res.render('admin-portal');
 });
 
 app.get('/logout', function(req, res){

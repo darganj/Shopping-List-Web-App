@@ -1,4 +1,4 @@
-
+{{!-- 
 <div id="regContainer" class="container">
   <div class="row">
     <div class="mx-auto">
@@ -36,4 +36,52 @@
         </div>
     </div>
   </div>
+</div> --}}
+
+
+<div id="regContainer2">
+   <div class="container">
+      <div id="reg-row" class="row justify-content-center align-items-center">
+         <div id="reg-column" class="col-md-6">
+            <div id="reg-box" class="col-md-12">
+               <form id="reg-form" class="form" action="/login" method="POST">
+                  <h3 class="text-center text-info">Welcome, Create an account</h3>
+                  <div class="regLogo"><img src="/small-logo.png" alt="Sh-sh-sh-Shopping logo">
+                  </div>
+                  <div class="form-group">
+                     <label for="username" class="text-info">Username: </label><br>
+                     <input type="text" name="username" id="username" placeholder="Username" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="password" class="text-info">Password: </label><br>
+                     <input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
+                  </div><br>
+
+                   <h3>Optional additional information</h3>
+                   <div class="form-group">
+                     <label for="firstName" class="text-info">First name: </label><br>
+                     <input type="text" name="firstName" id="firstName" placeholder="first name" class="form-control">
+                  </div>
+                   <div class="form-group">
+                     <label for="lastName" class="text-info">Last name: </label><br>
+                     <input type="text" name="lastName" id="lastName" placeholder="last name" class="form-control">
+                  </div><br>
+
+                  <div>
+                    <input type="radio" id="admin" name="userType" value="Admin" />
+                    <label for="admin">Admin</label>
+                    <input type="radio" id="user" name="userType" value="User" />
+                    <label for="user">User</label><br><br>
+
+                  <div class="form-group">
+                     <input type="submit" name="submit" class="btn btn-info btn-md" value="Submit">
+                  </div>
+                  <div id="login-link" class="text-right">
+                     <a href="/login" class="text-info">Login</a>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

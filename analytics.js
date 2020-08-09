@@ -19,8 +19,6 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var context = {};
     context.userID = res.locals.user.userID;
     context.userName = res.locals.user.userName;
-    var itemName = req.body.itemName;
-    var count = req.body.count;
   
     // var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
     console.log(1);
@@ -39,13 +37,13 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             "GROUP BY itemName " +
             "ORDER BY COUNT(List_of_Items.itemID) DESC";
         
-        connection.query(popAscOrder, function(err, results){
+        connection.query(popAscOrder, function(err, popAscResults){
             if(err){
                 console.log("ERROR: Ascending Order Query");
                 next(err);
                 return;
             };
-            var context = results;
+            context.context = popAscResults;
             console.log("Ascending Order Querying Completed");
             res.render('analytics', {context: context});
         });
@@ -57,13 +55,13 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             "GROUP BY itemName " +
             "ORDER BY counted ASC";
         
-        connection.query(popDescOrder, function(err, results){
+        connection.query(popDescOrder, function(err, popDescResults){
             if(err){
                 console.log("ERROR: Descending Order Query");
                 next(err);
                 return;
             };
-            var context = results;
+            context.context = popDescResults;
             console.log("Descending Order Querying Completed");
             res.render('analytics', {context: context});
         });

@@ -515,10 +515,14 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
           return;
         };
 
-        console.log("result:", result);
         from_list = result;
+        console.log("from_list:", from_list);
+
+        for (var element in from_list) {
+            console.log(element);
+        };
     });
-    console.log("from_list:", from_list);
+    //console.log("from_list:", from_list);
   }
 
   else {

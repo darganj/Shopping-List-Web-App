@@ -557,7 +557,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                 });
             };
 
-            /**
+
 
             // fetch & render all lists for user including newly added list
             var context = {};
@@ -573,7 +573,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                     res.render('shoppinglistovw', context);
             });
 
-            **/
+
 
         });
 

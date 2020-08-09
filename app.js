@@ -521,7 +521,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
         };
 
         to_list_id = result_to[0].listID;
-        console.log("to_list:", to_list_id);
+        console.log("to_list_id:", to_list_id);
 
         connection.query(merge_sql, [nameListFrom], function(err2, result_from, from_list){
 
@@ -537,7 +537,7 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                 connection.query(add_items_sql, [from_list[element].listID, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_from, from_list){
 
                     console.log("reached adding each item");
-                    console.log("listID:", to_list_id);
+                    console.log("listID:", from_list[element].listID);
                     console.log("itemID:", from_list[element].itemID);
                     console.log("quantity:", from_list[element].quantity);
                     console.log("markStatus:", from_list[element].markStatus);
@@ -547,6 +547,8 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                     };
                 });
             };
+
+            /**
 
             // fetch & render all lists for user including newly added list
             var context = {};
@@ -561,6 +563,8 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
                     //console.log(context);
                     res.render('shoppinglistovw', context);
             });
+
+            **/
 
         });
 

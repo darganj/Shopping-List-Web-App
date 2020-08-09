@@ -66,6 +66,25 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             res.render('analytics', context);
         });
     }
+    else
+    {
+        var defaultOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
+            "FROM List_of_Items " +
+            "JOIN Items ON List_of_Items.itemID=Items.itemID " +
+            "GROUP BY itemName " +
+            "ORDER BY itemName ASC";
+        
+        connection.query(defaultOrder, function(err, defaultOrderResults){
+            if(err){
+                console.log("ERROR: Default Order Query");
+                next(err);
+                return;
+            };
+            context.order = defaultOrderResults;
+            console.log("Default Order Querying Completed");
+            res.render('analytics', context);
+    }
+    
 });
         
     

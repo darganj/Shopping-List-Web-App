@@ -110,14 +110,16 @@ router.post('/save', /*ensureLoggedIn.ensureLoggedIn('/login',*/ function (req, 
     var quantity = req.body.quantity;
     var itemNote = req.body.itemNote;
 
-    connection.query('INSERT INTO Items (itemID, categoryID, itemName) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
+    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
         if (err) {
+            console.log("error");
             next(err);
             return;
         };
     });
-    connection.query('INSERT INTO List_of_Items (listID, itemID, quantity, markStatus, itemNote) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
+    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
         if (err) {
+            console.log("error");
             next(err);
             return;
         };

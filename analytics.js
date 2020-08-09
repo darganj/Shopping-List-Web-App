@@ -28,10 +28,6 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     }
     // console.log(4)
 
-});
-
-// Display Results
-router.get('/', function(req, res, next){
     if (req.query.ascending){
         
         var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
@@ -69,8 +65,8 @@ router.get('/', function(req, res, next){
             console.log("Descending Order Querying Completed");
             res.render('analytics', {context: context});
         });
-    }        
-}
+    }
+});
         
     
 module.exports = router;

@@ -503,7 +503,8 @@ app.post('/shoppinglistovw', /*ensureLoggedIn.ensureLoggedIn('/login'),*/functio
     // console.log("testing if it goes to this route");
     // console.log("");
 
-  if (req.body.mergeList) {
+  if (req.body.mergeLists) {
+    console.log("reached merge lists");
     var {nameListTo, nameListFrom} = req.body;
     var merge_sql = 'SELECT * FROM yvan9rk2m2he5boz.List_of_Items LEFT JOIN Lists ON List_of_Items.listID = Lists.listID LEFT JOIN Items on List_of_Items.itemID = Items.itemID WHERE nameList=?';
     var from_list;

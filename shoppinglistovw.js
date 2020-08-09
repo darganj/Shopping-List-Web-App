@@ -42,11 +42,11 @@ Input Params: - res containing server response to call
                 - context - to be populated with shopping list info
                 - complete - callback function
 Returns: context is filled with all info on user Shopping Lists*/
-function getShoppingLists(res, userID, connection, context, complete) {
+function getShoppingLists(userID, connection, context, complete) {
 
     var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
 
-    connection.query(query, userID, function (err, results, fields) {
+    connection.query(query, userID, function (err, results) {
         if (err) {
             console.log("error");
             next(err);
@@ -68,7 +68,7 @@ Input Params: -  res containing server response to call
                 - context - to be populated with shopping list info
                 - complete - callback function
 Returns: context is filled with all info on user Shopping Lists*/
-function getSpecificShoppingList(res, listID, connection, context, complete) {
+function getSpecificShoppingList(listID, connection, context, complete) {
 
 
     var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
@@ -76,7 +76,7 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
   var query = 'SELECT * FROM Lists WHERE Lists.listID = ?';
 
 
-    connection.query(query, listID, function (err, results, fields) {
+    connection.query(query, listID, function (err, results) {
         if (err) {
             console.log("error");
             next(err);
@@ -85,11 +85,12 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
         context.userlists = results;
         complete();
     });
-
-
 }
 
-/*function transform (arr) {
+/* Function to sort and output lists as a grid format, 3 across and multiple down.
+To Do: Insert lists into array that can be sorted by Transform function.
+
+function transform (arr) {
     var result = [], temp = [];
     console.log("starting transform function");
     arr.forEach(function(elem, i) {
@@ -131,7 +132,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     if (listID) { //Verify that a listID was input in the Form
         
 
-        getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
+        getSpecificShoppingList(listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
@@ -144,7 +145,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
                         //Delete list, cascades and will delete list references in list_of_items table
 
-                        connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
+                        connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err) {
                             if (err) {
                                 next(err);
                                 return;
@@ -176,10 +177,6 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
 
     res.redirect('/shoppinglistovw'); //Reroute user back to shopping list ovw
-
-
-
-    
 });
 
 
@@ -211,7 +208,7 @@ router.post('/update', function (req, res, next) {
     if (listID) { //Verify that a listID was input in the Form
 
 
-        getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
+        getSpecificShoppingList(listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
@@ -230,7 +227,7 @@ router.post('/update', function (req, res, next) {
 
                         //Delete list, cascades and will delete list references in list_of_items table
 
-                        connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err, result) {
+                        connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err) {
                             if (err) {
                                 next(err);
                                 return;
@@ -296,7 +293,7 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
 
 
     // add new list for user
-    connection.query('INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)', [userID, date, nameList], function (err, result) {
+    connection.query('INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)', [userID, date, nameList], function (err) {
 
         if (err) {
             //TODO: Send notification to user of error
@@ -307,14 +304,12 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
 
 
     res.redirect('/shoppinglistovw'); //Route back to users shopping lists
-
-
 });
 
 /*Router Function for Shopping List Overview
     * This route will display the shopping list overview for a provided user. The GET Method must contain
     * the user ID in the URL*/
-router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res) {
 
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
@@ -327,7 +322,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     if (userID) {
 
 
-        getShoppingLists(res, userID, connection, context, complete);
+        getShoppingLists(userID, connection, context, complete);
         getUserData(connection, context, userID, complete);
         function complete() {
             callbackCount++;
@@ -341,9 +336,6 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         console.log("No user ID provided");
         res.render('shoppinglistovw'); //if no userID is provided render basic view.
     }
-
-
-
 });
 
 

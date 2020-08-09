@@ -44,7 +44,7 @@ function getUserData(connection, context, userID, complete, next) {
 function getShoppingListData(connection, listID, context, complete, next) {
 
     var query = "SELECT * FROM Lists Where listID = ?";
-    connection.query(query, listID, function (err, results, fields) {
+    connection.query(query, listID, function (err, results) {
         if (err) {
             console.log("query error");
             next(err);
@@ -57,10 +57,10 @@ function getShoppingListData(connection, listID, context, complete, next) {
 }
 
 
-function getItems(res, listID, connection, context, complete, next) {
+function getItems(listID, connection, context, complete, next) {
 
     var query = 'SELECT List_of_Items.listOfItems, Lists.listID, Lists.nameList, List_of_Items.itemID, List_of_Items.quantity, List_of_Items.markStatus, List_of_Items.itemNote, Items.itemName FROM Lists LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID LEFT JOIN Items ON List_of_Items.itemID = Items.itemID WHERE Lists.listID = ?';
-    connection.query(query, listID, function (err, results, fields) {
+    connection.query(query, listID, function (err, results) {
         if (err) {
             console.log("error");
             next(err);
@@ -88,7 +88,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var callbackCount = 0;
     
 
-    getItems(res, listID, connection, context, complete, next);
+    getItems(listID, connection, context, complete, next);
     getUserData(connection, context, userID, complete, next);
     getShoppingListData(connection, listID, context, complete, next);
     function complete() {
@@ -110,14 +110,14 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     var quantity = req.body.quantity;
     var itemNote = req.body.itemNote;
 
-    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
+    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err) {
         if (err) {
             console.log("error");
             next(err);
             return;
         };
     });
-    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
+    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err) {
         if (err) {
             console.log("error");
             next(err);
@@ -127,7 +127,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 
     var context = {};
     var callbackCount = 0;
-    getItems(res, listID, connection, context, complete, next);
+    getItems(listID, connection, context, complete, next);
     getUserData(connection, context, userID, complete, next);
     getShoppingListData(connection, listID, context, complete, next);
 

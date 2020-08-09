@@ -540,32 +540,6 @@ app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'
 });
 
 
-
-// route to update the item in the list
-/*app.get('/edit-list',function(req,res,next){
-  var context = {};
-
-  // sql placeholder variable
-  var getShoppingList = "SELECT Users.userName, Lists.nameList, List_of_Items.quantity, Items.itemName " +
-  "FROM Users " +
-    "LEFT JOIN Lists ON Lists.userID = Users.userID " +
-    "LEFT JOIN List_of_Items ON List_of_Items.listID = Lists.listID " +
-    "LEFT JOIN Items ON List_of_Items.itemID = Items.itemID " +
-  "WHERE Users.userID=? AND Lists.listID=?;";
-
-  // execute the sql to render and display the shopping list
-  connection.query(getShoppingList, function(err, result){
-    if (err){
-      console.log(1);
-      next(err);
-      return;
-    }
-    context.list = result;
-    res.render('edit-list');
-  });
-});
-*/
-
 app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
   res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
@@ -638,7 +612,7 @@ app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, re
 app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
   res.locals.login = req.isAuthenticated();
         var {listID, itemID, quantity} = req.body;
-        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
+        connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err){
             if(err){
                 next(err);
                 return;
@@ -649,7 +623,7 @@ app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,
 });
 
 
-app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res){
   res.locals.login = req.isAuthenticated();
   res.render('edit-list');
 });
@@ -659,8 +633,8 @@ app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req,
     res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
-        var { listID, itemID, quantity } = req.body; // required front-end args: listID, itemID, quantity
-        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [1, listID, itemID], function (err, result) {
+        var { listID, itemID } = req.body; // required front-end args: listID, itemID, quantity
+        connection.query('UPDATE List_of_Items SET markStatus=? WHERE listID=? AND itemID= ?', [1, listID, itemID], function (err) {
             if (err) {
                 next(err);
                 return;
@@ -684,7 +658,6 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
       next(err);
       return;
     }
-    var defaultItemsList = JSON.stringify(result);
     //context.defaultItemsList = defaultItemsList;
     context.defaultItemsList = result;
     //console.log(context);

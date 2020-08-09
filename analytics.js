@@ -2,6 +2,8 @@
  * app.use('/routepath',require('javascriptfile.js'));*/
 
 var express = require('express'); //Have to require express again since this is a separate js file
+var myConnection = require('./dbcon.js');
+var connection = myConnection.connection;
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var helmet = require('helmet');
@@ -29,7 +31,6 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     // console.log(4)
 
     if (req.query.ascending){
-        var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
         var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +
@@ -48,7 +49,6 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         });
     }
     else if (req.query.descending){
-        var connection = req.app.get('connection'); //You must put this in every route, this pulls database connection into route
         var popDescOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +
             "FROM List_of_Items " +
             "JOIN Items ON List_of_Items.itemID=Items.itemID " +

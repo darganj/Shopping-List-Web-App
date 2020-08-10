@@ -86,8 +86,8 @@ CREATE TABLE `List_of_Items` (
   `listID` int(11) NOT NULL,
   `itemID` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
+  `itemNote` varchar(255) DEFAULT NULL,
   `markStatus` int(11),
-  'itemNote' varchar(255) DEFAULT NULL,
   PRIMARY KEY (`listOfItems`),
   KEY `listID` (`listID`),
   KEY `itemID` (`itemID`),
@@ -103,7 +103,7 @@ CREATE TABLE `List_of_Items` (
 LOCK TABLES `List_of_Items` WRITE;
 /*!40000 ALTER TABLE `List_of_Items` DISABLE KEYS */;
 
-INSERT INTO `List_of_Items` VALUES (1,1,4,2,'get extras'),(2,1,5,1, 'buy unripe'),(3,2,3,3, 'frozen preferred'),(4,2,2,4,'look for fresh'),(5,2,1,2,'get brown'),(6,3,7,1, 'get organic');
+INSERT INTO `List_of_Items` VALUES (1,1,4,2,'get extras', ''),(2,1,5,1, 'buy unripe',''),(3,2,3,3, 'frozen preferred',''),(4,2,2,4,'look for fresh',''),(5,2,1,2,'get brown',''),(6,3,7,1, 'get organic','');
 
 /*!40000 ALTER TABLE `List_of_Items` ENABLE KEYS */;
 UNLOCK TABLES;

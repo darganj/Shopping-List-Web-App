@@ -20,6 +20,7 @@
                 <th>Quantity</th>
                 <th>Check Status</th>
                 <th>Description</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,10 @@
 
                 </td>
                 <td>{{ itemNote }}</td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-itemName="{{ items.itemName }}" data-quantity="{{ List_of_Items.quantity }}" data-markStatus="{{ List_of_Items.markStatus }}" data-itemNote="{{ List_of_Items.itemNote }}">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ Items.itemID }}">Delete</a>
+                </td>
             </tr>
             {{/each}}
         </tbody>

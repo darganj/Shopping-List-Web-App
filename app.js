@@ -582,7 +582,7 @@ app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, re
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-// app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+// app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*///function (req, res, next) {
 /*
 	res.locals.login = req.isAuthenticated();
     // 1) marking an item

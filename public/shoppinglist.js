@@ -19,7 +19,6 @@ function addListeners() {
         });
         //console.log(JSON.stringify(request_body));
         deleteListFromDB.send(JSON.stringify(request_body));
-        };
-        event.preventDefault();
         });
+        event.preventDefault();
 };

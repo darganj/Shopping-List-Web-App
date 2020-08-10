@@ -102,6 +102,8 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
 
 });
 
+/* Add Item to list via Add Item Modal*/
+
 router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;

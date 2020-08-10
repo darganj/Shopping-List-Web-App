@@ -265,12 +265,10 @@ function getUserData(connection, context, userName, complete) {
   });
 }
 
-// TESTING DEAD CODE
-
 // route to update an existing shopping list's name and/or date for a user
-// app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
 
-/* res.locals.login = req.isAuthenticated();
+res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -297,7 +295,6 @@ function getUserData(connection, context, userName, complete) {
         res.render('shoppinglistovw', context);
     });
 });
-*/
 
 // route for:
 //     - adding a new item to a shopping list

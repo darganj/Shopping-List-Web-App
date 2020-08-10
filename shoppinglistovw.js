@@ -126,48 +126,44 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
     /*Ensure the list is owned by  the user*/
     var context = {};
-    var callbackCount = 0;
+
 
     if (listID) { //Verify that a listID was input in the Form
         
 
         getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
 
-                if (context.userlists[0]) {  // Check if a value was returned from SELECT query
+            if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
-                    var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
+                var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
                                        
-                    if (userID == foundUserID) { 
+                if (userID == foundUserID) { 
 
-                        //Delete list, cascades and will delete list references in list_of_items table
+                    //Delete list, cascades and will delete list references in list_of_items table
 
-                        connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
+                    connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
+                        if (err) {
+                            next(err);
+                            return;
+                        }
+                    });
                         
 
-                    } else {
-                       
-                        console.log("user doesn't own list");
-
-                    }
-
-
-
                 } else {
-                    
-                    console.log('shopping list id not found');
+                       
+                    console.log("user doesn't own list");
 
                 }
 
 
+
+            } else {
+                    
+                console.log('shopping list id not found');
+
             }
+
         }
     } else {
         console.log("No listID provided");
@@ -207,45 +203,44 @@ router.post('/update', function (req, res, next) {
 
     /*Ensure the list is owned by  the user*/
     var context = {};
-    var callbackCount = 0;
+
     if (listID) { //Verify that a listID was input in the Form
 
 
         getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-
-                if (context.userlists[0]) {  // Check if a value was returned from SELECT query
-
-                    var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
-
-                    if (userID == foundUserID) {
-
-                        //If data not input, do not change
-                        if (!newListName) { newListName = context.userlists[0].nameList };
-                        if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
+            if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
-                        //Delete list, cascades and will delete list references in list_of_items table
+                var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
 
-                        connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
+                if (userID == foundUserID) {
 
-                    } else {
-                        console.log("user doesn't own list");
-                    }
+                    //If data not input, do not change
+                    if (!newListName) { newListName = context.userlists[0].nameList };
+                    if (!newListDate) { newListDate = context.userlists[0].listCreated };
+
+
+
+                    //Delete list, cascades and will delete list references in list_of_items table
+
+                    connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err, result) {
+                        if (err) {
+                            next(err);
+                            return;
+                        }
+                    });
 
                 } else {
-
-                    console.log('shopping list id not found');
+                    console.log("user doesn't own list");
                 }
+
+            } else {
+
+                console.log('shopping list id not found');
             }
+
         }
     } else {
         console.log("No listID provided");

@@ -10,6 +10,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var express_enforces_ssl = require('express-enforces-ssl');
 var ensureLoggedIn = require('connect-ensure-login');
+const { route } = require('./shoppinglistovw.js');
 var router = express.Router();
 
 
@@ -50,7 +51,7 @@ function getShoppingListData(connection, listID, context, complete, next) {
             next(err);
             return;
         }
-        context.listdata = results[0];
+        context.listdata = results; //removed [0] from results[0]
         complete();
     });
 
@@ -108,8 +109,12 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
 
+    var itemID = req.body.itemID;
+    var categoryID = req.body.categoryID;
     var itemName = req.body.itemName; 
+    var listID = req.body.listID;
     var quantity = req.body.quantity;
+    var markStatus = req.body.markStatus;
     var itemNote = req.body.itemNote;
 
     connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
@@ -127,18 +132,102 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
         };
     });
 
+    res.redirect('shoppinglist');
+        
+});
+
+/* Delete Item from list */
+
+router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+
+    var itemID = req.body.itemID;
+    var userID = res.locals.user.userID;
+
     var context = {};
     var callbackCount = 0;
-    getItems(res, listID, connection, context, complete, next);
-    getUserData(connection, context, userID, complete, next);
-    getShoppingListData(connection, listID, context, complete, next);
 
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 3) {
-            res.render('shoppinglist', { context: context.listitems });
+    if (itemID) {
+        getItems(res, listID, connection, context, complete, next);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                if (context.userlists[0]) {
+                    var foundUserID = context.userlists[0].userID;
+
+                    if (userID == foundUserID) {
+
+                        connection.query("DELETE FROM Items WHERE itemID=?", [req.body.itemID], function (err, result) {
+                            if (err) {
+                                next(err);
+                                return;
+                            }
+                        });
+                    }
+                    else {
+                        console.log("user does not have item");
+                    }
+                }
+                else {
+                    console.log("item ID not found.");
+                }
+            }
         }
     }
+    else {
+        console.log("No itemID provided.");
+    }
+    res.redirect('/shoppinglist');
+});
+
+/*Edit/Update Item in List */
+
+router.post('/update', function(req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
+
+    var itemID = req.body.itemID;
+    var newItemQuantity = req.body.quantity;
+    var newItemNote = req.body.itemNote;
+    var userID = res.locals.user.userID;
+
+    var context = {};
+    var callbackCount = 0;
+    if (itemID {
+        getItems(res, listID, connection, context, complete, next);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                if (context.userlists[0]) {
+                    var foundUserID = context.userlists[0].userID;
+
+                    if (userID == foundUserID) {
+
+                        if (!newItemQuantity) { newItemQuantity = context.userlists[0].quantity };
+                        if (!newItemNote) { newItemNote = context.userlists[0].itemNote };
+
+                        connection.query("UPDATE List_of_Items SET quantity=?, itemNote=? WHERE itemID=?", [newItemQuantity, newItemNote, itemID], function (err, result) {
+                            if (err) {
+                                next(err);
+                                return;
+                            }
+                        });
+                    }
+                    else {
+                        console.log("user does not have item");
+                    }
+                }
+                else {
+                    console.log("item ID not found.");
+                }
+            }
+        }
+    }
+    else {
+        console.log("No itemID provided.");
+    }
+    res.redirect('/shoppinglist');
 });
 
 

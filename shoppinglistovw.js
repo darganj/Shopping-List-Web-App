@@ -131,7 +131,7 @@ function deleteListByID(listID, connection) {
 
 }
 
-/*deleteListByID
+/*updateListByID
  * This function updates a shopping list based on a listID
  * Input Params -
  *              - listID - list to be deleted
@@ -155,7 +155,7 @@ function updateListByID(listID, connection, newName, newDate) {
     });
 }
 
-/*newList
+/*createNewList
  * This function adds a new list into the database
  * Input Params -
  *              - userID - user Owner of the DB
@@ -213,7 +213,9 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
                     //Delete list, cascades and will delete list references in list_of_items table
 
+
                     deleteListByID(listID, connection);
+
                         
 
                 } else {
@@ -275,6 +277,7 @@ router.post('/update', function (req, res, next) {
         function complete() {
 
 
+
             if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
                 var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
@@ -286,7 +289,6 @@ router.post('/update', function (req, res, next) {
                     if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
-                    updateListByID(listID, connection, newListName, newListDate);
 
 
                 } else {

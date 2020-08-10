@@ -12,6 +12,26 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
+
+/*function transform (arr) {
+    var result = [], temp = [];
+    console.log("starting transform function");
+    arr.forEach(function(elem, i) {
+        if (i > 0 && i % 3 === 0) {
+            result.push(temp);
+            temp = [];
+        }
+        temp.push(elem);
+    });
+    console.log("finished forEa Loop");
+    if (temp.length > 0) {
+        result.push(temp);
+    }
+    return result;
+}
+//data = transform(context.userlists);
+*/
+
 /*getUserAData Function
  * This function returns data for a specified userName
  * Input Params: - connection - existing mySQL connection to database
@@ -89,27 +109,78 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 }
 
-/*function transform (arr) {
-    var result = [], temp = [];
-    console.log("starting transform function");
-    arr.forEach(function(elem, i) {
-        if (i > 0 && i % 3 === 0) {
-            result.push(temp);
-            temp = [];
+/*deleteListByID
+ * This function deletes a shopping list based on a listID
+ * Input Params -
+ *              - listID - list to be deleted
+ *              - connection - existing DB connection
+ * Returns      - none
+ */
+function deleteListByID(listID, connection) {
+
+    var deleteQuery = "DELETE FROM Lists WHERE listID=?";
+
+    connection.query(deleteQuery, listID, function (err, result) {
+        if (err) {
+            console.log("Error Deleting List ID:" + listID);
+            next(err);
+            return;
         }
-        temp.push(elem);
+        console.log("Deleted List ID:" + listID);
     });
-    console.log("finished forEa Loop");
-    if (temp.length > 0) {
-        result.push(temp);
-    }
-    return result;
+
 }
-//data = transform(context.userlists);
-*/
+
+/*deleteListByID
+ * This function updates a shopping list based on a listID
+ * Input Params -
+ *              - listID - list to be deleted
+ *              - connection - existing DB connection
+ *              - newName - new name for the list
+ *              - newDate - new date for the list
+ * Returns      - none
+ */
+function updateListByID(listID, connection, newName, newDate) {
+
+    var updateQuery = "UPDATE Lists SET nameList =?, listCreated =? WHERE listID =?";
 
 
+    connection.query(updateQuery, [newName, newDate, listID], function (err, result) {
+        if (err) {
+            console.log("Error Updating List ID:" + listID);
+            next(err);
+            return;
+        }
+        console.log("Updated List ID:" + listID);
+    });
+}
 
+/*newList
+ * This function adds a new list into the database
+ * Input Params -
+ *              - userID - user Owner of the DB
+ *              - connection - existing DB connection
+ *              - name - name of the database
+ *              - date - date for the database
+ * Returns      - none
+ */
+function createNewList(userID, connection, name, date) {
+
+
+    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)';
+
+    connection.query(insertQuery, [userID, date, name], function (err, result) {
+
+        if (err) {
+            console.log("Error creating New List for User ID:" + userID);
+            next(err);
+            return;
+        };
+
+        console.log("New List " + name + " created for User ID:" + userID);
+    });
+
+}
 
 
 /*Router Function for Deleting an existing Shopping List from a Users Shopping Lists
@@ -142,12 +213,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
                     //Delete list, cascades and will delete list references in list_of_items table
 
-                    connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
-                        if (err) {
-                            next(err);
-                            return;
-                        }
-                    });
+                    deleteListByID(listID, connection);
                         
 
                 } else {
@@ -197,9 +263,7 @@ router.post('/update', function (req, res, next) {
     var newListDate = req.body.date;
     var userID = res.locals.user.userID; // Pulled from session data
 
-
-
-
+       
 
     /*Ensure the list is owned by  the user*/
     var context = {};
@@ -222,15 +286,8 @@ router.post('/update', function (req, res, next) {
                     if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
+                    updateListByID(listID, connection, newListName, newListDate);
 
-                    //Delete list, cascades and will delete list references in list_of_items table
-
-                    connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err, result) {
-                        if (err) {
-                            next(err);
-                            return;
-                        }
-                    });
 
                 } else {
                     console.log("user doesn't own list");
@@ -290,17 +347,8 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
     }
 
 
-    // add new list for user
-    connection.query('INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)', [userID, date, nameList], function (err, result) {
-
-        if (err) {
-            //TODO: Send notification to user of error
-            next(err);
-            return;
-        };
-    });
-
-
+    createNewList(userID, connection, nameList, date);
+    
     res.redirect('/shoppinglistovw'); //Route back to users shopping lists
 
 

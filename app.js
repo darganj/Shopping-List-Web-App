@@ -62,17 +62,6 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-
-
-
-
-
-
-
-
-
-
-
 // make url encoded info in query string usable
 var queryParams = function(req, res, next) {
   res.parts = req.query;
@@ -276,11 +265,12 @@ function getUserData(connection, context, userName, complete) {
   });
 }
 
-
+// TESTING DEAD CODE
 
 // route to update an existing shopping list's name and/or date for a user
-app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+// app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+
+/* res.locals.login = req.isAuthenticated();
   var context = {};
   var {name, date, listID, userID} = req.body;
 
@@ -290,6 +280,7 @@ app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
       return;
     }
   });
+	
 
   // fetch & render all remaining lists for user after deletion
     var context = {};
@@ -306,12 +297,14 @@ app.put('/shoppingList', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(re
         res.render('shoppinglistovw', context);
     });
 });
-
+*/
 
 // route for:
 //     - adding a new item to a shopping list
 //     - marking & unmarking an item
-app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+// app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+
+/*
     console.log("reached post to /shoppinglist");
     res.locals.login = req.isAuthenticated();
 
@@ -411,9 +404,10 @@ app.post('/shoppinglist', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (
 
 });
 
+*/
 
-
-app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+// app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+/*
   res.locals.login = req.isAuthenticated();
     // console.log("testing if it goes to this route");
     // console.log("");
@@ -464,6 +458,7 @@ app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'
                     console.log("markStatus:", from_list[element].markStatus);
 
                     **/
+/*
                     if (err3){
                       next(err3);
                       return;
@@ -492,7 +487,8 @@ app.post('/shoppinglistovw/mergelists', /*ensureLoggedIn.ensureLoggedIn('/login'
     });
 
 });
-
+*/
+/*
 app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
   res.locals.login = req.isAuthenticated();
   if (req.query.ascending) { // if sort by category in ascending order (test userID=3,listID=3)
@@ -561,8 +557,11 @@ app.get('/edit-list', ensureLoggedIn.ensureLoggedIn('/login'), function (req, re
     };
 });
 
+*/
+
 // route for adding a new item to a shopping list
-app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+// app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
+/*
   res.locals.login = req.isAuthenticated();
         var {listID, itemID, quantity} = req.body;
         connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`) VALUES (?, ?, ?)', [listID, itemID, quantity], function(err, result){
@@ -574,16 +573,18 @@ app.post('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,
         console.log(req.body);
         res.render('edit-list');
 });
+*/
 
+// app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
 
-app.delete('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function(req,res,next){
-  res.locals.login = req.isAuthenticated();
+/* res.locals.login = req.isAuthenticated();
   res.render('edit-list');
 });
 
 // route for 1) marking an item, 2) unmarking an item, ...(other additional features)
-app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
-    res.locals.login = req.isAuthenticated();
+// app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req, res, next) {
+/*
+	res.locals.login = req.isAuthenticated();
     // 1) marking an item
     if (req.body.markItem) { // include "markItem" value in submit element to indicate option 1
         var { listID, itemID, quantity } = req.body; // required front-end args: listID, itemID, quantity
@@ -596,8 +597,8 @@ app.put('/edit-list', /*ensureLoggedIn.ensureLoggedIn('/login'),*/function (req,
         res.render('edit-list');
     }
 });
-
-
+*/
+/*
 app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res,next){
   res.locals.login = req.isAuthenticated();
   var context = {};
@@ -618,6 +619,7 @@ app.get('/defaultlist', ensureLoggedIn.ensureLoggedIn('/login'),function(req,res
     res.render('defaultlist', context);
   });
 });
+*/
 
 app.get('/logout', function(req, res){
   res.locals.login = req.isAuthenticated();

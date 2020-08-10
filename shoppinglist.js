@@ -194,7 +194,7 @@ router.post('/update', function(req, res, next) {
 
     var context = {};
     var callbackCount = 0;
-    if (itemID {
+    if (itemID) {
         getItems(res, listID, connection, context, complete, next);
         function complete() {
             callbackCount++;

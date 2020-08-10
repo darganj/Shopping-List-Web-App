@@ -205,11 +205,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-
 //New Functions for each section
 app.set('connection', connection);
 app.use('/adminlanding', require('./adminlanding.js')); //Routes to admin landing page

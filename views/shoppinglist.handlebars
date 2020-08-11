@@ -87,7 +87,8 @@
 <br>
 
 <h2>Add new item </h2>
-<form action="/shoppinglist/save" method="post"> <!-- Comment, do we want name to be save?-->
+<form action="/shoppinglist/save" method="post">
+    <!-- Comment, do we want name to be save?-->
 
     <label>
         List ID : {{listdata.listID}}
@@ -117,7 +118,7 @@
 </form>
 
 <h2> Edit an Item </h2>
-<form action="TODO" method="post">
+<form action="shoppinglist/post" method="post">
 
     <label>
         <input type="hidden" name="listID" value="{{listdata.listID}}" />
@@ -141,7 +142,23 @@
 
 </form>
 
+<h2>Delete an Item </h2>
+<form action="shoppinglist/post" method="post">
 
+    <label>
+        <input type="hidden" name="listID" value="{{listdata.listID}}" />
+    </label>
+    <label>
+        Choose Item to Delete From Your LIst
+        <select name="itemID" id="itemID" required>
+            {{#each listitems}}
+            <option value="{{itemID}}">{{itemName}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Edit Item on Shopping List">
+
+</form>
 
 <!-- Add item to List form - to be completed-->
 

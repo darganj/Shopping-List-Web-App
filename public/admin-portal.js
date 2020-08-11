@@ -36,60 +36,32 @@ function drawTable(req){
         console.log("im about to update the table");
         let dataFromDatabase = JSON.parse(answer);
         console.log(dataFromDatabase);
-      }
+      
 //         let myFormReset = document.getElementById('addWorkoutForm').reset();
-//         let tableBody = document.getElementById('tableBody');
-//         tableBody.textContent = "";
+        let tableBody = document.getElementById('tableBody');
+        tableBody.textContent = "";
   
-//         for(let rowIndex = 0; rowIndex<dataFromDatabase.rows.length; rowIndex++){
-//           // console.log(dataFromDatabase.rows[rowIndex]);
+        for(let rowIndex = 0; rowIndex<dataFromDatabase.rows.length; rowIndex++){
+          // console.log(dataFromDatabase.rows[rowIndex]);
   
-//           let tempRow = document.createElement('tr');
-//           tempRow.id = dataFromDatabase.rows[rowIndex]["id"];
-//           tableBody.appendChild(tempRow);
-//           for(let index = 0; index < 6; index++){
-//             let newCell = document.createElement('td');
+          let tempRow = document.createElement('tr');
+          tempRow.id = dataFromDatabase.rows[rowIndex]["userId"];
+          tableBody.appendChild(tempRow);
+          for(let index = 0; index < 2; index++){
+            let newCell = document.createElement('td');
   
-//             if(index === 0){
-//               newCell.hidden = true;
-//               newCell.textContent = dataFromDatabase.rows[rowIndex]["id"];
-//             }
-//             if(index === 1){
-//               newCell.textContent = dataFromDatabase.rows[rowIndex]["name"];
-//             }
-//             if(index === 2){
-//               newCell.textContent = dataFromDatabase.rows[rowIndex]["reps"];
-//             }
-//             if(index === 3){
-//               newCell.textContent = dataFromDatabase.rows[rowIndex]["weight"];
-//             }
-//             if(index === 4){
-//               longDateFormat = dataFromDatabase.rows[rowIndex]["date"];
-  
-//               if(longDateFormat == null){
-//                 newCell.textContent = longDateFormat;
-//               }else{
-//                 var yyyy = longDateFormat.slice(0,4);
-//                 var mm = longDateFormat.slice(5,7);
-//                 var dd = longDateFormat.slice(8,10);
-//                 newCell.textContent = mm + "-" + dd + "-" + yyyy;
-//               }
-  
-//             }
-//             if(index === 5){
-//               var unitToPrint = dataFromDatabase.rows[rowIndex]["lbs"];
-  
-//               if(unitToPrint == 0){
-//                 newCell.textContent = "Kilograms";
-//               }else if(unitToPrint == 1){
-//                 newCell.textContent = "Pounds";
-//               }else{
-//                 newCell.textContent = "";
-//               }
-  
-//             }
-//             tempRow.appendChild(newCell);
-//           }
+            if(index === 0){
+            //   newCell.hidden = true;
+              newCell.textContent = dataFromDatabase.rows[rowIndex]["userId"];
+            }
+            if(index === 1){
+              newCell.textContent = dataFromDatabase.rows[rowIndex]["userName"];
+            }
+
+            tempRow.appendChild(newCell);
+          }
+        }
+    }
 //           let editButton = document.createElement('button');
 //           let deleteButton = document.createElement('button');
 //           editButton.textContent = "edit";

@@ -61,31 +61,49 @@ function drawTable(req){
             tempRow.appendChild(newCell);
           }
         }
-    }
-//           let editButton = document.createElement('button');
-//           let deleteButton = document.createElement('button');
-//           editButton.textContent = "edit";
-//           editButton.id = "editButton" + dataFromDatabase.rows[rowIndex]["id"];
-//           deleteButton.textContent = "delete";
-//           deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
-//           newCell = document.createElement('td');
-//           let newDiv = document.createElement('div')
-//           newDiv.style.display = "flex";
-//           newDiv.style.justifyContent = "space-around";
-//           newCell.appendChild(newDiv);
-//           newDiv.appendChild(editButton);
-//           newDiv.appendChild(deleteButton);
-//           tempRow.appendChild(newCell);
-//           document.getElementById(editButton.id).addEventListener('click', function(){editButtonPushed(editButton.id)});
-//           document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)}); //{
-  
+    
+        let nameButton = document.createElement('button');
+        let passwordButton = document.createElement('button');
+        let deleteButton = document.createElement('button');
+
+        nameButton.textContent = "name";
+        nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["id"];
+
+        passwordButton.textContent = "password";
+        passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["id"];
+
+        deleteButton.textContent = "delete";
+        deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
+
+        newCell = document.createElement('td');
+        let newDiv = document.createElement('div')
+        newDiv.style.display = "flex";
+        newDiv.style.justifyContent = "space-around";
+
+        newCell.appendChild(newDiv);
+
+        newDiv.appendChild(nameButton);
+        newDiv.appendChild(passwordButton);
+        newDiv.appendChild(deleteButton);
+
+        tempRow.appendChild(newCell);
+
+        document.getElementById(nameButton.id).addEventListener('click', function(){nameButtonPushed(nameButton.id)});
+        document.getElementById(passwordButton.id).addEventListener('click', function(){passwordButtonPushed(passwordButton.id)});
+        document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)}); //{
+      }
 //         }
 //       }
 //     }
 //   }
 }  
-//   function deleteButtonPushed(deleteButton_id){
-//     console.log('you clicked ' + deleteButton_id);
+
+function nameButtonPushed(nameButton_id){
+    console.log('you clicked ' + nameButton_id);
+}
+
+function deleteButtonPushed(deleteButton_id){
+    console.log('you clicked ' + deleteButton_id);
   
 //     // set up request
 //     let req = new XMLHttpRequest();
@@ -105,10 +123,10 @@ function drawTable(req){
 //     req.send(JSON.stringify({'id':deleteButton_id.slice(12)}));
 //     event.preventDefault();
   
-//   }
+}
   
-//   function editButtonPushed(editButton_id){
-//     console.log('you clicked ' + editButton_id);
+function editButtonPushed(editButton_id){
+    console.log('you clicked ' + editButton_id);
   
 //     let addWorkoutButton = document.getElementById('addWorkoutButton');
 //     addWorkoutButton.style.display = "none";
@@ -209,4 +227,4 @@ function drawTable(req){
 //       event.preventDefault();
   
 //     })
-// }
+}

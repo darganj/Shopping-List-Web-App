@@ -48,13 +48,14 @@ function deleteUser(req, next){
   var sqlOut = "SELECT ? FROM Users";
   var sqlDelete = "SELECT userID FROM Users";
   // var sqlDelete = "DELETE FROM Users WHERE userID=?"
-
+  console.log(req);
   connection.query(sqlOut, [req.userID], async function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();
             return;
         }
+        console.log(rows);
         if (rows[0].userID != req.userID){
           console.log("error finding userID");
           next();
@@ -66,6 +67,7 @@ function deleteUser(req, next){
               next();
               return;
           }
+          console.log(rows);
           console.log("I deleted something");
           console.log(rows[0].userID);
         })

@@ -126,7 +126,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
 
-    var itemID = req.body.itemID;
+
     var categoryID = req.body.categoryID;
     var itemName = req.body.itemName; 
     var listID = req.body.listID;
@@ -137,26 +137,30 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 
     console.log(req.body);
 
-    /*
+    itemquery = "INSERT INTO Items (`categoryID`, `itemName`) VALUE (?, ?)";
+    listofitemsquery = "INSERT INTO List_Of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUE (?, LAST_INSERT_ID(), ?, 0, ?";
 
-    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
+    connection.query(itemquery, [categoryID, itemName], function (err, result) {
         if (err) {
-            console.log("error");
+            console.log("Error inserting Item Name: " + itemName);
             next(err);
             return;
-        };
+        }
+        console.log("Inserted Item Name: " + itemName);
     });
-    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
+
+    connection.query(listofitemsquery, [listID, quantity, markStatus, itemNote], function (err, result) {
         if (err) {
-            console.log("error");
+            console.log("Error inserting Item into List_of_Items");
             next(err);
             return;
-        };
+        } 
+        console.log("Inserted Item into List_Of_Items");
     });
-*/
 
 
-    res.redirect('shoppinglist');
+
+    res.redirect('shoppinglist/?listID=' + listID);
         
 });
 

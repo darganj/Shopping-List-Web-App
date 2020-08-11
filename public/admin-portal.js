@@ -17,6 +17,7 @@ window.addEventListener('load', function(event){
   });
   
 function drawTable(req){
+  console.log("called drawTable");
     let answer = req.responseText;
     console.log(answer);
 

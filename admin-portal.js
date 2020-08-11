@@ -26,11 +26,12 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
         }
         if (results.length != -1){
             console.log(results);
+            res.render('admin-portal', {context: results});
             
         }
     });
 
-  res.render('admin-portal', {context: results});
+  
 });
 
 

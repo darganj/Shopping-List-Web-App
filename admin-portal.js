@@ -69,7 +69,7 @@ function deleteUser(req, next){
           }
           console.log(rows);
           console.log("I deleted something");
-          console.log(rows[0].userID);
+          console.log(rows.affectedRows);
         })
         // res.json({rows:rows});
     });

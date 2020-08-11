@@ -98,13 +98,21 @@
     </label>
     <label>
         Category (Required):
-        <select name="itemCategory" id="itemCategory" required>
+        <select name="categoryID" id="categoryID" required>
             {{#each categories}}
             <option value="{{categoryID}}">{{categoryName}}</option>
             {{/each}}
         </select>
     </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
+    <br />
+    <label>
+        Quantity
+        <input style="width:40px;" type="number" name="quantity">
+    </label>
+    <label>
+        <input type="text" name="itemNote" />
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add Item to Shopping List">
 </form>
 
 

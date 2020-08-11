@@ -60,38 +60,40 @@ function drawTable(req){
 
             tempRow.appendChild(newCell);
           }
-        }
+        
     
-        let nameButton = document.createElement('button');
-        let passwordButton = document.createElement('button');
-        let deleteButton = document.createElement('button');
+            let nameButton = document.createElement('button');
+            let passwordButton = document.createElement('button');
+            let deleteButton = document.createElement('button');
 
-        nameButton.textContent = "name";
-        nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["id"];
+            nameButton.textContent = "name";
+            nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["id"];
 
-        passwordButton.textContent = "password";
-        passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["id"];
+            passwordButton.textContent = "password";
+            passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["id"];
 
-        deleteButton.textContent = "delete";
-        deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
+            deleteButton.textContent = "delete";
+            deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
 
-        newCell = document.createElement('td');
-        let newDiv = document.createElement('div')
-        newDiv.style.display = "flex";
-        newDiv.style.justifyContent = "space-around";
+            newCell = document.createElement('td');
+            let newDiv = document.createElement('div')
+            newDiv.style.display = "flex";
+            newDiv.style.justifyContent = "space-around";
 
-        newCell.appendChild(newDiv);
+            newCell.appendChild(newDiv);
 
-        newDiv.appendChild(nameButton);
-        newDiv.appendChild(passwordButton);
-        newDiv.appendChild(deleteButton);
+            newDiv.appendChild(nameButton);
+            newDiv.appendChild(passwordButton);
+            newDiv.appendChild(deleteButton);
 
-        tempRow.appendChild(newCell);
+            tempRow.appendChild(newCell);
 
-        document.getElementById(nameButton.id).addEventListener('click', function(){nameButtonPushed(nameButton.id)});
-        document.getElementById(passwordButton.id).addEventListener('click', function(){passwordButtonPushed(passwordButton.id)});
-        document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)}); //{
-      }
+            document.getElementById(nameButton.id).addEventListener('click', function(){nameButtonPushed(nameButton.id)});
+            document.getElementById(passwordButton.id).addEventListener('click', function(){passwordButtonPushed(passwordButton.id)});
+            document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)}); //{
+      
+        }
+    }
 //         }
 //       }
 //     }

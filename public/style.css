@@ -217,3 +217,7 @@ table .dl_hidden_cell {
   display: flex;
   justify-content: space-around;
 }
+
+#modifyUser{
+  display: inline;
+}

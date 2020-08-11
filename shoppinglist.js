@@ -160,7 +160,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 
 
 
-    res.redirect('/shoppinglistovw/?listID=' + listID);
+    res.redirect('/shoppinglist/?listID=' + listID);
         
 });
 

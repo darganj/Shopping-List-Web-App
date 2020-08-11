@@ -45,10 +45,11 @@ function getTable(res, next){
 }
 
 function deleteUser(req, next){
-  var sqlOut = "SELECT userID FROM Users";
-  var sqlDelete = "DELETE FROM Users WHERE userID=?"
+  var sqlOut = "SELECT ? FROM Users";
+  var sqlDelete = "SELECT userID FROM Users";
+  // var sqlDelete = "DELETE FROM Users WHERE userID=?"
 
-  connection.query(sqlOut, async function (err, rows, fields) {
+  connection.query(sqlOut, [req.userID], async function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();
@@ -66,6 +67,7 @@ function deleteUser(req, next){
               return;
           }
           console.log("I deleted something");
+          console.log(rows[0].userID);
         })
         // res.json({rows:rows});
     });

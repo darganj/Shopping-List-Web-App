@@ -46,22 +46,22 @@ function getTable(res, next){
 
 function deleteUser(req, next){
   var sqlOut = "SELECT ? FROM Users";
-  var sqlDelete = "SELECT userID FROM Users";
+  var sqlDelete = "SELECT ? FROM Users";
   // var sqlDelete = "DELETE FROM Users WHERE userID=?"
-  console.log(req.body);
-  connection.query(sqlOut, [req.userID], function (err, rows, fields) {
+  console.log(req.body.userID);
+  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();
             return;
         }
         console.log(rows);
-        if (rows[0].userID != req.userID){
+        if (rows[0].userID != req.body.userID){
           console.log("error finding userID");
           next();
           return;
         }
-        connection.query(sqlDelete, [req.userID], function (err, rows, fields) {
+        connection.query(sqlDelete, [req.body.userID], function (err, rows, fields) {
           if (err) {
               console.log(err);
               next();

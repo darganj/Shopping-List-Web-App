@@ -110,24 +110,19 @@ function nameButtonPushed(nameButton_id){
 function deleteButtonPushed(deleteButton_id){
     console.log('you clicked ' + deleteButton_id);
   
-//     // set up request
-//     let req = new XMLHttpRequest();
-//     req.open("DELETE", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal", true);
-//     req.setRequestHeader('Content-Type', 'application/json');
+    // set up request
+    let req = new XMLHttpRequest();
+    req.open("DELETE", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal", true);
+    req.setRequestHeader('Content-Type', 'application/json');
   
   
-//     req.addEventListener('load', function(){
-//       console.log("async delete");
-//       // let answerD = req.responseText;
-//       drawTable(req);
-  
-  
-  
-  
-//       });
-//     req.send(JSON.stringify({'id':deleteButton_id.slice(12)}));
-//     event.preventDefault();
-  
+    req.addEventListener('load', function(){
+      console.log("async delete");
+      // let answerD = req.responseText;
+      drawTable(req);
+      });
+    req.send(JSON.stringify({'userID':deleteButton_id.slice(12)}));
+    event.preventDefault();
 }
   
 function passwordButtonPushed(passwordButton_id){

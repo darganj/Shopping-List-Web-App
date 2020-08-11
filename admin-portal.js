@@ -18,12 +18,17 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   res.render('admin-portal');
 });
 
-router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
+router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
   getTable(res, next);
 });
 
+router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
+  function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+  getTable(res, next);
+});
 
 function getTable(res, next){
   var sqlOut = "SELECT userID, userName FROM Users";
@@ -35,6 +40,33 @@ function getTable(res, next){
             return;
         }
         res.json({rows:rows});
+    });
+}
+
+function deleteUser(req, next){
+  var sqlOut = "SELECT userID FROM Users";
+  var sqlDelete = "DELETE FROM Users WHERE userID=?"
+
+  connection.query(sqlOut, async function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+            next();
+            return;
+        }
+        if (rows[0].userID != req.userID){
+          console.log("error finding userID");
+          next();
+          return;
+        }
+        connection.query(sqlDelete, async function (err, rows, fields) {
+          if (err) {
+              console.log(err);
+              next();
+              return;
+          }
+          console.log("I deleted something");
+        })
+        // res.json({rows:rows});
     });
 }
 

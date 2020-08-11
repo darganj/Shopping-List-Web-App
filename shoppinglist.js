@@ -51,7 +51,7 @@ function getShoppingListData(connection, listID, context, complete, next) {
             next(err);
             return;
         }
-        context.listdata = results; //removed [0] from results[0]
+        context.listdata = results[0];
         complete();
     });
 
@@ -75,6 +75,22 @@ function getItems(res, listID, connection, context, complete, next) {
 
 }
 
+function getCategories(connection, context, complete) {
+
+    var query = "SELECT * FROM Categories";
+    connection.query(query, function (err, results, fields) {
+        if (err) {
+            console.log("error retrieving Categories Data");
+            next(Err);
+            return;
+        }
+        context.categories = results;
+        console.log(context);
+        complete();
+    })
+
+}
+
 
 
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
@@ -92,10 +108,11 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     getItems(res, listID, connection, context, complete, next);
     getUserData(connection, context, userID, complete, next);
     getShoppingListData(connection, listID, context, complete, next);
+    getCategories(connection, context, complete);
     function complete() {
         
         callbackCount++;
-        if (callbackCount >= 3) {
+        if (callbackCount >= 4) {
             res.render('shoppinglist', context);
         }
     }
@@ -109,7 +126,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
 
-    var itemID = req.body.itemID;
+
     var categoryID = req.body.categoryID;
     var itemName = req.body.itemName; 
     var listID = req.body.listID;
@@ -117,22 +134,33 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     var markStatus = req.body.markStatus;
     var itemNote = req.body.itemNote;
 
-    connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
+
+    console.log(req.body);
+
+    itemquery = "INSERT INTO Items (`categoryID`, `itemName`) VALUE (?, ?)";
+    listofitemsquery = "INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUE (?, LAST_INSERT_ID(), ?, 0, ?)";
+
+    connection.query(itemquery, [categoryID, itemName], function (err, result) {
         if (err) {
-            console.log("error");
+            console.log("Error inserting Item Name: " + itemName);
             next(err);
             return;
-        };
-    });
-    connection.query('INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, 0, ?', [listID, itemID, quantity, markStatus, itemNote], function (err, result) {
-        if (err) {
-            console.log("error");
-            next(err);
-            return;
-        };
+        }
+        console.log("Inserted Item Name: " + itemName);
     });
 
-    res.redirect('shoppinglist');
+    connection.query(listofitemsquery, [listID, quantity, markStatus, itemNote], function (err, result) {
+        if (err) {
+            console.log("Error inserting Item into List_of_Items");
+            next(err);
+            return;
+        } 
+        console.log("Inserted Item into List_of_Items");
+    });
+
+
+
+    res.redirect('/shoppinglist/?listID=' + listID);
         
 });
 
@@ -143,11 +171,13 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     res.locals.user = req.user;
 
     var itemID = req.body.itemID;
-    var userID = res.locals.user.userID;
+  //  var userID = res.locals.user.userID;
 
     var context = {};
     var callbackCount = 0;
 
+
+    /*TODO add guard to make sure user can't delete items on another list
     if (itemID) {
         getItems(res, listID, connection, context, complete, next);
         function complete() {
@@ -178,7 +208,9 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     else {
         console.log("No itemID provided.");
     }
-    res.redirect('/shoppinglist');
+
+*/
+    res.redirect('/shoppinglist/?listID=' + listID);
 });
 
 /*Edit/Update Item in List */
@@ -187,47 +219,71 @@ router.post('/update', function(req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
 
+    var listID = req.body.listID;
     var itemID = req.body.itemID;
     var newItemQuantity = req.body.quantity;
     var newItemNote = req.body.itemNote;
-    var userID = res.locals.user.userID;
+//    var userID = res.locals.user.userID;
 
-    var context = {};
-    var callbackCount = 0;
+
+
+    updateQuery = "UPDATE List_of_Items SET quantity=?, itemNote=? WHERE itemID=?";
+    connection.query(updateQuery, [newItemQuantity, newItemNote, itemID], function (err, result) {
+        if (err) {
+            console.log("Error updating Item ID: " + itemID);
+            next(err);
+            return;
+        }
+        console.log("Update Item ID: " + itemID);
+    });
+
+
+
+
+
+    //var context = {};
+ 
+
+    /*TODO, add guards to prevent a user from editing an item in another list
+
+
     if (itemID) {
         getItems(res, listID, connection, context, complete, next);
         function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-                if (context.userlists[0]) {
-                    var foundUserID = context.userlists[0].userID;
+            
 
-                    if (userID == foundUserID) {
+            if (context.userlists[0]) {
+                var foundUserID = context.userlists[0].userID;
 
-                        if (!newItemQuantity) { newItemQuantity = context.userlists[0].quantity };
-                        if (!newItemNote) { newItemNote = context.userlists[0].itemNote };
+                if (userID == foundUserID) {
 
-                        connection.query("UPDATE List_of_Items SET quantity=?, itemNote=? WHERE itemID=?", [newItemQuantity, newItemNote, itemID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
-                    }
-                    else {
-                        console.log("user does not have item");
-                    }
+                    if (!newItemQuantity) { newItemQuantity = context.userlists[0].quantity };
+                    if (!newItemNote) { newItemNote = context.userlists[0].itemNote };
+
+                    connection.query("UPDATE List_of_Items SET quantity=?, itemNote=? WHERE itemID=?", [newItemQuantity, newItemNote, itemID], function (err, result) {
+                        if (err) {
+                            next(err);
+                            return;
+                        }
+                    });
                 }
                 else {
-                    console.log("item ID not found.");
+                    console.log("user does not have item");
                 }
             }
+            else {
+                console.log("item ID not found.");
+            }
+
         }
     }
     else {
         console.log("No itemID provided.");
     }
-    res.redirect('/shoppinglist');
+
+*/
+
+    res.redirect('/shoppinglist/?listID=' + listID);
 });
 
 

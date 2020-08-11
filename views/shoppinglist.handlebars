@@ -18,8 +18,8 @@
             <tr>
                 <th>Item Name</th>
                 <th>Quantity</th>
-                <th>Check Status</th>
                 <th>Description</th>
+                <th>Check Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -28,7 +28,9 @@
             <tr>
                 <td>{{ itemName }}</td>
                 <td>{{ quantity }}</td>
-                <td>{{#if markStatus }}
+                <td>{{ itemNote }}</td>
+                <td>
+                    {{#if markStatus }}
 
                     <form action="/shoppinglist" method="post">
                         <label>
@@ -60,12 +62,12 @@
                         <label>
 
                             <input style="display:none;width:40px;" type="text" name="nameList" value="{{nameList}}">
-                        <input class="btn btn-primary my-2 my-sm-0" type="submit" name="Unchecked" value="Unchecked">
+                            <input class="btn btn-primary my-2 my-sm-0" type="submit" name="Unchecked" value="Unchecked">
                     </form>
 
                     {{/unless}}
                 </td>
-                <td>{{ itemNote }}</td>
+
                 <td>
                     <a class="btn btn-sm btn-info edit" data-itemName="{{ items.itemName }}" data-quantity="{{ List_of_Items.quantity }}" data-markStatus="{{ List_of_Items.markStatus }}" data-itemNote="{{ List_of_Items.itemNote }}">Edit</a>
                     <a class="btn btn-sm btn-danger delete" data-id="{{ Items.itemID }}">Delete</a>
@@ -83,9 +85,80 @@
 </form>
 
 <br>
-<br>
-<br>
 
+<h2>Add new item </h2>
+<form action="/shoppinglist/save" method="post">
+    <!-- Comment, do we want name to be save?-->
+
+    <label>
+        List ID : {{listdata.listID}}
+        <input type="hidden" name="listID" value="{{listdata.listID}}">
+    </label>
+    <label>
+        Item Name (Required:
+        <input type="text" name="itemName" />
+    </label>
+    <label>
+        Category (Required):
+        <select name="categoryID" id="categoryID" required>
+            {{#each categories}}
+            <option value="{{categoryID}}">{{categoryName}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <br />
+    <label>
+        Quantity
+        <input style="width:40px;" type="number" name="quantity">
+    </label>
+    <label>
+        Item Note: <input type="text" name="itemNote" />
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add Item to Shopping List">
+</form>
+
+<h2> Edit an Item </h2>
+<form action="/shoppinglist/update" method="post">
+
+    <label>
+        <input type="hidden" name="listID" value="{{listdata.listID}}" />
+    </label>
+    <label>
+        Choose Item to Edit:
+        <select name="itemID" id="itemID" required>
+            {{#each listitems}}
+            <option value="{{itemID}}">{{itemName}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <label>
+        Quantity
+        <input style="width:40px;" type="number" name="quantity">
+    </label>
+    <label>
+        Item Note: <input type="text" name="itemNote" />
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Edit Item on Shopping List">
+
+</form>
+
+<h2>Delete an Item </h2>
+<form action="/shoppinglist/delete" method="post">
+
+    <label>
+        <input type="hidden" name="listID" value="{{listdata.listID}}" />
+    </label>
+    <label>
+        Choose Item to Delete From Your LIst
+        <select name="itemID" id="itemID" required>
+            {{#each listitems}}
+            <option value="{{itemID}}">{{itemName}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Edit Item on Shopping List">
+
+</form>
 
 <!-- Add item to List form - to be completed-->
 
@@ -109,11 +182,11 @@
                     </div>
                     <div class="form-group">
                         <input type="text" name="itemNote" class="form-control" placeholder="Description" required>
-                    </div>                   
+                    </div>
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button> 
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -138,11 +211,11 @@
                     </div>
                     <div class="form-group">
                         <input type="text" name="itemNote" class="form-control" placeholder="Description" required>
-                    </div>                   
+                    </div>
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button> 
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </div>
@@ -172,19 +245,6 @@
     </div>
 </form>
 
-
-<section>
-        <h2> Delete a shopping list by listID & userID: </h2>
-        <form>
-        <b>listID:</b>
-        <input type="number" name="listID" id="delete_shopping_list_listID" required>
-        <br />
-        <b>userID:</b>
-        <input type="number" name="userID" id="delete_shopping_list_userID" required>
-        <br />
-        <input type="submit" id="delete_shopping_list" name="delete_shopping_list" value="delete_shopping_list">
-        </form>
-    </section>
 
 
 <form action="/edit-list" method="GET">

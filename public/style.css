@@ -217,3 +217,13 @@ table .dl_hidden_cell {
   text-align: center;
   padding: 15px;
 }
+
+#pickUsernameForm{
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.userModButtons{
+  display: flex;
+  justify-content: space-around;
+}

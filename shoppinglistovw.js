@@ -91,7 +91,7 @@ Returns: context is filled with all info on user Shopping Lists*/
 function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 
-    var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
+    //var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
 
   var query = 'SELECT * FROM Lists WHERE Lists.listID = ?';
 
@@ -109,6 +109,18 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 }
 
+
+/* Function that takes in an array (lists) and creates a grid for the lists, 3 lists per row
+To Do: Get lists into array to pass through transform function
+
+function transform (arr) {
+    var result = [], temp = [];
+    console.log("starting transform function");
+    arr.forEach(function(elem, i) {
+        if (i > 0 && i % 3 === 0) {
+            result.push(temp);
+            temp = [];
+
 /*deleteListByID
  * This function deletes a shopping list based on a listID
  * Input Params -
@@ -125,6 +137,7 @@ function deleteListByID(listID, connection) {
             console.log("Error Deleting List ID:" + listID);
             next(err);
             return;
+
         }
         console.log("Deleted List ID:" + listID);
     });

@@ -21,6 +21,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
+  deleteUser(req, next);
   getTable(res, next);
 });
 
@@ -58,7 +59,7 @@ function deleteUser(req, next){
           next();
           return;
         }
-        connection.query(sqlDelete, async function (err, rows, fields) {
+        connection.query(sqlDelete, [req.userID], async function (err, rows, fields) {
           if (err) {
               console.log(err);
               next();

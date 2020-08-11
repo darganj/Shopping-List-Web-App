@@ -220,4 +220,6 @@ table .dl_hidden_cell {
 
 #modifyUser{
   display: inline;
+  border: 1px solid #9C9C9C;
+  background-color: #EAEAEA;
 }

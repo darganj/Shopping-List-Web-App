@@ -16,7 +16,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
 
-  var sqlOut = "SELECT * FROM Users";
+  var sqlOut = "SELECT userID, userName FROM Users";
 
   connection.query(sqlOut, async function (err, results, fields) {
         if (err) {

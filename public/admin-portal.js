@@ -66,14 +66,17 @@ function drawTable(req){
             let passwordButton = document.createElement('button');
             let deleteButton = document.createElement('button');
 
-            nameButton.textContent = "name";
+            nameButton.textContent = "username";
             nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["id"];
+            nameButton.classList.add("btn, btn-primary"); 
 
             passwordButton.textContent = "password";
             passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["id"];
+            passwordButton.classList.add("btn, btn-warning"); 
 
             deleteButton.textContent = "delete";
             deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
+            deleteButton.classList.add("btn, btn-danger"); 
 
             newCell = document.createElement('td');
             let newDiv = document.createElement('div')

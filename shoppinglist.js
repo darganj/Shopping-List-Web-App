@@ -51,7 +51,7 @@ function getShoppingListData(connection, listID, context, complete, next) {
             next(err);
             return;
         }
-        context.listdata = results; //removed [0] from results[0]
+        context.listdata = results[0];
         complete();
     });
 
@@ -75,6 +75,22 @@ function getItems(res, listID, connection, context, complete, next) {
 
 }
 
+function getCategories(connection, context, complete) {
+
+    var query = "SELECT * FROM Categories";
+    connection.query(query, function (err, results, fields) {
+        if (err) {
+            console.log("error retrieving Categories Data");
+            next(Err);
+            return;
+        }
+        context.categories = results;
+        console.log(context);
+        complete();
+    })
+
+}
+
 
 
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
@@ -92,10 +108,11 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     getItems(res, listID, connection, context, complete, next);
     getUserData(connection, context, userID, complete, next);
     getShoppingListData(connection, listID, context, complete, next);
+    getCategories(connection, context, complete);
     function complete() {
         
         callbackCount++;
-        if (callbackCount >= 3) {
+        if (callbackCount >= 4) {
             res.render('shoppinglist', context);
         }
     }

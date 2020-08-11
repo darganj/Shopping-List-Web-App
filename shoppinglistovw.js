@@ -88,7 +88,7 @@ Input Params: -  res containing server response to call
                 - context - to be populated with shopping list info
                 - complete - callback function
 Returns: context is filled with all info on user Shopping Lists*/
-function getSpecificShoppingList(res, listID, connection, context, complete) {
+function getShoppingListByID(res, listID, connection, context, complete) {
 
 
     //var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
@@ -215,7 +215,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     if (listID) { //Verify that a listID was input in the Form
         
 
-        getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
+        getShoppingListByID(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
 
             if (context.userlists[0]) {  // Check if a value was returned from SELECT query
@@ -286,7 +286,7 @@ router.post('/update', function (req, res, next) {
     if (listID) { //Verify that a listID was input in the Form
 
 
-        getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
+        getShoppingListByID(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
 
 
@@ -302,7 +302,7 @@ router.post('/update', function (req, res, next) {
                     if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
-
+                    updateListByID(listID, connection, newListName, newListDate);
 
                 } else {
                     console.log("user doesn't own list");

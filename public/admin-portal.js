@@ -45,14 +45,14 @@ function drawTable(req){
           // console.log(dataFromDatabase.rows[rowIndex]);
   
           let tempRow = document.createElement('tr');
-          tempRow.id = dataFromDatabase.rows[rowIndex]["userId"];
+          tempRow.id = dataFromDatabase.rows[rowIndex]["userID"];
           tableBody.appendChild(tempRow);
           for(let index = 0; index < 2; index++){
             let newCell = document.createElement('td');
   
             if(index === 0){
             //   newCell.hidden = true;
-              newCell.textContent = dataFromDatabase.rows[rowIndex]["userId"];
+              newCell.textContent = dataFromDatabase.rows[rowIndex]["userID"];
             }
             if(index === 1){
               newCell.textContent = dataFromDatabase.rows[rowIndex]["userName"];

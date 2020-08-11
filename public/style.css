@@ -196,3 +196,24 @@ table .dl_hidden_cell {
   margin-top: -85px;
 }
 
+/*CSS for admin-portal*/
+
+#resultsArea table{
+  border: 2px solid black;
+  border-style: groove;
+  width: 100%;
+}
+
+#resultsArea th{
+  text-align: center;
+}
+
+#resultsArea tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+#resultsArea td{
+  border: 1px solid black;
+  text-align: center;
+  padding: 15px;
+}

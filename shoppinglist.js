@@ -134,6 +134,11 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     var markStatus = req.body.markStatus;
     var itemNote = req.body.itemNote;
 
+
+    console.log(req.body);
+
+    /*
+
     connection.query('INSERT INTO Items (`itemID`, `categoryID`, `itemName`) VALUES (?, 1, ?)', [itemID, categoryID, itemName], function (err, result) {
         if (err) {
             console.log("error");
@@ -148,6 +153,8 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
             return;
         };
     });
+*/
+
 
     res.redirect('shoppinglist');
         

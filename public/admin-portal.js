@@ -19,7 +19,7 @@ window.addEventListener('load', function(event){
 function drawTable(req){
     let answer = req.responseText;
     console.log(answer);
-}
+
     // if(answer == "bad entry"){
     //   console.log("I found a bad entry");
     //   // var myResult = document.getElementById('databaseResult');
@@ -29,13 +29,14 @@ function drawTable(req){
     // }else{
     //   console.log("that was a good entry");
     //   // var myResult = document.getElementById('databaseResult');
-//       if(answer.results == ""){
-//         console.log("Can I get to answer.results is empty?");
-//         return;
-//       }else{
-//         console.log("im about to update the table");
-//         let dataFromDatabase = JSON.parse(answer);
-//         // console.log(dataFromDatabase);
+      if(answer.results == ""){
+        console.log("Can I get to answer.results is empty?");
+        return;
+      }else{
+        console.log("im about to update the table");
+        let dataFromDatabase = JSON.parse(answer);
+        console.log(dataFromDatabase);
+      }
 //         let myFormReset = document.getElementById('addWorkoutForm').reset();
 //         let tableBody = document.getElementById('tableBody');
 //         tableBody.textContent = "";
@@ -110,7 +111,7 @@ function drawTable(req){
 //       }
 //     }
 //   }
-  
+}  
 //   function deleteButtonPushed(deleteButton_id){
 //     console.log('you clicked ' + deleteButton_id);
   

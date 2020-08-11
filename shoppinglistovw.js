@@ -12,6 +12,26 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
+
+/*function transform (arr) {
+    var result = [], temp = [];
+    console.log("starting transform function");
+    arr.forEach(function(elem, i) {
+        if (i > 0 && i % 3 === 0) {
+            result.push(temp);
+            temp = [];
+        }
+        temp.push(elem);
+    });
+    console.log("finished forEa Loop");
+    if (temp.length > 0) {
+        result.push(temp);
+    }
+    return result;
+}
+//data = transform(context.userlists);
+*/
+
 /*getUserAData Function
  * This function returns data for a specified userName
  * Input Params: - connection - existing mySQL connection to database
@@ -89,6 +109,7 @@ function getSpecificShoppingList(res, listID, connection, context, complete) {
 
 }
 
+
 /* Function that takes in an array (lists) and creates a grid for the lists, 3 lists per row
 To Do: Get lists into array to pass through transform function
 
@@ -99,20 +120,80 @@ function transform (arr) {
         if (i > 0 && i % 3 === 0) {
             result.push(temp);
             temp = [];
+
+/*deleteListByID
+ * This function deletes a shopping list based on a listID
+ * Input Params -
+ *              - listID - list to be deleted
+ *              - connection - existing DB connection
+ * Returns      - none
+ */
+function deleteListByID(listID, connection) {
+
+    var deleteQuery = "DELETE FROM Lists WHERE listID=?";
+
+    connection.query(deleteQuery, listID, function (err, result) {
+        if (err) {
+            console.log("Error Deleting List ID:" + listID);
+            next(err);
+            return;
+
         }
-        temp.push(elem);
+        console.log("Deleted List ID:" + listID);
     });
-    console.log("finished forEa Loop");
-    if (temp.length > 0) {
-        result.push(temp);
-    }
-    return result;
+
 }
-//data = transform(context.userlists);
-*/
+
+/*updateListByID
+ * This function updates a shopping list based on a listID
+ * Input Params -
+ *              - listID - list to be deleted
+ *              - connection - existing DB connection
+ *              - newName - new name for the list
+ *              - newDate - new date for the list
+ * Returns      - none
+ */
+function updateListByID(listID, connection, newName, newDate) {
+
+    var updateQuery = "UPDATE Lists SET nameList =?, listCreated =? WHERE listID =?";
 
 
+    connection.query(updateQuery, [newName, newDate, listID], function (err, result) {
+        if (err) {
+            console.log("Error Updating List ID:" + listID);
+            next(err);
+            return;
+        }
+        console.log("Updated List ID:" + listID);
+    });
+}
 
+/*createNewList
+ * This function adds a new list into the database
+ * Input Params -
+ *              - userID - user Owner of the DB
+ *              - connection - existing DB connection
+ *              - name - name of the database
+ *              - date - date for the database
+ * Returns      - none
+ */
+function createNewList(userID, connection, name, date) {
+
+
+    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)';
+
+    connection.query(insertQuery, [userID, date, name], function (err, result) {
+
+        if (err) {
+            console.log("Error creating New List for User ID:" + userID);
+            next(err);
+            return;
+        };
+
+        console.log("New List " + name + " created for User ID:" + userID);
+    });
+
+}
 
 
 /*Router Function for Deleting an existing Shopping List from a Users Shopping Lists
@@ -129,48 +210,41 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
     /*Ensure the list is owned by  the user*/
     var context = {};
-    var callbackCount = 0;
+
 
     if (listID) { //Verify that a listID was input in the Form
         
 
         getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
 
-                if (context.userlists[0]) {  // Check if a value was returned from SELECT query
+            if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
-                    var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
+                var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
                                        
-                    if (userID == foundUserID) { 
+                if (userID == foundUserID) { 
 
-                        //Delete list, cascades and will delete list references in list_of_items table
+                    //Delete list, cascades and will delete list references in list_of_items table
 
-                        connection.query("DELETE FROM Lists WHERE listID=?", [req.body.listID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
+
+                    deleteListByID(listID, connection);
+
                         
 
-                    } else {
-                       
-                        console.log("user doesn't own list");
-
-                    }
-
-
-
                 } else {
-                    
-                    console.log('shopping list id not found');
+                       
+                    console.log("user doesn't own list");
 
                 }
 
 
+
+            } else {
+                    
+                console.log('shopping list id not found');
+
             }
+
         }
     } else {
         console.log("No listID provided");
@@ -204,51 +278,41 @@ router.post('/update', function (req, res, next) {
     var newListDate = req.body.date;
     var userID = res.locals.user.userID; // Pulled from session data
 
-
-
-
+       
 
     /*Ensure the list is owned by  the user*/
     var context = {};
-    var callbackCount = 0;
+
     if (listID) { //Verify that a listID was input in the Form
 
 
         getSpecificShoppingList(res, listID, connection, context, complete); //Function grabs a specified shopping list
         function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-
-                if (context.userlists[0]) {  // Check if a value was returned from SELECT query
-
-                    var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
-
-                    if (userID == foundUserID) {
-
-                        //If data not input, do not change
-                        if (!newListName) { newListName = context.userlists[0].nameList };
-                        if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
 
-                        //Delete list, cascades and will delete list references in list_of_items table
+            if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
-                        connection.query("UPDATE Lists SET nameList=?, listCreated=? WHERE listID=? ", [newListName, newListDate, listID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
+                var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
 
-                    } else {
-                        console.log("user doesn't own list");
-                    }
+                if (userID == foundUserID) {
+
+                    //If data not input, do not change
+                    if (!newListName) { newListName = context.userlists[0].nameList };
+                    if (!newListDate) { newListDate = context.userlists[0].listCreated };
+
+
+
 
                 } else {
-
-                    console.log('shopping list id not found');
+                    console.log("user doesn't own list");
                 }
+
+            } else {
+
+                console.log('shopping list id not found');
             }
+
         }
     } else {
         console.log("No listID provided");
@@ -298,17 +362,8 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
     }
 
 
-    // add new list for user
-    connection.query('INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)', [userID, date, nameList], function (err, result) {
-
-        if (err) {
-            //TODO: Send notification to user of error
-            next(err);
-            return;
-        };
-    });
-
-
+    createNewList(userID, connection, nameList, date);
+    
     res.redirect('/shoppinglistovw'); //Route back to users shopping lists
 
 

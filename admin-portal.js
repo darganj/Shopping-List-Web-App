@@ -46,8 +46,8 @@ function getTable(res, next){
 
 function deleteUser(req, next){
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
-  var sqlDelete = "SELECT * FROM Users WHERE userID=?";
-  // var sqlDelete = "DELETE FROM Users WHERE userID=?"
+  var sqlDelete = "DELETE * FROM Users WHERE userID=?";
+
   console.log(req.body.userID);
   connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
         if (err) {

@@ -18,8 +18,8 @@
             <tr>
                 <th>Item Name</th>
                 <th>Quantity</th>
-                <th>Check Status</th>
                 <th>Description</th>
+                <th>Check Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -28,6 +28,7 @@
             <tr>
                 <td>{{ itemName }}</td>
                 <td>{{ quantity }}</td>
+                <td>{{ itemNote }}</td>
                 <td>
                     {{#if markStatus }}
 
@@ -66,7 +67,7 @@
 
                     {{/unless}}
                 </td>
-                <td>{{ itemNote }}</td>
+
                 <td>
                     <a class="btn btn-sm btn-info edit" data-itemName="{{ items.itemName }}" data-quantity="{{ List_of_Items.quantity }}" data-markStatus="{{ List_of_Items.markStatus }}" data-itemNote="{{ List_of_Items.itemNote }}">Edit</a>
                     <a class="btn btn-sm btn-danger delete" data-id="{{ Items.itemID }}">Delete</a>
@@ -113,6 +114,31 @@
         Item Note: <input type="text" name="itemNote" />
     </label>
     <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add Item to Shopping List">
+</form>
+
+<h2> Edit an Item </h2>
+<form action="TODO" method="post">
+
+    <label>
+        <input type="hidden" name="listID" value="{{listdata.listID}}" />
+    </label>
+    <label>
+        Choose Item to Edit:
+        <select name="itemID" id="itemID" required>
+            {{#each listitems}}
+            <option value="{{itemID}}">{{itemName}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <label>
+        Quantity
+        <input style="width:40px;" type="number" name="quantity">
+    </label>
+    <label>
+        Item Note: <input type="text" name="itemNote" />
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Edit Item on Shopping List">
+
 </form>
 
 

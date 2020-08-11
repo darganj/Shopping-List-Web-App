@@ -122,7 +122,7 @@ function deleteButtonPushed(deleteButton_id){
       drawTable(req);
       });
     req.send(JSON.stringify({'userID':deleteButton_id.slice(12)}));
-    event.preventDefault();
+    // event.preventDefault();
 }
   
 function passwordButtonPushed(passwordButton_id){

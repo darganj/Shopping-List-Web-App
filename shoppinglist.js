@@ -138,7 +138,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
     console.log(req.body);
 
     itemquery = "INSERT INTO Items (`categoryID`, `itemName`) VALUE (?, ?)";
-    listofitemsquery = "INSERT INTO List_Of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUE (?, LAST_INSERT_ID(), ?, 0, ?";
+    listofitemsquery = "INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUE (?, LAST_INSERT_ID(), ?, 0, ?";
 
     connection.query(itemquery, [categoryID, itemName], function (err, result) {
         if (err) {
@@ -155,12 +155,12 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
             next(err);
             return;
         } 
-        console.log("Inserted Item into List_Of_Items");
+        console.log("Inserted Item into List_of_Items");
     });
 
 
 
-    res.redirect('shoppinglist/?listID=' + listID);
+    res.redirect('/?listID=' + listID);
         
 });
 

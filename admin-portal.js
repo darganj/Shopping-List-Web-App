@@ -30,7 +30,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
         }
     });
 
-  res.render('admin-portal');
+  res.render('admin-portal', {context: results});
 });
 
 

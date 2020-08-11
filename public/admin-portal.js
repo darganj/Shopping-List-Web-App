@@ -3,7 +3,7 @@ window.addEventListener('load', function(event){
   
      // set up request
        let req = new XMLHttpRequest();
-      req.open("GET", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal", true);
+      req.open("GET", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal/table", true);
   
       req.addEventListener('load', function(){
         console.log("window async listener working");

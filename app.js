@@ -454,7 +454,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
                         next(err);
                         return;
                     }
-                    context.context = results;
+                    context.userlists = results;
                     //console.log(context);
                     res.render('shoppinglistovw', context);
             });

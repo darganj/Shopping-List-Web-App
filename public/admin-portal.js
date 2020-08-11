@@ -67,15 +67,15 @@ function drawTable(req){
             let deleteButton = document.createElement('button');
 
             nameButton.textContent = "Change username";
-            nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["id"];
+            nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["userID"];
             nameButton.classList.add("btn", "btn-primary"); 
 
             passwordButton.textContent = "Change password";
-            passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["id"];
+            passwordButton.id = "passwordButton" + dataFromDatabase.rows[rowIndex]["userID"];
             passwordButton.classList.add("btn", "btn-warning"); 
 
             deleteButton.textContent = "Delete user";
-            deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["id"];
+            deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["userID"];
             deleteButton.classList.add("btn", "btn-danger"); 
 
             newCell = document.createElement('td');
@@ -130,8 +130,8 @@ function deleteButtonPushed(deleteButton_id){
   
 }
   
-function editButtonPushed(editButton_id){
-    console.log('you clicked ' + editButton_id);
+function passwordButtonPushed(passwordButton_id){
+    console.log('you clicked ' + passwordButton_id);
   
 //     let addWorkoutButton = document.getElementById('addWorkoutButton');
 //     addWorkoutButton.style.display = "none";

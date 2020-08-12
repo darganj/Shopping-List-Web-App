@@ -7,7 +7,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var express_enforces_ssl = require('express-enforces-ssl');
 var ensureLoggedIn = require('connect-ensure-login');
-const { route } = require('./shoppinglistovw.js');
+const { route } = require('./shoppinglist.js');
 var router = express.Router();
 
 router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
@@ -26,11 +26,10 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
             return;
         }
         console.log("SELECT QUERY SUCCESSFUL");
+    
+        // DELETE
         
-        // NOW DELETE
-        deleteItemQuery = "DELETE FROM List_of_Items WHERE List_of_Items.itemID=?";
-        
-        connection.query(deleteItemQuery, [context.itemID], function(err, result){
+        connection.query("DELETE FROM List_of_Items WHERE List_of_Items.itemID=?", [context.itemID], function(err, result){
             if(err){
                 next(err);
                 console.log("ERROR: DELETE QUERY TO DELETE");

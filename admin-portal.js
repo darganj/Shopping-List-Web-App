@@ -44,7 +44,7 @@ router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
   try{
-    usernameUser(req, next);
+    await usernameUser(req, next);
     try{
       getTable(res, next);
     }catch (err) {
@@ -166,7 +166,7 @@ async function passwordUser(req, next){
     });
 }
 
-function usernameUser(req, next){
+async function usernameUser(req, next){
   console.log(req.body);
 
   var sqlOut = "SELECT * FROM Users WHERE userID=?";

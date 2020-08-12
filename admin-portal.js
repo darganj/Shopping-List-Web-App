@@ -93,6 +93,8 @@ async function passwordUser(req, next){
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
   var sqlUpdate = "UPDATE Users SET password=? WHERE userID=?";
 
+  var newPasswordInput = '';
+
   console.log(req.body.userID);
   connection.query(sqlOut, [req.body.userID], async function (err, rows, fields) {
         if (err) {
@@ -114,7 +116,13 @@ async function passwordUser(req, next){
 
 
         try {
-          const hash = await argon2.hash(rows[0].userName, salt);
+          if (req.body.password === ''){
+            newPasswordInput = rows[0].userName;
+          }else{
+            newPasswordInput = req.body.password;
+          }
+
+          const hash = await argon2.hash(newPasswordInput, salt);
           console.log("the hash generated from the random salt and userName is:");
           console.log(hash);
 
@@ -143,6 +151,44 @@ async function passwordUser(req, next){
 
 function usernameUser(req, next){
   console.log(req.body);
+
+  var sqlOut = "SELECT * FROM Users WHERE userID=?";
+  var sqlUpdate = "SELECT * FROM Users WHERE userID=?";
+
+  var newUsernameInput = '';
+
+  console.log(req.body.userID);
+  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+            next();
+            return;
+        }
+        console.log(rows);
+        if (rows[0].userID != req.body.userID){
+          console.log("error finding userID");
+          next();
+          return;
+        }
+
+        if (req.body.password === ''){
+          newUsernameInput = rows[0].userName;
+        }else{
+          newUsernameInput = req.body.username;
+        }
+
+        connection.query(sqlUpdate, [req.body.userID], function (err, rows, fields) {
+          if (err) {
+              console.log(err);
+              next();
+              return;
+          }
+          console.log(rows);
+          console.log("I updated " + rows.affectedRows + " rows");
+          return;
+        })
+        // res.json({rows:rows});
+    });
 }
 
 module.exports = router;

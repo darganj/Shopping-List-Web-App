@@ -107,7 +107,7 @@ function nameButtonPushed(nameButton_id){
     console.log('you clicked ' + nameButton_id);
     let usernameEntry = document.getElementById('usernameInput');
     console.log(usernameEntry.value);
-    
+
      // set up request
      let req = new XMLHttpRequest();
      req.open("PATCH", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal", true);
@@ -117,10 +117,10 @@ function nameButtonPushed(nameButton_id){
      req.addEventListener('load', function(){
        console.log("async patch");
        console.log("I am the responseText");
-       console.log(req);
+       console.log(req.responseText);
        drawTable(req);
        });
-     req.send(JSON.stringify({'userID':nameButton_id.slice(10)}));
+     req.send(JSON.stringify({'userID':nameButton_id.slice(10),'username':usernameEntry.value}));
      event.preventDefault();
 }
 
@@ -161,7 +161,7 @@ function passwordButtonPushed(passwordButton_id){
         alert('password updated');
         });
   
-      req.send(JSON.stringify({'userID':passwordButton_id.slice(14)}));
+      req.send(JSON.stringify({'userID':passwordButton_id.slice(14),'password':passwordEntry.value}));
       event.preventDefault();
   
 }

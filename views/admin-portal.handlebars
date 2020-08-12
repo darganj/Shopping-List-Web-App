@@ -9,27 +9,16 @@
     <form id="pickUsernameForm">
       <fieldset>
         <div class="form-group row">
-          <label class="col-form-label col-sm-4" for="userName">Username: </label>
+          <label class="col-form-label col-sm-4" for="userName">New Username: </label>
           <div class="col-sm-6">
-            <input class="form-control" type="text" name="userName" placeholder="username" required = "required">
+            <input id="usernameInput" class="form-control" type="text" name="userName" placeholder="new username">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-form-label col-sm-4" for="firstName">First Name </label>
+          <label class="col-form-label col-sm-4" for="password">New Password: </label>
           <div class="col-sm-6">
-            <input class="form-control" type="text" name="firstName" placeholder="first name">
+            <input id="passwordInput" class="form-control" type="password" name="password" placeholder="new password">
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-form-label col-sm-4" for="lastName">Last Name: </label>
-          <div class="col-sm-6">
-            <input class="form-control" type="text" name="lastName" placeholder="last name">
-          </div>
-        </div>
-        <div class="userModButtons form-group row">
-          <button id="setUserNameButton" class="btn btn-primary" type="submit" value="userName">Change Username</button>
-          <button id="setPasswordButton" class="btn btn-warning" type="submit" value="password">Change Password</button>
-          <button id="deleteUserButton" class="btn btn-danger" type="submit" value="delete">Delete User</button>
         </div>
       </fieldset>
     </form>

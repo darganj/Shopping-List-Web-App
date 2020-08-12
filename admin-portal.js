@@ -32,6 +32,13 @@ router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
   getTable(res, next);
 });
 
+router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
+  async function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+  usernameUser(req, next);
+  getTable(res, next);
+});
+
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -134,6 +141,8 @@ async function passwordUser(req, next){
     });
 }
 
-
+function usernameUser(req, next){
+  console.log(req.body);
+}
 
 module.exports = router;

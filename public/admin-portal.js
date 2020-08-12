@@ -38,7 +38,6 @@ function drawTable(req){
         let dataFromDatabase = JSON.parse(answer);
         console.log(dataFromDatabase);
       
-//         let myFormReset = document.getElementById('addWorkoutForm').reset();
         let tableBody = document.getElementById('tableBody');
         tableBody.textContent = "";
   
@@ -106,6 +105,23 @@ function drawTable(req){
 
 function nameButtonPushed(nameButton_id){
     console.log('you clicked ' + nameButton_id);
+    let usernameEntry = document.getElementById('usernameInput');
+    console.log(usernameEntry.value);
+    
+     // set up request
+     let req = new XMLHttpRequest();
+     req.open("PATCH", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal", true);
+     req.setRequestHeader('Content-Type', 'application/json');
+   
+   
+     req.addEventListener('load', function(){
+       console.log("async patch");
+       console.log("I am the responseText");
+       console.log(req);
+       drawTable(req);
+       });
+     req.send(JSON.stringify({'userID':nameButton_id.slice(10)}));
+     event.preventDefault();
 }
 
 function deleteButtonPushed(deleteButton_id){
@@ -119,7 +135,6 @@ function deleteButtonPushed(deleteButton_id){
   
     req.addEventListener('load', function(){
       console.log("async delete");
-      // let answerD = req.responseText;
       let tableBody = document.getElementById('tableBody');
       tableBody.textContent = "";
       console.log("I am the responseText");
@@ -132,7 +147,8 @@ function deleteButtonPushed(deleteButton_id){
   
 function passwordButtonPushed(passwordButton_id){
     console.log('you clicked ' + passwordButton_id);
-  
+    let passwordEntry = document.getElementById('passwordInput');
+    console.log(passwordEntry.value);
   
       // set up request
       let req = new XMLHttpRequest();

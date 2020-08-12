@@ -43,7 +43,7 @@ router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
 });
 
 router.post('/admin', ensureLoggedIn.ensureLoggedIn('/login'),
-  function(req,res,next){
+  async function(req,res,next){
   res.locals.login = req.isAuthenticated();
   flipPermissions(req, res, next);
 });

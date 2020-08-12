@@ -48,7 +48,7 @@ function drawTable(req){
               newCell.textContent = dataFromDatabase.rows[rowIndex]["userName"];
             }
             if(index === 2){
-              if(dataFromDatabase.rows[rowIndex]["isAdmin"] === 0){
+              if(dataFromDatabase.rows[rowIndex]["isAdmin"] == 0){
                 newCell.textContent = "User";
               }else{
                 newCell.textContent = "Admin";

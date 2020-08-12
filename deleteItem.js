@@ -38,4 +38,6 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
             }
             console.log("DELETE QUERY SUCCESSFUL");
             res.render('/deleteItem);
+            });
+        });
 });

@@ -205,6 +205,19 @@ async function usernameUser(req, next){
           }
           console.log(rows);
           console.log("I updated " + rows.affectedRows + " rows");
+
+          connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+            if (err) {
+                console.log(err);
+                next();
+                return;
+            }
+            console.log("new");
+            console.log(rows);
+          });
+
+
+
           return;
         })
         // res.json({rows:rows});

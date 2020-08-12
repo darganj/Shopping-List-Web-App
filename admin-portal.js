@@ -28,8 +28,19 @@ router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  passwordUser(req, next);
-  getTable(res, next);
+  try{
+    passwordUser(req, next);
+    try{
+      getTable(res, next);
+    }catch (err) {
+      console.log("error in getTable");
+      }
+  }catch (err) {
+    console.log("error in passwordUser");
+    
+    }
+  
+  
 });
 
 router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),

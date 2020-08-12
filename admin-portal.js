@@ -48,7 +48,7 @@ router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
 function getTable(res, next){
   var sqlOut = "SELECT userID, userName FROM Users";
 
-  connection.query(sqlOut, async function (err, rows, fields) {
+  connection.query(sqlOut, function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();

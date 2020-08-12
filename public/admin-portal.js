@@ -113,6 +113,7 @@ function nameButtonPushed(nameButton_id){
    
      req.addEventListener('load', function(){
        console.log("async patch");
+       alert('username updated');
        console.log("I am the responseText");
        console.log(req.responseText);
        drawTable(req);
@@ -132,6 +133,7 @@ function deleteButtonPushed(deleteButton_id){
   
     req.addEventListener('load', function(){
       console.log("async delete");
+      alert('user deleted');
       let tableBody = document.getElementById('tableBody');
       tableBody.textContent = "";
       console.log("I am the responseText");

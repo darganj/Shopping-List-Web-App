@@ -18,45 +18,41 @@ window.addEventListener('load', function(event){
   
 function drawTable(req){
   console.log("called drawTable");
-    let answer = req.responseText;
-    console.log(answer);
+  let answer = req.responseText;
+  // console.log(answer);
 
-    // if(answer == "bad entry"){
-    //   console.log("I found a bad entry");
-    //   // var myResult = document.getElementById('databaseResult');
-    //   // myResult.textContent = "bad entry";
-    //   // console.log(answer);
-  
-    // }else{
-    //   console.log("that was a good entry");
-    //   // var myResult = document.getElementById('databaseResult');
       if(answer.results == ""){
         console.log("Can I get to answer.results is empty?");
         return;
       }else{
         console.log("I'm about to update the table");
         let dataFromDatabase = JSON.parse(answer);
-        console.log(dataFromDatabase);
+        // console.log(dataFromDatabase);
       
         let tableBody = document.getElementById('tableBody');
         tableBody.textContent = "";
         console.log("I am wiping the table clean");
   
         for(let rowIndex = 0; rowIndex<dataFromDatabase.rows.length; rowIndex++){
-          // console.log(dataFromDatabase.rows[rowIndex]);
   
           let tempRow = document.createElement('tr');
           tempRow.id = dataFromDatabase.rows[rowIndex]["userID"];
           tableBody.appendChild(tempRow);
-          for(let index = 0; index < 2; index++){
+          for(let index = 0; index < 3; index++){
             let newCell = document.createElement('td');
   
             if(index === 0){
-            //   newCell.hidden = true;
               newCell.textContent = dataFromDatabase.rows[rowIndex]["userID"];
             }
             if(index === 1){
               newCell.textContent = dataFromDatabase.rows[rowIndex]["userName"];
+            }
+            if(index === 2){
+              if(dataFromDatabase.rows[rowIndex]["isAdmin"] === 0){
+                newCell.textContent = "User";
+              }else{
+                newCell.textContent = "Admin";
+              }
             }
 
             tempRow.appendChild(newCell);
@@ -66,6 +62,7 @@ function drawTable(req){
             let nameButton = document.createElement('button');
             let passwordButton = document.createElement('button');
             let deleteButton = document.createElement('button');
+            let permButton = document.createElement('button');
 
             nameButton.textContent = "Change username";
             nameButton.id = "nameButton" + dataFromDatabase.rows[rowIndex]["userID"];
@@ -79,6 +76,10 @@ function drawTable(req){
             deleteButton.id = "deleteButton" + dataFromDatabase.rows[rowIndex]["userID"];
             deleteButton.classList.add("btn", "btn-danger"); 
 
+            permButton.textContent = "Flip Permission Level";
+            permButton.id = "permButton" + dataFromDatabase.rows[rowIndex]["userID"];
+            permButton.classList.add("btn", "btn-info"); 
+
             newCell = document.createElement('td');
             let newDiv = document.createElement('div')
             newDiv.style.display = "flex";
@@ -89,13 +90,15 @@ function drawTable(req){
             newDiv.appendChild(nameButton);
             newDiv.appendChild(passwordButton);
             newDiv.appendChild(deleteButton);
+            newDiv.appendChild(permButton);
 
             tempRow.appendChild(newCell);
 
             document.getElementById(nameButton.id).addEventListener('click', function(){nameButtonPushed(nameButton.id)});
             document.getElementById(passwordButton.id).addEventListener('click', function(){passwordButtonPushed(passwordButton.id)});
-            document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)}); //{
-      
+            document.getElementById(deleteButton.id).addEventListener('click', function(){deleteButtonPushed(deleteButton.id)});
+            document.getElementById(permButton.id).addEventListener('click', function(){permButtonPushed(permButton.id)});
+
         }
     }
 }  
@@ -115,8 +118,8 @@ function nameButtonPushed(nameButton_id){
        console.log("async patch");
        alert('username updated');
        let myFormReset = document.getElementById('pickUsernameForm').reset();
-       console.log("I am the responseText");
-       console.log(req.responseText);
+      //  console.log("I am the responseText");
+      //  console.log(req.responseText);
        drawTable(req);
        });
      req.send(JSON.stringify({'userID':nameButton_id.slice(10),'username':usernameEntry.value}));
@@ -138,8 +141,8 @@ function deleteButtonPushed(deleteButton_id){
       let myFormReset = document.getElementById('pickUsernameForm').reset();
       let tableBody = document.getElementById('tableBody');
       tableBody.textContent = "";
-      console.log("I am the responseText");
-      console.log(req);
+      // console.log("I am the responseText");
+      // console.log(req);
       drawTable(req);
       });
     req.send(JSON.stringify({'userID':deleteButton_id.slice(12)}));
@@ -149,7 +152,7 @@ function deleteButtonPushed(deleteButton_id){
 function passwordButtonPushed(passwordButton_id){
     console.log('you clicked ' + passwordButton_id);
     let passwordEntry = document.getElementById('passwordInput');
-    console.log(passwordEntry.value);
+    // console.log(passwordEntry.value);
   
       // set up request
       let req = new XMLHttpRequest();
@@ -165,5 +168,23 @@ function passwordButtonPushed(passwordButton_id){
   
       req.send(JSON.stringify({'userID':passwordButton_id.slice(14),'password':passwordEntry.value}));
       event.preventDefault();
-  
+}
+
+function permButtonPushed(permButton_id){
+  console.log('you clicked ' + permButton_id);
+
+  // set up request
+  let req = new XMLHttpRequest();
+  req.open("POST", "https://itworks-itco-admin1-hy2ohm3daz.herokuapp.com/admin-portal/admin", true);
+  req.setRequestHeader('Content-Type', 'application/json');
+
+
+  req.addEventListener('load', function(){
+    console.log("async post");
+    alert('permission level changed');
+    });
+
+  req.send(JSON.stringify({'userID':permButton_id.slice(10)}));
+  event.preventDefault();
+
 }

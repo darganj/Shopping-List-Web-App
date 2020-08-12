@@ -42,6 +42,12 @@ router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
   getTable(res, next);
 });
 
+router.post('/admin', ensureLoggedIn.ensureLoggedIn('/login'),
+  function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+  flipPermissions(req, res, next);
+});
+
 function getTable(res, next){
   var sqlOut = "SELECT userID, userName FROM Users";
 
@@ -221,6 +227,61 @@ async function usernameUser(req, res, next){
           return;
         })
     });
+}
+
+async function flipPermissions(req, res, next){
+  console.log("flip");
+  console.log(req.body);
+
+  newPermLevel = 0;
+
+  var sqlOut = "SELECT * FROM Users WHERE userID=?";
+  var sqlUpdate = "UPDATE Users SET isAdmin=? WHERE userID=?";
+
+  console.log(req.body.userID);
+  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+            next();
+            return;
+        }
+        console.log(rows);
+        if (rows[0].userID != req.body.userID){
+          console.log("error finding userID");
+          next();
+          return;
+        }
+
+        if (rows[0].isAdmin === 0){
+          newPermLevel = 1;
+        }else{
+          newPermLevel = 0;
+        }
+
+        connection.query(sqlUpdate, [newPermLevel, req.body.userID], function (err, rows, fields) {
+          if (err) {
+              console.log(err);
+              next();
+              return;
+          }
+          console.log(rows);
+          console.log("I updated " + rows.affectedRows + " rows");
+
+          connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+            if (err) {
+                console.log(err);
+                next();
+                return;
+            }
+            console.log("new");
+            console.log(rows);
+            getTable(res, next);
+          });
+
+          return;
+        })
+    });
+
 }
 
 module.exports = router;

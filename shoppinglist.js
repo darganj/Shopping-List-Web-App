@@ -166,6 +166,7 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 
 /* Delete Item from list */
 
+/*
 router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
@@ -195,7 +196,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
             console.log("DELETE QUERY SUCCESSFUL");
             res.redirect('/shoppinglist/?listID=' + listID);
 });
-
+*/
 /*Edit/Update Item in List */
 
 router.post('/update', function(req, res, next) {

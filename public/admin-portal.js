@@ -120,7 +120,7 @@ function deleteButtonPushed(deleteButton_id){
     req.addEventListener('load', function(){
       console.log("async delete");
       // let answerD = req.responseText;
-      drawTable(req);
+      drawTable(req.response);
       });
     req.send(JSON.stringify({'userID':deleteButton_id.slice(12)}));
     event.preventDefault();

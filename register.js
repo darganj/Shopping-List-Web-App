@@ -27,13 +27,13 @@ router.post('/',async function(req,res,next){
     var password = req.body.password;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-    var userType = req.body.userType;
+    // var userType = req.body.userType;
 
     // default is user, not admin
     var isAdmin = 0;
-    if (userType == "Admin") {
-        isAdmin = 1;
-    }
+    // if (userType == "Admin") {
+    //     isAdmin = 1;
+    // }
 
     var sqlOut = "SELECT * FROM Users WHERE userName = ?";
     var sqlIn = "INSERT INTO Users (`userName`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, NOW())";

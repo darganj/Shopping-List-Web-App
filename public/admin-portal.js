@@ -143,6 +143,9 @@ function passwordButtonPushed(passwordButton_id){
       req.addEventListener('load', function(){
         console.log("async put");
         alert('password updated');
+        let passwordButton = document.getElementById('passwordButton_id');
+        passwordButton.style.backgroundColor = "#ffc107";
+        passwordButton.style.borderColor = "#ffc107";
         });
   
   

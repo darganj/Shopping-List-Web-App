@@ -188,6 +188,10 @@ table .dl_hidden_cell {
 
 /*CSS for admin-portal*/
 
+.adminPortalTop{
+  margin-top: 120px;
+}
+
 #resultsArea table{
   border: 2px solid black;
   border-style: groove;

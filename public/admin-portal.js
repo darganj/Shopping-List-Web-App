@@ -40,6 +40,7 @@ function drawTable(req){
       
         let tableBody = document.getElementById('tableBody');
         tableBody.textContent = "";
+        console.log("I am wiping the table clean");
   
         for(let rowIndex = 0; rowIndex<dataFromDatabase.rows.length; rowIndex++){
           // console.log(dataFromDatabase.rows[rowIndex]);
@@ -97,10 +98,6 @@ function drawTable(req){
       
         }
     }
-//         }
-//       }
-//     }
-//   }
 }  
 
 function nameButtonPushed(nameButton_id){

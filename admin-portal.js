@@ -21,41 +21,19 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  deleteUser(req, next);
-  getTable(res, next);
+  deleteUser(req, res, next);
 });
 
 router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  try{
-    passwordUser(req, next);
-    try{
-      getTable(res, next);
-    }catch (err) {
-      console.log("error in getTable");
-      }
-  }catch (err) {
-    console.log("error in passwordUser");
-    }
+  passwordUser(req, res, next);
 });
 
 router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-
-  const promise = usernameUser(req, res, next);
-  // const promise3 = promise.then(getTable(res, next), console.log("error in usernameUser"));
-  // try{
-  //   await usernameUser(req, next);
-  //   try{
-  //     getTable(res, next);
-  //   }catch (err) {
-  //     console.log("error in getTable");
-  //     }
-  // }catch (err) {
-  //   console.log("error in usernameUser");
-  //   }
+  usernameUser(req, res, next);
 });
 
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
@@ -78,7 +56,7 @@ function getTable(res, next){
     });
 }
 
-function deleteUser(req, next){
+function deleteUser(req, res, next){
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
   var sqlDelete = "DELETE FROM Users WHERE userID=?";
 
@@ -103,13 +81,24 @@ function deleteUser(req, next){
           }
           console.log(rows);
           console.log("I deleted " + rows.affectedRows + " rows");
+
+          connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+            if (err) {
+                console.log(err);
+                next();
+                return;
+            }
+            console.log("new");
+            console.log(rows);
+            getTable(res, next);
+          });
+
           return;
         })
-        // res.json({rows:rows});
     });
 }
 
-async function passwordUser(req, next){
+async function passwordUser(req, res, next){
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
   var sqlUpdate = "UPDATE Users SET password=? WHERE userID=?";
 
@@ -155,6 +144,18 @@ async function passwordUser(req, next){
               }
               console.log(rows);
               console.log("I changed " + rows.affectedRows + " rows");
+
+              connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                    next();
+                    return;
+                }
+                console.log("new");
+                console.log(rows);
+                getTable(res, next);
+              });
+
               return;
             });
 
@@ -217,11 +218,8 @@ async function usernameUser(req, res, next){
             getTable(res, next);
           });
 
-
-
           return;
         })
-        // res.json({rows:rows});
     });
 }
 

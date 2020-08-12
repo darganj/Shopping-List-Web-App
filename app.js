@@ -450,14 +450,17 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
             var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
             var getUserDataSql = "SELECT * FROM Users Where userID = ?";
 
-            connection.query(getUserDataSql,userID, function (err1, results1, context) {
+            connection.query(getUserDataSql, userID, function (err1, results1, context) {
                     if (err1) {
                         console.log("error");
                         next(err1);
                         return;
                     }
 
+                    console.log("results1: ", results1);
+                    console.log("results1[0]: ", results1[0]);
                     context.userdata = results1[0];
+                    console.log("context @ getuserdatasql: ", context);
 
                     connection.query(sql, userID, function (err0, results0, context) {
                         if (err0) {
@@ -467,7 +470,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
                         }
 
                         context.userlists = results0;
-                        //console.log(context);
+                        console.log("context @ sql: ", context);
                         res.render('shoppinglistovw', context);
 
                     });

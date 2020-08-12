@@ -37,17 +37,22 @@ router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
       }
   }catch (err) {
     console.log("error in passwordUser");
-    
     }
-  
-  
 });
 
 router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  usernameUser(req, next);
-  getTable(res, next);
+  try{
+    usernameUser(req, next);
+    try{
+      getTable(res, next);
+    }catch (err) {
+      console.log("error in getTable");
+      }
+  }catch (err) {
+    console.log("error in usernameUser");
+    }
 });
 
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),

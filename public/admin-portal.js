@@ -114,6 +114,7 @@ function nameButtonPushed(nameButton_id){
      req.addEventListener('load', function(){
        console.log("async patch");
        alert('username updated');
+       let myFormReset = document.getElementById('pickUsernameForm').reset();
        console.log("I am the responseText");
        console.log(req.responseText);
        drawTable(req);
@@ -134,6 +135,7 @@ function deleteButtonPushed(deleteButton_id){
     req.addEventListener('load', function(){
       console.log("async delete");
       alert('user deleted');
+      let myFormReset = document.getElementById('pickUsernameForm').reset();
       let tableBody = document.getElementById('tableBody');
       tableBody.textContent = "";
       console.log("I am the responseText");
@@ -158,6 +160,7 @@ function passwordButtonPushed(passwordButton_id){
       req.addEventListener('load', function(){
         console.log("async put");
         alert('password updated');
+        let myFormReset = document.getElementById('pickUsernameForm').reset();
         });
   
       req.send(JSON.stringify({'userID':passwordButton_id.slice(14),'password':passwordEntry.value}));

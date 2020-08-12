@@ -182,6 +182,7 @@ function permButtonPushed(permButton_id){
   req.addEventListener('load', function(){
     console.log("async post");
     alert('permission level changed');
+    drawTable(req);
     });
 
   req.send(JSON.stringify({'userID':permButton_id.slice(10)}));

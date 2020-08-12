@@ -43,16 +43,19 @@ router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  try{
-    await usernameUser(req, next);
-    try{
-      getTable(res, next);
-    }catch (err) {
-      console.log("error in getTable");
-      }
-  }catch (err) {
-    console.log("error in usernameUser");
-    }
+
+  const promise = usernameUser(req, next);
+  const promise3 = promise.then(getTable(res, next), console.log("error in usernameUser"));
+  // try{
+  //   await usernameUser(req, next);
+  //   try{
+  //     getTable(res, next);
+  //   }catch (err) {
+  //     console.log("error in getTable");
+  //     }
+  // }catch (err) {
+  //   console.log("error in usernameUser");
+  //   }
 });
 
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),

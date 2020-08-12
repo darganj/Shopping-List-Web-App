@@ -26,7 +26,7 @@ router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
 });
 
 router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
-  function(req,res,next){
+  async function(req,res,next){
   res.locals.login = req.isAuthenticated();
   passwordUser(req, next);
   getTable(res, next);
@@ -82,12 +82,12 @@ function deleteUser(req, next){
     });
 }
 
-function passwordUser(req, next){
+async function passwordUser(req, next){
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
   var sqlUpdate = "UPDATE Users SET password=? WHERE userID=?";
 
   console.log(req.body.userID);
-  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+  connection.query(sqlOut, [req.body.userID], async function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();
@@ -112,7 +112,7 @@ function passwordUser(req, next){
           console.log(hash);
 
           try{
-            connection.query(sqlUpdate, [hash, req.body.userID], function (err, rows, fields) {
+            connection.query(sqlUpdate, [hash, req.body.userID], async function (err, rows, fields) {
               if (err) {
                   console.log(err);
                   next();

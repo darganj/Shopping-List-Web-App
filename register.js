@@ -73,7 +73,7 @@ router.post('/',async function(req,res,next){
                     console.log("trying to fix query/promise")
 
                     
-                    res.redirect(307,'/login'); //redirects to login post
+                    res.redirect('login'); //redirects to login post
 
                 }
             }

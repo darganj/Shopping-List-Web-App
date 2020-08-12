@@ -10,7 +10,7 @@ var ensureLoggedIn = require('connect-ensure-login');
 const { route } = require('./shoppinglist.js');
 var router = express.Router();
 
-router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
+router.post('/deleteItem', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
     context.userID = res.locals.user.userID;
@@ -36,7 +36,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
                 return;
             }
             console.log("DELETE QUERY SUCCESSFUL");
-            res.render('/deleteItem');
+            res.render('/deleteItem_confirmed');
             });
         });
 });

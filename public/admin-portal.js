@@ -142,13 +142,7 @@ function passwordButtonPushed(passwordButton_id){
   
       req.addEventListener('load', function(){
         console.log("async put");
-        let tableBody = document.getElementById('tableBody');
-        tableBody.textContent = "";
-        let answer = req.responseText;
-        // console.log(answer);
-  
-        drawTable(req);
-  
+        alert('password updated');
         });
   
   

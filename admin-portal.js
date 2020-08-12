@@ -131,7 +131,6 @@ async function passwordUser(req, next){
           console.log("error in hashing");
           
           }
-        // res.json({rows:rows});
     });
 }
 

@@ -36,7 +36,7 @@ router.post('/',async function(req,res,next){
     }
 
     var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-    var sqlIn = "INSERT INTO Users (`userName`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`, NOW()) VALUES (?, ?, ?, ?, ?, ?)";
+    var sqlIn = "INSERT INTO Users (`userName`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, NOW())";
 
     console.log("picking an existing user is bad");
     if (username && password){
@@ -64,7 +64,7 @@ router.post('/',async function(req,res,next){
             console.log(hash);
             
             try{
-            connection.query(sqlIn, [username, hash, isAdmin, firstName, lastName, dateJoined], function (err, results, fields) {
+            connection.query(sqlIn, [username, hash, isAdmin, firstName, lastName], function (err, results, fields) {
                 if (err) {
                 console.log(err);
                 res.redirect('register');

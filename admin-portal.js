@@ -239,7 +239,7 @@ async function flipPermissions(req, res, next){
   var sqlUpdate = "UPDATE Users SET isAdmin=? WHERE userID=?";
 
   console.log(req.body.userID);
-  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+  connection.query(sqlOut, [req.body.userID], async function (err, rows, fields) {
         if (err) {
             console.log(err);
             next();
@@ -258,7 +258,7 @@ async function flipPermissions(req, res, next){
           newPermLevel = 0;
         }
 
-        connection.query(sqlUpdate, [newPermLevel, req.body.userID], function (err, rows, fields) {
+        connection.query(sqlUpdate, [newPermLevel, req.body.userID], async function (err, rows, fields) {
           if (err) {
               console.log(err);
               next();
@@ -267,7 +267,7 @@ async function flipPermissions(req, res, next){
           console.log(rows);
           console.log("I updated " + rows.affectedRows + " rows");
 
-          connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+          connection.query(sqlOut, [req.body.userID], async function (err, rows, fields) {
             if (err) {
                 console.log(err);
                 next();

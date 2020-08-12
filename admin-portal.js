@@ -49,7 +49,7 @@ router.post('/admin', ensureLoggedIn.ensureLoggedIn('/login'),
 });
 
 function getTable(res, next){
-  var sqlOut = "SELECT userID, userName FROM Users";
+  var sqlOut = "SELECT userID, userName, isAdmin FROM Users";
 
   connection.query(sqlOut, function (err, rows, fields) {
         if (err) {

@@ -153,7 +153,7 @@ function usernameUser(req, next){
   console.log(req.body);
 
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
-  var sqlUpdate = "SELECT * FROM Users WHERE userID=?";
+  var sqlUpdate = "UPDATE Users SET userName=? WHERE userID=?";
 
   var newUsernameInput = '';
 
@@ -171,13 +171,13 @@ function usernameUser(req, next){
           return;
         }
 
-        if (req.body.password === ''){
+        if (req.body.username === ''){
           newUsernameInput = rows[0].userName;
         }else{
           newUsernameInput = req.body.username;
         }
 
-        connection.query(sqlUpdate, [req.body.userID], function (err, rows, fields) {
+        connection.query(sqlUpdate, [newUsernameInput, req.body.userID], function (err, rows, fields) {
           if (err) {
               console.log(err);
               next();

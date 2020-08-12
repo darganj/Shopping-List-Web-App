@@ -69,8 +69,19 @@
                 </td>
 
                 <td>
-                    <a class="btn btn-sm btn-info edit" data-itemName="{{ items.itemName }}" data-quantity="{{ List_of_Items.quantity }}" data-markStatus="{{ List_of_Items.markStatus }}" data-itemNote="{{ List_of_Items.itemNote }}">Edit</a>
-                    <a class="btn btn-sm btn-danger delete" data-id="{{ Items.itemID }}">Delete</a>
+                // DELETE
+                    <form action="/" method="post">
+                      <input type="hidden" name="itemID" id="itemID" value="{{itemID}}">
+                      <button type="submit" formaction="/deleteItem">Delete</button>
+                    </form>
+                // EDIT
+                    <form action="/" method="post">
+                      <input type="hidden" name="itemID" id="itemID" value="{{itemID}}">
+                      <input type="hidden" name="itemID" id="itemID" value="{{Items.itemName}}">
+                      <input type="hidden" name="itemID" id="itemID" value="{{Items.quantity}}">
+                      <input type="hidden" name="itemID" id="itemID" value="{{Items.itemNote}}">
+                      <button type="submit" formaction="/editItem">Edit</button>
+                    </form>
                 </td>
             </tr>
             {{/each}}

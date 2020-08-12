@@ -21,19 +21,19 @@ body{
 
 /*CSS for ??????????????*/
 
-div.shopping_list_box{
-
-    width:150px;
-    height:150px;
-
-}
-.grid {
+.grid{
   border: 1px solid gray;
 }
-.row {
+
+#loginContainer .row{
   overflow: auto;
 }
-.cell {
+
+#regContainer2 .row{
+  overflow: auto;
+}
+
+.cell{
   width: 20%;
   float: left;
   border: 1px solid gray;
@@ -47,13 +47,11 @@ div.shopping_list_box{
   background-color: #db7de4;  /* fallback for old browsers */
   background-color: -webkit-linear-gradient(to bottom, #faaca8, #ddd6f3);  /* Chrome 10-25, Safari 5.1-6 */
   background-color: linear-gradient(to bottom, #faaca8, #ddd6f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 /*CSS for nav bar*/
 
-#loginButton
-{
+#loginButton{
   color: white;
 	background-color: #82BF56;
 	border-bottom: 5px solid #669644;
@@ -62,8 +60,7 @@ div.shopping_list_box{
   font-size: 18px;
 }
 
-#registerButton
-{
+#registerButton{
 	background-color: #F2CF66;
 	border-bottom: 5px solid #D1B358;
   text-shadow: 0px -2px #D1B358;
@@ -71,8 +68,7 @@ div.shopping_list_box{
   font-size: 18px;
 }
 
-#adminButton
-{
+#adminButton{
 	background-color: #66d6f2;
 	border-bottom: 5px solid #1868b3;
   text-shadow: 0px -2px #1868b3;
@@ -80,8 +76,7 @@ div.shopping_list_box{
   font-size: 18px;
 }
 
-#logoutButton
-{
+#logoutButton{
 	background-color: #ee3535;
 	border-bottom: 5px solid #df8888bb;
   text-shadow: 0px -2px #df8888bb;
@@ -96,23 +91,19 @@ div.shopping_list_box{
 /*CSS for ??????????????*/
 
 div.shopping_list_box{
-
     width:150px;
     height:150px;
-
 }
 
 table.default_list_table{
-
     table-layout: auto;
     width: 100%;
     margin-top:5%;
-
 }
+
 table .dl_hidden_cell {
     display: none;
 }
-
 
 /*CSS for Edit-List*/
 
@@ -123,14 +114,12 @@ table .dl_hidden_cell {
 }
 
 #blur {
-    
     background-color: aquamarine;
     position: absolute;
     width:100%;
     height:100%;
     filter: blur(8px);
     -webkit-filter: blur(8px);
-    
 }
 
 /*CSS for registration form*/
@@ -139,7 +128,6 @@ table .dl_hidden_cell {
   justify-content: center;
   align-items: center;
   padding: 15px;
-
 }
 
 .regMsg{
@@ -175,6 +163,7 @@ table .dl_hidden_cell {
 #regContainer2 .container #reg-row #reg-column #reg-box #reg-form {
   padding: 20px;
 }
+
 #regContainer2 .container #reg-row #reg-column #reg-box #reg-form #login-link {
   margin-top: -50px;
 }
@@ -192,7 +181,53 @@ table .dl_hidden_cell {
 #loginContainer .container #login-row #login-column #login-box #login-form {
   padding: 20px;
 }
+
 #loginContainer .container #login-row #login-column #login-box #login-form #register-link {
   margin-top: -85px;
 }
 
+/*CSS for admin-portal*/
+
+.adminPortalTop{
+  margin-top: 30px;
+}
+
+.adminPortalTop ol{
+  background-color: #EAEAEA;
+}
+
+#resultsArea table{
+  border: 2px solid black;
+  border-style: groove;
+  width: 100%;
+}
+
+#resultsArea th{
+  text-align: center;
+}
+
+#resultsArea tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+#resultsArea td{
+  border: 1px solid black;
+  text-align: center;
+  padding: 15px;
+}
+
+#pickUsernameForm{
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.userModButtons{
+  display: flex;
+  justify-content: space-around;
+}
+
+#modifyUser{
+  display: inline;
+  border: 1px solid #9C9C9C;
+  background-color: #EAEAEA;
+}

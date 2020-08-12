@@ -407,7 +407,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
     var to_list_id;
     var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)';
 
-    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list){
+    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list_id){
 
         console.log("reached fetch to list ID");
         if(err1){
@@ -448,15 +448,30 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
             // fetch & render all lists for user including newly added list
             var context = {};
             var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-            connection.query(sql,userID, function (err, results, fields) {
-                    if (err) {
+            var getUserDataSql = "SELECT * FROM Users Where userID = ?";
+
+            connection.query(getUserDataSql,userID, function (err1, results1, context) {
+                    if (err1) {
                         console.log("error");
-                        next(err);
+                        next(err1);
                         return;
                     }
-                    context.userlists = results;
-                    //console.log(context);
-                    res.render('shoppinglistovw', context);
+
+                    context.userdata = results1[0];
+
+                    connection.query(sql, userID, function (err0, results0, context) {
+                        if (err0) {
+                            console.log("error");
+                            next(err0);
+                            return;
+                        }
+
+                        context.userlists = results0;
+                        //console.log(context);
+                        res.render('shoppinglistovw', context);
+
+                    });
+
             });
 
         });

@@ -7,7 +7,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var express_enforces_ssl = require('express-enforces-ssl');
 var ensureLoggedIn = require('connect-ensure-login');
-// const { route } = require('./shoppinglist.js');
+const { route } = require('./shoppinglist.js');
 var router = express.Router();
 
 router.post('/deleteItem', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {

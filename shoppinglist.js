@@ -169,48 +169,31 @@ router.post('/save', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res
 router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.user = req.user;
-
-    var itemID = req.body.itemID;
-  //  var userID = res.locals.user.userID;
-
     var context = {};
-    var callbackCount = 0;
-
-
-    /*TODO add guard to make sure user can't delete items on another list
-    if (itemID) {
-        getItems(res, listID, connection, context, complete, next);
-        function complete() {
-            callbackCount++;
-            if (callbackCount >= 1) {
-                if (context.userlists[0]) {
-                    var foundUserID = context.userlists[0].userID;
-
-                    if (userID == foundUserID) {
-
-                        connection.query("DELETE FROM Items WHERE itemID=?", [req.body.itemID], function (err, result) {
-                            if (err) {
-                                next(err);
-                                return;
-                            }
-                        });
-                    }
-                    else {
-                        console.log("user does not have item");
-                    }
-                }
-                else {
-                    console.log("item ID not found.");
-                }
-            }
+    context.userID = res.locals.user.userID;
+    context.userName = res.locals.user.userName;
+    var itemID = req.body.itemID;
+    
+    // FIND THE CARD
+    connection.query("SELECT itemID FROM Items WHERE itemID=?", [req.body.itemID], function(err, result){
+        if(err){
+            next(err);
+            console.log("ERROR: SELECT QUERY TO DELETE");
+            return;
         }
-    }
-    else {
-        console.log("No itemID provided.");
-    }
-
-*/
-    res.redirect('/shoppinglist/?listID=' + listID);
+        console.log("SELECT QUERY SUCCESSFUL");
+        
+        // NOW DELETE
+        deleteItemQuery = "DELETE FROM List_of_Items WHERE List_of_Items.itemID=?";
+        
+        connection.query=(deleteItemQuery, [context.itemID], function(err, result){
+            if(err){
+                next(err);
+                console.log("ERROR: DELETE QUERY TO DELETE");
+                return;
+            }
+            console.log("DELETE QUERY SUCCESSFUL");
+            res.redirect('/shoppinglist/?listID=' + listID);
 });
 
 /*Edit/Update Item in List */

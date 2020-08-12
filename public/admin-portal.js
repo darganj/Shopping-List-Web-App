@@ -147,6 +147,6 @@ function passwordButtonPushed(passwordButton_id){
   
   
       req.send(JSON.stringify({'userID':passwordButton_id.slice(14)}));
-      event.preventDefault();
+      // event.preventDefault();
   
 }

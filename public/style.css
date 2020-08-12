@@ -190,6 +190,9 @@ table .dl_hidden_cell {
 
 .adminPortalTop{
   margin-top: 30px;
+}
+
+.adminPortalTop ol{
   background-color: #EAEAEA;
 }
 

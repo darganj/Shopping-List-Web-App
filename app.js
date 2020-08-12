@@ -405,7 +405,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
     var from_list;
     var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
     var to_list_id;
-    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)';
+    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, ?, ?)';
 
     connection.query(to_sql, [nameListTo], function(err1, result_to, to_list_id){
 
@@ -434,7 +434,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
             for (var element in from_list) {
                 console.log("reached adding each item");
                 console.log("to listID:", to_list_id);
-                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_add){
+                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus, from_list[element].itemNote], function(err3, result_add){
 
                     if (err3){
                       next(err3);

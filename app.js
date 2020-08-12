@@ -215,7 +215,7 @@ app.use('/login', require('./login.js')); //Routes for logging in
 app.use('/register', require('./register.js')); //Routes for registering
 app.use('/admin-portal', require('./admin-portal.js')); //Routes for resetting username / password
 app.use('/analytics', require('./analytics.js'));
-app.use(require('./deleteItem'));
+// app.use(require('./deleteItem'));
 
 /* All routes below this line are not used yet, inside the app
 app.use('/edit-list', require('./edit-list.js')); //Routes to edit a shopping list

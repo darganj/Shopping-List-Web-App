@@ -25,6 +25,13 @@ router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
   getTable(res, next);
 });
 
+router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
+  function(req,res,next){
+  res.locals.login = req.isAuthenticated();
+  passwordUser(req, next);
+  getTable(res, next);
+});
+
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -75,6 +82,58 @@ function deleteUser(req, next){
     });
 }
 
+function passwordUser(req, next){
+  var sqlOut = "SELECT * FROM Users WHERE userID=?";
+  var sqlUpdate = "UPDATE Users SET password=? WHERE userID=?";
+
+  console.log(req.body.userID);
+  connection.query(sqlOut, [req.body.userID], function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+            next();
+            return;
+        }
+        console.log(rows);
+        if (rows[0].userID != req.body.userID){
+          console.log("error finding userID");
+          next();
+          return;
+        }
+
+        //create new salt for user
+        const salt = crypto.randomBytes(32);
+        console.log(
+        `${salt.length} bytes of random data: ${salt.toString('hex')}`);
+
+
+        try {
+          const hash = await argon2.hash(rows[0].userName, salt);
+          console.log("the hash generated from the random salt and userName is:");
+          console.log(hash);
+
+          try{
+            connection.query(sqlUpdate, [hash, req.body.userID], function (err, rows, fields) {
+              if (err) {
+                  console.log(err);
+                  next();
+                  return;
+              }
+              console.log(rows);
+              console.log("I changed " + rows.affectedRows + " rows");
+              return;
+            });
+
+          }catch (err) {
+            console.log("error in query");
+            
+            }
+        }catch (err) {
+          console.log("error in hashing");
+          
+          }
+        // res.json({rows:rows});
+    });
+}
 
 
 

@@ -70,6 +70,7 @@ function getTable(res, next){
             next();
             return;
         }
+        console.log(rows);
         res.json({rows:rows});
     });
 }

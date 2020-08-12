@@ -34,7 +34,7 @@ function drawTable(req){
         console.log("Can I get to answer.results is empty?");
         return;
       }else{
-        console.log("im about to update the table");
+        console.log("I'm about to update the table");
         let dataFromDatabase = JSON.parse(answer);
         console.log(dataFromDatabase);
       

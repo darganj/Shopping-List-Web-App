@@ -30,7 +30,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
         // NOW DELETE
         deleteItemQuery = "DELETE FROM List_of_Items WHERE List_of_Items.itemID=?";
         
-        connection.query=(deleteItemQuery, [context.itemID], function(err, result){
+        connection.query(deleteItemQuery, [context.itemID], function(err, result){
             if(err){
                 next(err);
                 console.log("ERROR: DELETE QUERY TO DELETE");

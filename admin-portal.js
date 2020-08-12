@@ -44,8 +44,8 @@ router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
 
-  const promise = usernameUser(req, next);
-  const promise3 = promise.then(getTable(res, next), console.log("error in usernameUser"));
+  const promise = usernameUser(req, res, next);
+  // const promise3 = promise.then(getTable(res, next), console.log("error in usernameUser"));
   // try{
   //   await usernameUser(req, next);
   //   try{
@@ -169,7 +169,7 @@ async function passwordUser(req, next){
     });
 }
 
-async function usernameUser(req, next){
+async function usernameUser(req, res, next){
   console.log(req.body);
 
   var sqlOut = "SELECT * FROM Users WHERE userID=?";
@@ -214,6 +214,7 @@ async function usernameUser(req, next){
             }
             console.log("new");
             console.log(rows);
+            getTable(res, next);
           });
 
 

@@ -20,7 +20,7 @@
                 <th>Quantity</th>
                 <th>Description</th>
                 <th>Check Status</th>
-                <th>Action</th>
+                <!--<th>Action</th>-->
             </tr>
         </thead>
         <tbody>
@@ -69,10 +69,10 @@
                     {{/unless}}
                 </td>
 
-                <td>
+                <!--<td>
                     <a class="btn btn-sm btn-info edit" data-itemName="{{ items.itemName }}" data-quantity="{{ List_of_Items.quantity }}" data-markStatus="{{ List_of_Items.markStatus }}" data-itemNote="{{ List_of_Items.itemNote }}">Edit</a>
                     <a class="btn btn-sm btn-danger delete" data-id="{{ Items.itemID }}">Delete</a>
-                </td>
+                </td>-->
             </tr>
             {{/each}}
           {{/if}}
@@ -162,7 +162,7 @@
 
 </form>
 
-<!-- Add item to List form - to be completed-->
+<!-- Add item to List form - to be completed
 
 <button class="btn btn-success" data-toggle="modal" data-target="#myModalAdd">Add New</button>
 <form action="/save" method="post">
@@ -194,8 +194,8 @@
         </div>
     </div>
 </form>
-
-<!-- Edit Item in List Form - to be completed-->
+-->
+<!-- Edit Item in List Form - to be completed
 
 <form action="/update" method="put">
     <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -223,8 +223,8 @@
         </div>
     </div>
 </form>
-
-<!-- Delete Item from List Form - to be completed-->
+-->
+<!-- Delete Item from List Form - to be completed
 
 <form id="add-row-form" action="/delete" method="post">
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLebel" aria-hidden="true">
@@ -246,15 +246,15 @@
         </div>
     </div>
 </form>
+-->
 
-
-
+<!--
 <form action="/edit-list" method="GET">
     <fieldset>
         <input type="submit" act name="editList" value="Edit Shopping List" />
     </fieldset>
 </form>
-
+-->
 
 <script src="shoppinglist.js">
 </script>

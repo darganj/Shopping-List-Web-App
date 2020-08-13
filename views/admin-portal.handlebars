@@ -1,33 +1,53 @@
-<h1 class="form">Reset Usernames and Passwords</h1>
-
-<div class="regLogo">
-    <img src="/small-logo.png" alt="Sh-sh-sh-Shopping logo">
+<div class="adminPortalTop">
+  <div class="regLogo">
+      <img src="/small-logo.png" alt="Sh-sh-sh-Shopping logo">
+  </div>
+  <h1 style="text-align: center;">Admin Portal</h1>
+  <ol style="font-size: 1.4rem;">
+    <li>To set a new username, fill in "New Username" field and press the corresponding User's "Change Username" button.</li>
+    <li>To set a password to default, press the "Change password" button for a User.  Their password becomes their username.</li>
+    <li>To set a password, fill in the "New Password" field and press the corresponding User's "Change Password" button.</li>
+    <li>To delete a User, press the "Delete User" button. This is NOT reversible.</li>
+    <li>To make a User an Admin or an Admin a User, press the corresponding User's "Flip Permission Level" button.</li>
+  </ol>
 </div>
 
-<form id="pickUsernameForm" class="form">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="chooseUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Username</button>
-        <div class="dropdown-menu">
-            <div class="dropdown-item"> Item 1</div>
-            <div class="dropdown-item"> Item 1</div>
-            <div class="dropdown-item"> Item 1</div>
-            <div class="dropdown-item"> Item 1</div>
+<div id="modifyUser" class="row">
+    <form id="pickUsernameForm">
+      <fieldset>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4" for="userName">New Username: </label>
+          <div class="col-sm-6">
+            <input id="usernameInput" class="form-control" type="text" name="userName" placeholder="new username">
+          </div>
         </div>
-    </div>
-</form>
+        <div class="form-group row">
+          <label class="col-form-label col-sm-4" for="password">New Password: </label>
+          <div class="col-sm-6">
+            <input id="passwordInput" class="form-control" type="password" name="password" placeholder="new password">
+          </div>
+        </div>
+      </fieldset>
+    </form>
+</div>
 
-<form id="resetUsernameForm" class="form">
-    <h3 class="text-center text-info">Change a Username</h3>
-    <div class="form-group">
-        <label for="newUsername" class="text-info">New Username: </label><br>
-        <input type="text" name="newUsername" id="newUsername" placeholder="new username" class="form-control" required>
-    </div>
-</form>
+<div id="resultsArea" class="row">
+    <table>
+      <thead>
+        <tr>
+          <th>userId</th>
+          <th>Username</th>
+          <th>Permission Level</th>
+          <th>Make a change</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+    <span id="postResults"></span>
+    {{results}}
+  </div>
+</div>
 
-<form id="resetPasswordForm" class="form">
-    <h3 class="text-center text-info">Change a Password</h3>
-    <div class="form-group">
-        <label for="newPassword" class="text-info">Password: </label><br>
-        <input type="text" name="newPassword" id="newPassword" placeholder="new password" class="form-control" required>
-    </div>
-</form>
+
+<script src="admin-portal.js"></script>

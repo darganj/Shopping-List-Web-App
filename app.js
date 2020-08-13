@@ -405,9 +405,9 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
     var from_list;
     var to_sql = 'SELECT listID FROM Lists WHERE nameList=?';
     var to_list_id;
-    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`) VALUES (?, ?, ?, ?)';
+    var add_items_sql = 'INSERT INTO List_of_Items (`listID`, `itemID`, `quantity`, `markStatus`, `itemNote`) VALUES (?, ?, ?, ?, ?)';
 
-    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list){
+    connection.query(to_sql, [nameListTo], function(err1, result_to, to_list_id){
 
         console.log("reached fetch to list ID");
         if(err1){
@@ -434,7 +434,7 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
             for (var element in from_list) {
                 console.log("reached adding each item");
                 console.log("to listID:", to_list_id);
-                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus], function(err3, result_add){
+                connection.query(add_items_sql, [to_list_id, from_list[element].itemID, from_list[element].quantity, from_list[element].markStatus, from_list[element].itemNote], function(err3, result_add){
 
                     if (err3){
                       next(err3);
@@ -448,15 +448,33 @@ app.post('/shoppinglistovw/mergelists', ensureLoggedIn.ensureLoggedIn('/login'),
             // fetch & render all lists for user including newly added list
             var context = {};
             var sql = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
-            connection.query(sql,userID, function (err, results, fields) {
-                    if (err) {
+            var getUserDataSql = "SELECT * FROM Users Where userID = ?";
+
+            connection.query(getUserDataSql, userID, function (err1, results1) {
+                    if (err1) {
                         console.log("error");
-                        next(err);
+                        next(err1);
                         return;
-                    }
-                    context.context = results;
-                    //console.log(context);
-                    res.render('shoppinglistovw', context);
+                    };
+
+                    console.log("results1: ", results1);
+                    console.log("results1[0]: ", results1[0]);
+                    context.userdata = results1[0];
+                    console.log("context @ getuserdatasql: ", context);
+
+                    connection.query(sql, userID, function (err0, results0) {
+                        if (err0) {
+                            console.log("error");
+                            next(err0);
+                            return;
+                        };
+
+                        context.userlists = results0;
+                        console.log("context @ sql: ", context);
+                        res.render('shoppinglistovw', context);
+
+                    });
+
             });
 
         });

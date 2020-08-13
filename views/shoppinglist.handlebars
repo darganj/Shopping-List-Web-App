@@ -24,6 +24,7 @@
             </tr>
         </thead>
         <tbody>
+          {{#if listitems.[0].itemID}}
             {{#each listitems}}
             <tr>
                 <td>{{ itemName }}</td>
@@ -74,6 +75,7 @@
                 </td>-->
             </tr>
             {{/each}}
+          {{/if}}
         </tbody>
     </table>
 </div>

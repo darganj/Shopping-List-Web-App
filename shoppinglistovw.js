@@ -12,26 +12,6 @@ var ensureLoggedIn = require('connect-ensure-login');
 var router = express.Router();
 
 
-
-/*function transform (arr) {
-    var result = [], temp = [];
-    console.log("starting transform function");
-    arr.forEach(function(elem, i) {
-        if (i > 0 && i % 3 === 0) {
-            result.push(temp);
-            temp = [];
-        }
-        temp.push(elem);
-    });
-    console.log("finished forEa Loop");
-    if (temp.length > 0) {
-        result.push(temp);
-    }
-    return result;
-}
-//data = transform(context.userlists);
-*/
-
 /*getUserAData Function
  * This function returns data for a specified userName
  * Input Params: - connection - existing mySQL connection to database
@@ -64,7 +44,7 @@ Input Params: - res containing server response to call
 Returns: context is filled with all info on user Shopping Lists*/
 function getShoppingLists(res, userID, connection, context, complete) {
 
-    var query = 'SELECT * FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID = ?';
+    var query = 'SELECT listID, nameList, listCreated FROM Users LEFT JOIN Lists ON Lists.userID = Users.userID WHERE Users.userID=?';
 
     connection.query(query, userID, function (err, results, fields) {
         if (err) {
@@ -93,7 +73,7 @@ function getShoppingListByID(res, listID, connection, context, complete) {
 
     //var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
 
-  var query = 'SELECT * FROM Lists WHERE Lists.listID = ?';
+  var query = 'SELECT listID, nameList, listCreated FROM Lists WHERE Lists.listID=?';
 
 
     connection.query(query, listID, function (err, results, fields) {

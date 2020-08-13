@@ -27,16 +27,16 @@ router.post('/',async function(req,res,next){
     var password = req.body.password;
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-    var userType = req.body.userType;
+    // var userType = req.body.userType;
 
     // default is user, not admin
     var isAdmin = 0;
-    if (userType == "Admin") {
-        isAdmin = 1;
-    }
+    // if (userType == "Admin") {
+    //     isAdmin = 1;
+    // }
 
     var sqlOut = "SELECT * FROM Users WHERE userName = ?";
-    var sqlIn = "INSERT INTO Users (`username`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, NOW())";
+    var sqlIn = "INSERT INTO Users (`userName`, `password`,`isAdmin`, `firstName`, `lastName`, `dateJoined`) VALUES (?, ?, ?, ?, ?, NOW())";
 
     console.log("picking an existing user is bad");
     if (username && password){
@@ -64,7 +64,7 @@ router.post('/',async function(req,res,next){
             console.log(hash);
             
             try{
-            connection.query(sqlIn, [username, hash, isAdmin, firstName, lastName, dateJoined], function (err, results, fields) {
+            connection.query(sqlIn, [username, hash, isAdmin, firstName, lastName], function (err, results, fields) {
                 if (err) {
                 console.log(err);
                 res.redirect('register');
@@ -73,7 +73,7 @@ router.post('/',async function(req,res,next){
                     console.log("trying to fix query/promise")
 
                     
-                    res.redirect(307,'/login'); //redirects to login post
+                    res.redirect('login'); //redirects to login post
 
                 }
             }

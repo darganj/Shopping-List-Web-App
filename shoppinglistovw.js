@@ -27,7 +27,7 @@ function getUserData(connection, context, userID, complete) {
             next(err);
             return;
         }
-        
+        context.userdata = results[0];
         complete();
     });
 }

@@ -57,7 +57,7 @@ function getShoppingLists(res, userID, connection, context, complete) {
         context.userlists = results;
         console.log("context.userlists from getShoppingLists");
         console.log(context.userlists);
-        
+
         if (context.userlists[0].listCreated){
             for (entry in context.userlists)
             var myDate = JSON.stringify(context.userlists[entry].listCreated);
@@ -93,6 +93,8 @@ function getShoppingListByID(res, listID, connection, context, complete) {
             return;
         }
         context.userlists = results;
+
+        
         complete();
     });
 
@@ -382,10 +384,17 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         function complete() {
             callbackCount++;
             if (callbackCount >= 2) {
-                console.log("context");
+                console.log("context in get ovw");
                 console.log(context);
-                console.log("context.userdata");
-                console.log(context.userdata);
+                // console.log("context.userdata");
+                // console.log(context.userdata);
+
+                if (context.userlists[0].listCreated){
+                    for (entry in context.userlists)
+                    var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                    context.userlists[entry].listCreated = myDate.slice(1, 11);
+                }
+
                 res.render('shoppinglistovw', context);
             }
         }

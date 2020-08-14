@@ -61,9 +61,14 @@
     <h2>Delete List </h2>
     <form action="/shoppinglistovw/delete" method="post">
 
+
         <label>
-            List Name (Required):
-            <input type="number" name="listID" min="0" required>
+            List Name:
+            <select name="listID" id="listID" required>
+                {{#each userlists}}
+                <option value="{{listID}}">{{nameList}}</option>
+                {{/each}}
+            </select>
         </label>
         <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
     </form>
@@ -73,17 +78,23 @@
     <h2>Update List Info</h2>
     <form action="/shoppinglistovw/update" method="post">
         <label>
-            <input type="number" name="listID" required>
-            List ID
+            List Name:
+            <select name="listID" id="listID" required>
+                {{#each userlists}}
+                <option value="{{listID}}">{{nameList}}</option>
+                {{/each}}
+            </select>
         </label>
         <label>
             New List Name:
             <input type="text" name="nameList">
         </label>
-        {{!-- <label>
+        {{
+!-- <label>
             New List Date:
             <input type="date" name="date">
-        </label> --}}
+        </label> --
+        }}
         <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Update Shopping List Info">
 
     </form>
@@ -95,11 +106,19 @@
 
         <label>
             Destination List Name:
-            <input type="text" name="nameListTo" required>
+            <select name="nameListTo" required>
+                {{#each userlists}}
+                <option value="{{nameList}}">{{nameList}}</option>
+                {{/each}}
+            </select>
         </label>
         <label>
             Source List Name:
-            <input type="text" name="nameListFrom" required>
+            <select name="nameListFrom" required>
+                {{#each userlists}}
+                <option value="{{nameList}}">{{nameList}}</option>
+                {{/each}}
+            </select>
         </label>
         <input class="btn btn-primary my-2 my-sm-0" type="submit" name="mergeLists" value="Merge Lists">
 

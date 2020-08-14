@@ -203,7 +203,6 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     var listID = req.body.listID;
     var userID = res.locals.user.userID; // Pulled from session data
 
-    console.log("List ID is: " + listID);
 
     /*Ensure the list is owned by  the user*/
     var context = {};
@@ -217,8 +216,6 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
             if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
-                console.log("info");
-                console.log(context.userlists[0]);
 
 
                 var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID

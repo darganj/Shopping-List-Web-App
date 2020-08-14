@@ -57,12 +57,11 @@ function getShoppingLists(res, userID, connection, context, complete) {
         context.userlists = results;
         console.log("context.userlists from getShoppingLists");
         console.log(context.userlists);
+        
         if (context.userlists[0].listCreated){
-            console.log("context.userlists[0].listCreated");
-            var myDate = JSON.stringify(context.userlists[0].listCreated);
-            
-            console.log(myDate.slice(1, 11));
-            // context.userlists[0].listCreated = context.userlists[0].listCreated.slice(1, 11);
+            for (entry in context.userlists)
+            var myDate = JSON.stringify(context.userlists[entry].listCreated);
+            context.userlists[entry].listCreated = myDate.slice(1, 11);
         }
 
         complete();

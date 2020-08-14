@@ -27,6 +27,7 @@ function getUserData(connection, context, userID, complete) {
             next(err);
             return;
         }
+        console.log("results[0] from getUserData");
         context.userdata = results[0];
         complete();
     });
@@ -54,7 +55,8 @@ function getShoppingLists(res, userID, connection, context, complete) {
         }
         
         context.userlists = results;
-        
+        console.log("context.userlists from getShoppingLists");
+        console.log(context.userlists);
         // if (context.userlists){
         //     context.userlists.listCreated = context.userlists.listCreated.slice(1, 11);
         // }
@@ -377,7 +379,9 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         function complete() {
             callbackCount++;
             if (callbackCount >= 2) {
+                console.log("context");
                 console.log(context);
+                console.log("context.userData");
                 console.log(context.userData);
                 res.render('shoppinglistovw', context);
             }

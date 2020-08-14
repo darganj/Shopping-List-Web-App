@@ -381,8 +381,8 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
             if (callbackCount >= 2) {
                 console.log("context");
                 console.log(context);
-                console.log("context.userData");
-                console.log(context.userData);
+                console.log("context.userdata");
+                console.log(context.userdata);
                 res.render('shoppinglistovw', context);
             }
         }

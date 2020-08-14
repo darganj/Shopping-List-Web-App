@@ -5,25 +5,27 @@
 
 <div class="container">
   <div class="row">
-{{#each userlists}}
-    
-    <div class="col-3 shopping_list_box">
+    {{if userlists}}
+      {{#each userlists}}
+        
+        <div class="col-3 shopping_list_box">
 
-        <form action="/shoppinglist" method="GET">
-            <fieldset>
-                <input type="hidden" id="listID" name="listID" value="{{listID}}" />
-                <button type="submit" class="btn btn-info">
-                    <p>
-                        ID: {{listID}} <br />
-                        Name: {{nameList}}<br>
-                        Date: {{listCreated}}
-                    </p>
-                </button>
-            </fieldset>
-        </form>
+            <form action="/shoppinglist" method="GET">
+                <fieldset>
+                    <input type="hidden" id="listID" name="listID" value="{{listID}}" />
+                    <button type="submit" class="btn btn-info">
+                        <p>
+                            ID: {{listID}} <br />
+                            Name: {{nameList}}<br>
+                            Date: {{listCreated}}
+                        </p>
+                    </button>
+                </fieldset>
+            </form>
 
-    </div>
-    {{/each}}
+        </div>
+        {{/each}}
+    {{/if}}
   </div>
 </div>
 <!-- Commenting out add list button since the Add New list is a form below.

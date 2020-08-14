@@ -55,7 +55,9 @@ function getShoppingLists(res, userID, connection, context, complete) {
         
         context.userlists = results;
         
-        context.userlists.listCreated = context.userlists.listCreated.slice(1, 11);
+        if (context.userlists){
+            context.userlists.listCreated = context.userlists.listCreated.slice(1, 11);
+        }
 
         complete();
     });

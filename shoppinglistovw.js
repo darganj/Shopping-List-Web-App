@@ -215,6 +215,10 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
             if (context.userlists[0]) {  // Check if a value was returned from SELECT query
 
+                console.log("info");
+                console.log(context.userlists[0]);
+
+
                 var foundUserID = context.userlists[0].userID; // Compare the userID owner found and session userID
                                        
                 if (userID == foundUserID) { 

@@ -8,7 +8,7 @@
   <div class="row">
     
     {{#each userlists}}
-        {{#if userlists.listID}}
+        {{!-- {{#if userlists.listID}} --}}
             <div class="col-3 shopping_list_box">
 
                 <form action="/shoppinglist" method="GET">
@@ -25,7 +25,7 @@
                 </form>
 
             </div>
-        {{/if}}
+        {{!-- {{/if}} --}}
     {{/each}}
   </div>
 </div>

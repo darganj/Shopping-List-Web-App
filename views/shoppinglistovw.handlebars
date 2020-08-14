@@ -117,19 +117,5 @@
     </form>
 </div>
 
-<h2>Delete List </h2>
-<form action="/shoppinglistovw/delete" method="post">
-
-
-    <label>
-        List Name:
-        <select name="listID" id="listID" required>
-            {{#each userlists}}
-            <option value="{{listID}}">{{nameList}}</option>
-            {{/each}}
-        </select>
-    </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
-</form>
 
 {{/with}}

@@ -58,7 +58,9 @@ function getShoppingLists(res, userID, connection, context, complete) {
         console.log("context.userlists from getShoppingLists");
         console.log(context.userlists);
         if (context.userlists[0].listCreated){
-            context.userlists[0].listCreated = context.userlists[0].listCreated.slice(1, 11);
+            console.log("context.userlists[0].listCreated");
+            console.log(context.userlists[0].listCreated);
+            // context.userlists[0].listCreated = context.userlists[0].listCreated.slice(1, 11);
         }
 
         complete();

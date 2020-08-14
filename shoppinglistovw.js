@@ -85,7 +85,7 @@ function getShoppingListByID(res, listID, connection, context, complete) {
 
     //var query = 'SELECT listID, userID, date(listCreated), nameList FROM Lists WHERE Lists.listID = ?';
 
-  var query = 'SELECT listID, nameList, listCreated FROM Lists WHERE Lists.listID=?';
+  var query = 'SELECT listID, userID, nameList, listCreated FROM Lists WHERE Lists.listID=?';
 
 
     connection.query(query, listID, function (err, results, fields) {

@@ -59,9 +59,11 @@ function getShoppingLists(res, userID, connection, context, complete) {
         console.log(context.userlists);
 
         if (context.userlists[0].listCreated){
-            for (entry in context.userlists)
-            var myDate = JSON.stringify(context.userlists[entry].listCreated);
-            context.userlists[entry].listCreated = myDate.slice(1, 11);
+            for (entry in context.userlists){
+                var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                context.userlists[entry].listCreated = myDate.slice(1, 11);
+            }
+            
         }
 
         complete();
@@ -390,10 +392,11 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                 // console.log(context.userdata);
 
                 if (context.userlists[0].listCreated){
-                    for (entry in context.userlists)
-                    var myDate = JSON.stringify(context.userlists[entry].listCreated);
-                    console.log(myDate);
-                    context.userlists[entry].listCreated = myDate.slice(1, 11);
+                    for (entry in context.userlists){
+                        var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                        console.log(myDate);
+                        context.userlists[entry].listCreated = myDate.slice(1, 11);
+                    }
                 }
 
                 res.render('shoppinglistovw', context);

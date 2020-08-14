@@ -1,4 +1,4 @@
-baseURL = "https://itworks-itco-pre-rel3-a-fflvqn."
+baseURL = "https://itworks-itcompiles."
 
 window.addEventListener('load', function(event){
     console.log("my page loaded.");

@@ -6,6 +6,7 @@
 <div class="container">
   <div class="row">
     {{#if userlists.listID}}
+    {{with context}}
       {{#each userlists}}
         
         <div class="col-3 shopping_list_box">
@@ -25,6 +26,7 @@
 
         </div>
         {{/each}}
+    {{/with}}
     {{/if}}
   </div>
 </div>

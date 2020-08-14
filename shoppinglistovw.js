@@ -136,7 +136,7 @@ function deleteListByID(listID, connection) {
 // function updateListByID(listID, connection, newName, newDate) {
 function updateListByID(listID, connection, newName) {
     // var updateQuery = "UPDATE Lists SET nameList =?, listCreated =? WHERE listID =?";
-    var updateQuery = "UPDATE Lists SET nameList =?, listCreated = NOW() WHERE listID =?";
+    var updateQuery = "UPDATE Lists SET nameList =?, listCreated = DATE(NOW()) WHERE listID =?";
 
     // connection.query(updateQuery, [newName, newDate, listID], function (err, result) {
     connection.query(updateQuery, [newName, listID], function (err, result) {
@@ -161,7 +161,7 @@ function updateListByID(listID, connection, newName) {
 // function createNewList(userID, connection, name, date) {
     function createNewList(userID, connection, name) {
 
-    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, NOW(), ?)';
+    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, DATE(NOW()), ?)';
 
     // connection.query(insertQuery, [userID, date, name], function (err, result) {
     connection.query(insertQuery, [userID, name], function (err, result) {

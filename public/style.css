@@ -99,11 +99,15 @@ body{
     height:150px;
 } */
 
+.shopping_list_box{
+  margin: 10px;
+}
+
 .overviewPanel{
   border: 1px solid #9C9C9C;
   background-color: #EAEAEA;
-  margin-top: 30px;
-  padding: 5px;
+  margin-top: 50px;
+  padding: 15px;
 }
 
 table.default_list_table{

@@ -1,3 +1,4 @@
+{{#with context}}
 <h1>All of {{userdata.userName}}'s shopping lists</h1>
 
 <p>Username: {{userdata.userName}}</p>
@@ -5,32 +6,30 @@
 
 <div class="container">
   <div class="row">
-    {{#if userlists.listID}}
-    {{#with context}}
-      {{#each userlists}}
-        
-        <div class="col-3 shopping_list_box">
+    
+    {{#each userlists}}
+        {{#if userlists.listID}}
+            <div class="col-3 shopping_list_box">
 
-            <form action="/shoppinglist" method="GET">
-                <fieldset>
-                    <input type="hidden" id="listID" name="listID" value="{{listID}}" />
-                    <button type="submit" class="btn btn-info">
-                        <p>
-                            ID: {{listID}} <br />
-                            Name: {{nameList}}<br>
-                            Date: {{listCreated}}
-                        </p>
-                    </button>
-                </fieldset>
-            </form>
+                <form action="/shoppinglist" method="GET">
+                    <fieldset>
+                        <input type="hidden" id="listID" name="listID" value="{{listID}}" />
+                        <button type="submit" class="btn btn-info">
+                            <p>
+                                ID: {{listID}} <br />
+                                Name: {{nameList}}<br>
+                                Date: {{listCreated}}
+                            </p>
+                        </button>
+                    </fieldset>
+                </form>
 
-        </div>
-        {{/each}}
-    {{/with}}
-    {{/if}}
+            </div>
+        {{/if}}
+    {{/each}}
   </div>
 </div>
-
+{{/with}}
 <!-- Commenting out add list button since the Add New list is a form below.
 
 <div class="shopping_list_box">

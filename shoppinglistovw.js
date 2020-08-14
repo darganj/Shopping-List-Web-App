@@ -399,7 +399,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                     }
                 }
 
-                res.render('shoppinglistovw', context);
+                res.render('shoppinglistovw', {context:context});
             }
         }
     } else {

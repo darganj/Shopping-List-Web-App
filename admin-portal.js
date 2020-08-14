@@ -15,14 +15,14 @@ var router = express.Router();
 router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
 
   res.render('admin-portal');
 });
@@ -30,14 +30,14 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
 
   deleteUser(req, res, next);
 });
@@ -45,14 +45,14 @@ router.delete('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
 
   passwordUser(req, res, next);
 });
@@ -60,14 +60,14 @@ router.put('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
 
   usernameUser(req, res, next);
 });
@@ -75,14 +75,14 @@ router.patch('/', ensureLoggedIn.ensureLoggedIn('/login'),
 router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
   function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
 
   getTable(res, next);
 });
@@ -90,14 +90,14 @@ router.get('/table', ensureLoggedIn.ensureLoggedIn('/login'),
 router.post('/admin', ensureLoggedIn.ensureLoggedIn('/login'),
   async function(req,res,next){
   res.locals.login = req.isAuthenticated();
-  res.locals.user = req.user;
-  context = {};
-  context.userName = res.locals.user.userName;
-  context.userID = res.locals.user.userID;
+  // res.locals.user = req.user;
+  // context = {};
+  // context.userName = res.locals.user.userName;
+  // context.userID = res.locals.user.userID;
 
-  if(res.locals.user.isAdmin != 1){
-    res.redirect('userlanding', { context: context });
-  }
+  // if(res.locals.user.isAdmin != 1){
+  //   res.redirect('userlanding', { context: context });
+  // }
   
   flipPermissions(req, res, next);
 });

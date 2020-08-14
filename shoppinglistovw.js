@@ -27,7 +27,7 @@ function getUserData(connection, context, userID, complete) {
             next(err);
             return;
         }
-        context.userdata = results[0];
+        
         complete();
     });
 }
@@ -54,7 +54,10 @@ function getShoppingLists(res, userID, connection, context, complete) {
         }
         
         context.userlists = results;
-             complete();
+        
+        context.userlists.listCreated = context.userlists.listCreated.slice(1, 11);
+
+        complete();
     });
 
 

@@ -1,7 +1,7 @@
 <h1>Admin Landing Page</h1>
 
 <p>Username: {{context.userName}}</p>
-<p>UserID: {{context.userID}} </p>
+{{!-- <p>UserID: {{context.userID}} </p> --}}
 
 <form action="/shoppinglistovw" method="GET">
     <fieldset>
@@ -10,35 +10,34 @@
     </fieldset>
 </form>
 
-<form action="/userpref" method="GET">
+{{!-- <form action="/userpref" method="GET">
     <fieldset>
         Doesn't Work Currently
         <input type="submit" value="User Preferences" />
     </fieldset>
-</form>
+</form> --}}
 
-<form action="/createlist" method="GET">
+{{!-- <form action="/createlist" method="GET">
     <fieldset>
         Doesn't work Currently
         <input type="submit" value="Create New Shopping List" />
     </fieldset>
-</form>
+</form> --}}
 
 <form action="/analytics" method="GET">
     <fieldset>
-        DATA
         <input type="hidden" id="userID" name="userID" value="{{context.userID}}">
         <input type="submit" value="Analytics"> 
     </fieldset>
 </form>
 
 
-<form action="/adddefaultlist" method="GET">
+{{!-- <form action="/adddefaultlist" method="GET">
     <fieldset>
         Doesn't Work Currently
         <input type="submit" value="Add Default List" />
     </fieldset>
-</form>
+</form> --}}
 
 <form action="/admin-portal" method="GET">
     <fieldset>

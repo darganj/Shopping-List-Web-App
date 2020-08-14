@@ -27,6 +27,7 @@ function getUserData(connection, context, userID, complete) {
             next(err);
             return;
         }
+        console.log("results[0] from getUserData");
         context.userdata = results[0];
         complete();
     });
@@ -54,7 +55,18 @@ function getShoppingLists(res, userID, connection, context, complete) {
         }
         
         context.userlists = results;
-             complete();
+        console.log("context.userlists from getShoppingLists");
+        console.log(context.userlists);
+
+        if (context.userlists[0].listCreated){
+            for (entry in context.userlists){
+                var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                context.userlists[entry].listCreated = myDate.slice(1, 11);
+            }
+            
+        }
+
+        complete();
     });
 
 
@@ -83,6 +95,8 @@ function getShoppingListByID(res, listID, connection, context, complete) {
             return;
         }
         context.userlists = results;
+
+        
         complete();
     });
 
@@ -133,12 +147,13 @@ function deleteListByID(listID, connection) {
  *              - newDate - new date for the list
  * Returns      - none
  */
-function updateListByID(listID, connection, newName, newDate) {
+// function updateListByID(listID, connection, newName, newDate) {
+function updateListByID(listID, connection, newName) {
+    // var updateQuery = "UPDATE Lists SET nameList =?, listCreated =? WHERE listID =?";
+    var updateQuery = "UPDATE Lists SET nameList =?, listCreated = DATE(NOW()) WHERE listID =?";
 
-    var updateQuery = "UPDATE Lists SET nameList =?, listCreated =? WHERE listID =?";
-
-
-    connection.query(updateQuery, [newName, newDate, listID], function (err, result) {
+    // connection.query(updateQuery, [newName, newDate, listID], function (err, result) {
+    connection.query(updateQuery, [newName, listID], function (err, result) {
         if (err) {
             console.log("Error Updating List ID:" + listID);
             next(err);
@@ -157,13 +172,13 @@ function updateListByID(listID, connection, newName, newDate) {
  *              - date - date for the database
  * Returns      - none
  */
-function createNewList(userID, connection, name, date) {
+// function createNewList(userID, connection, name, date) {
+function createNewList(userID, connection, name) {
 
+    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, DATE(NOW()), ?)';
 
-    var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, ?, ?)';
-
-    connection.query(insertQuery, [userID, date, name], function (err, result) {
-
+    // connection.query(insertQuery, [userID, date, name], function (err, result) {
+    connection.query(insertQuery, [userID, name], function (err, result) {
         if (err) {
             console.log("Error creating New List for User ID:" + userID);
             next(err);
@@ -255,7 +270,7 @@ router.post('/update', function (req, res, next) {
 
     var listID = req.body.listID;
     var newListName = req.body.nameList;
-    var newListDate = req.body.date;
+    // var newListDate = req.body.date;
     var userID = res.locals.user.userID; // Pulled from session data
 
        
@@ -279,10 +294,11 @@ router.post('/update', function (req, res, next) {
 
                     //If data not input, do not change
                     if (!newListName) { newListName = context.userlists[0].nameList };
-                    if (!newListDate) { newListDate = context.userlists[0].listCreated };
+                    // if (!newListDate) { newListDate = context.userlists[0].listCreated };
 
 
-                    updateListByID(listID, connection, newListName, newListDate);
+                    // updateListByID(listID, connection, newListName, newListDate);
+                    updateListByID(listID, connection, newListName);
 
                 } else {
                     console.log("user doesn't own list");
@@ -322,11 +338,11 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
     var date = req.body.date; // Not required
 
 
-    if (date == "") { // if date not provided by user, enter current date into database
-        var current_date = new Date();
-        var formatted_date = JSON.stringify(current_date).slice(1, 11);
-        date = formatted_date;
-    };
+    // if (date == "") { // if date not provided by user, enter current date into database
+    //     var current_date = new Date();
+    //     var formatted_date = JSON.stringify(current_date).slice(1, 11);
+    //     date = formatted_date;
+    // };
 
     //Assert userID, nameList input
 
@@ -342,8 +358,8 @@ router.post('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, ne
     }
 
 
-    createNewList(userID, connection, nameList, date);
-    
+    // createNewList(userID, connection, nameList, date);
+    createNewList(userID, connection, nameList);
     res.redirect('/shoppinglistovw'); //Route back to users shopping lists
 
 
@@ -370,9 +386,20 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
         function complete() {
             callbackCount++;
             if (callbackCount >= 2) {
+                console.log("context in get ovw");
                 console.log(context);
-                console.log(context.userData);
-                res.render('shoppinglistovw', context);
+                // console.log("context.userdata");
+                // console.log(context.userdata);
+
+                if (context.userlists[0].listCreated){
+                    for (entry in context.userlists){
+                        var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                        console.log(myDate);
+                        context.userlists[entry].listCreated = myDate.slice(1, 11);
+                    }
+                }
+
+                res.render('shoppinglistovw', {context:context});
             }
         }
     } else {

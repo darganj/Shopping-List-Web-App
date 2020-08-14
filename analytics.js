@@ -16,6 +16,10 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
     var context = {};
     context.userID = res.locals.user.userID;
     context.userName = res.locals.user.userName;
+
+    if(res.locals.user.isAdmin != 1){
+        res.redirect('userlanding', { context: context });
+      }
    
     if (req.query.ascending){
         var popAscOrder = "SELECT Items.itemName, COUNT(List_of_Items.itemID) AS counted " +

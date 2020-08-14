@@ -1,9 +1,11 @@
+baseURL = "https://itworks-itcompiles."
+
 window.addEventListener('load', function(event){
     console.log("my page loaded.");
   
      // set up request
        let req = new XMLHttpRequest();
-      req.open("GET", "https://itworks-itcompiles.herokuapp.com/admin-portal/table", true);
+      req.open("GET", baseURL + "herokuapp.com/admin-portal/table", true);
   
       req.addEventListener('load', function(){
         console.log("window async listener working");
@@ -110,7 +112,7 @@ function nameButtonPushed(nameButton_id){
 
      // set up request
      let req = new XMLHttpRequest();
-     req.open("PATCH", "https://itworks-itcompiles.herokuapp.com/admin-portal", true);
+     req.open("PATCH", baseURL + "herokuapp.com/admin-portal", true);
      req.setRequestHeader('Content-Type', 'application/json');
    
    
@@ -131,7 +133,7 @@ function deleteButtonPushed(deleteButton_id){
   
     // set up request
     let req = new XMLHttpRequest();
-    req.open("DELETE", "https://itworks-itcompiles.herokuapp.com/admin-portal", true);
+    req.open("DELETE", baseURL + "herokuapp.com/admin-portal", true);
     req.setRequestHeader('Content-Type', 'application/json');
   
   
@@ -156,7 +158,7 @@ function passwordButtonPushed(passwordButton_id){
   
       // set up request
       let req = new XMLHttpRequest();
-      req.open("PUT", "https://itworks-itcompiles.herokuapp.com/admin-portal", true);
+      req.open("PUT", baseURL + "herokuapp.com/admin-portal", true);
       req.setRequestHeader('Content-Type', 'application/json');
   
   
@@ -175,7 +177,7 @@ function permButtonPushed(permButton_id){
 
   // set up request
   let req = new XMLHttpRequest();
-  req.open("POST", "https://itworks-itcompiles.herokuapp.com/admin-portal/admin", true);
+  req.open("POST", baseURL + "herokuapp.com/admin-portal/admin", true);
   req.setRequestHeader('Content-Type', 'application/json');
 
 

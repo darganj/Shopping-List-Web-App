@@ -19,7 +19,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'),
     context.userID = res.locals.user.userID;
 
     if(res.locals.user.isAdmin != 1){
-      res.redirect('userlanding');
+      res.redirect('userlanding', { context: context });
     }else{
       res.render('adminlanding', { context: context });
     }

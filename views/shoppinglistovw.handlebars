@@ -3,26 +3,29 @@
 <p>Username: {{userdata.userName}}</p>
 
 
-
+<div class="container">
+  <div class="row">
 {{#each userlists}}
     
-<div class="shopping_list_box">
+    <div class="col-3 shopping_list_box">
 
-    <form action="/shoppinglist" method="GET">
-        <fieldset>
-            <input type="hidden" id="listID" name="listID" value="{{listID}}" />
-            <button type="submit" class="btn btn-info">
-                <p>
-                    ID: {{listID}} <br />
-                    Name: {{nameList}}<br>
-                    Date: {{listCreated}}
-                </p>
-            </button>
-        </fieldset>
-    </form>
+        <form action="/shoppinglist" method="GET">
+            <fieldset>
+                <input type="hidden" id="listID" name="listID" value="{{listID}}" />
+                <button type="submit" class="btn btn-info">
+                    <p>
+                        ID: {{listID}} <br />
+                        Name: {{nameList}}<br>
+                        Date: {{listCreated}}
+                    </p>
+                </button>
+            </fieldset>
+        </form>
 
+    </div>
+    {{/each}}
+  </div>
 </div>
-{{/each}}
 <!-- Commenting out add list button since the Add New list is a form below.
 
 <div class="shopping_list_box">
@@ -34,67 +37,71 @@
 
 </div>
 --> 
+<div class="container">
+    <h2>Add new Shopping List </h2>
+    <form action="/shoppinglistovw" method="post">
 
-<h2>Add new Shopping List </h2>
-<form action="/shoppinglistovw" method="post">
+        <label>
+            List Name (Required):
+            <input type="text" name="nameList" required>
+        </label>
+        <label>
+            List Date (Optional):
+            <input type="date" name="date">
+        </label>
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
+    </form>
+</div>
 
-    <label>
-        List Name (Required):
-        <input type="text" name="nameList" required>
-    </label>
-    <label>
-        List Date (Optional):
-        <input type="date" name="date">
-    </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Add New Shopping List +">
-</form>
+<div class="container">
+    <h2>Delete List </h2>
+    <form action="/shoppinglistovw/delete" method="post">
 
+        <label>
+            List Name (Required):
+            <input type="number" name="listID" required>
+        </label>
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
+    </form>
+</div>
 
-<h2>Delete List </h2>
-<form action="/shoppinglistovw/delete" method="post">
+<div class="container">
+    <h2>Update List Info</h2>
+    <form action="/shoppinglistovw/update" method="post">
+        <label>
+            <input type="number" name="listID" required>
+            List ID
+        </label>
+        <label>
+            New List Name:
+            <input type="text" name="nameList">
+        </label>
+        <label>
+            New List Date:
+            <input type="date" name="date">
+        </label>
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Update Shopping List Info">
 
-    <label>
-        List Name (Required):
-        <input type="number" name="listID" required>
-    </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
-</form>
+    </form>
+</div>
 
+<div class="container">
+    <h2> Merge shopping lists </h2>
+    <form action="/shoppinglistovw/mergelists" method="post">
 
-<h2>Update List Info</h2>
-<form action="/shoppinglistovw/update" method="post">
-    <label>
-        <input type="number" name="listID" required>
-        List ID
-    </label>
-    <label>
-        New List Name:
-        <input type="text" name="nameList">
-    </label>
-    <label>
-        New List Date:
-        <input type="date" name="date">
-    </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Update Shopping List Info">
+        <label>
+            Destination List Name:
+            <input type="text" name="nameListTo" required>
+        </label>
+        <label>
+            Source List Name:
+            <input type="text" name="nameListFrom" required>
+        </label>
+        <input class="btn btn-primary my-2 my-sm-0" type="submit" name="mergeLists" value="Merge Lists">
 
-</form>
+    </form>
+</div>
 
-
-<h2> Merge shopping lists </h2>
-<form action="/shoppinglistovw/mergelists" method="post">
-
-    <label>
-        Destination List Name:
-        <input type="text" name="nameListTo" required>
-    </label>
-    <label>
-        Source List Name:
-        <input type="text" name="nameListFrom" required>
-    </label>
-    <input class="btn btn-primary my-2 my-sm-0" type="submit" name="mergeLists" value="Merge Lists">
-
-</form>
-
-
+</div>
 
 

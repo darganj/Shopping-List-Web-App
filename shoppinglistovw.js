@@ -173,7 +173,7 @@ function updateListByID(listID, connection, newName) {
  * Returns      - none
  */
 // function createNewList(userID, connection, name, date) {
-    function createNewList(userID, connection, name) {
+function createNewList(userID, connection, name) {
 
     var insertQuery = 'INSERT INTO Lists (userID, listCreated, nameList) VALUES (?, DATE(NOW()), ?)';
 

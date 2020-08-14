@@ -52,6 +52,11 @@ function getShoppingListData(connection, listID, context, complete, next) {
             return;
         }
         context.listdata = results[0];
+
+        if (context.listdata.listCreated){
+            var myDate = JSON.stringify(context.listdata.listCreated);
+            context.listdata.listCreated = myDate.slice(1, 11);
+        }
         complete();
     });
 

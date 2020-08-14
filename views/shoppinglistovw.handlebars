@@ -5,29 +5,29 @@
 
 
 <div class="container">
-  <div class="row">
-    
-    {{#each userlists}}
+    <div class="row">
+
+        {{#each userlists}}
         {{!-- {{#if userlists.listID}} --}}
-            <div class="col-3 shopping_list_box">
+        <div class="col-3 shopping_list_box">
 
-                <form action="/shoppinglist" method="GET">
-                    <fieldset>
-                        <input type="hidden" id="listID" name="listID" value="{{listID}}" />
-                        <button type="submit" class="btn btn-info">
-                            <p>
-                                ID: {{listID}} <br />
-                                Name: {{nameList}}<br>
-                                Date: {{listCreated}}
-                            </p>
-                        </button>
-                    </fieldset>
-                </form>
+            <form action="/shoppinglist" method="GET">
+                <fieldset>
+                    <input type="hidden" id="listID" name="listID" value="{{listID}}" />
+                    <button type="submit" class="btn btn-info">
+                        <p>
+                            ID: {{listID}} <br />
+                            Name: {{nameList}}<br>
+                            Date: {{listCreated}}
+                        </p>
+                    </button>
+                </fieldset>
+            </form>
 
-            </div>
+        </div>
         {{!-- {{/if}} --}}
-    {{/each}}
-  </div>
+        {{/each}}
+    </div>
 </div>
 {{/with}}
 <!-- Commenting out add list button since the Add New list is a form below.
@@ -40,7 +40,7 @@
     </form>
 
 </div>
---> 
+-->
 <div class="container overviewPanel">
     <h2>Add new Shopping List </h2>
     <form action="/shoppinglistovw" method="post">
@@ -117,6 +117,19 @@
     </form>
 </div>
 
-</div>
+<h2>Delete List </h2>
+<form action="/shoppinglistovw/delete" method="post">
+
+
+    <label>
+        List Name:
+        <select name="listID" id="listID" required>
+            {{#each userlists}}
+            <option value="{{listID}}">{{nameList}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Delete Shopping List">
+</form>
 
 

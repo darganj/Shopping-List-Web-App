@@ -392,6 +392,7 @@ router.get('/', ensureLoggedIn.ensureLoggedIn('/login'), function (req, res, nex
                 if (context.userlists[0].listCreated){
                     for (entry in context.userlists)
                     var myDate = JSON.stringify(context.userlists[entry].listCreated);
+                    console.log(myDate);
                     context.userlists[entry].listCreated = myDate.slice(1, 11);
                 }
 

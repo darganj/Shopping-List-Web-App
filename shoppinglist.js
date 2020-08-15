@@ -182,15 +182,30 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     var callbackCount = 0;
 
 
-    /*TODO add guard to make sure user can't delete items on another list
+    
     if (itemID) {
+
+
+        
         getItems(res, listID, connection, context, complete, next);
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
                 if (context.userlists[0]) {
-                    var foundUserID = context.userlists[0].userID;
 
+                    //var foundUserID = context.userlists[0].userID;
+
+                    delQuery = "DELETE FROM List_of_Items WHERE itemID=?"
+
+                    connection.query(delQuery, itemID, function (err, result) {
+                        if (err) {
+                            next(err);
+                            return;
+                        }
+                    });
+
+
+                    /*
                     if (userID == foundUserID) {
 
                         connection.query("DELETE FROM Items WHERE itemID=?", [req.body.itemID], function (err, result) {
@@ -203,12 +218,14 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
                     else {
                         console.log("user does not have item");
                     }
+                    */
                 }
                 else {
                     console.log("item ID not found.");
                 }
             }
         }
+        
     }
     else {
         console.log("No itemID provided.");

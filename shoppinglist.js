@@ -200,7 +200,10 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     var context = {};
     var callbackCount = 0;
 
-
+    console.log("Body");
+    console.log(req.body);
+    console.log("ItemID");
+    console.log(listOfItemID);
     
     if (listOfItemID) {
 

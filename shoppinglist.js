@@ -80,6 +80,24 @@ function getItems(res, listID, connection, context, complete, next) {
 
 }
 
+
+function getItemByID(itemID, connection, context, complete) {
+
+    var query = 'SELECT * FROM List_of_Items WHERE List_of_Items.itemID = ?';
+    connection.query(query, itemID, function (err, results, fields) {
+        if (err) {
+            console.log("error");
+            next(err);
+            return;
+        }
+        context.item = results;
+        console.log(context);
+        complete();
+    });
+
+
+}
+
 function getCategories(connection, context, complete) {
 
     var query = "SELECT * FROM Categories";
@@ -188,17 +206,18 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
 
 
         
-        getItems(res, listID, connection, context, complete, next);
+        getItemByID(itemID, connection, context, complete);
         function complete() {
             callbackCount++;
             if (callbackCount >= 1) {
-                if (context.userlists[0]) {
+                if (context.item[0]) {
 
                     //var foundUserID = context.userlists[0].userID;
 
-                    delQuery = "DELETE FROM List_of_Items WHERE itemID=?"
+                    rowToDelete = context.item[0].listOfItems;
+                    delQuery = "DELETE FROM List_of_Items WHERE listOfItems=?"
 
-                    connection.query(delQuery, itemID, function (err, result) {
+                    connection.query(delQuery, rowToDelete, function (err, result) {
                         if (err) {
                             next(err);
                             return;

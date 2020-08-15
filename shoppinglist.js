@@ -194,16 +194,30 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     res.locals.user = req.user;
 
     var listID = req.body.listID;
-    var itemID = req.body.itemID;
-  //  var userID = res.locals.user.userID;
+    var listOfItemID = req.body.listOfItemID;
+    var userID = res.locals.user.userID;
 
     var context = {};
     var callbackCount = 0;
 
 
     
-    if (itemID) {
+    if (listOfItemID) {
 
+        delQuery = "DELETE FROM List_of_Items WHERE listOfItems=?"
+
+        connection.query(delQuery, rowToDelete, function (err, result) {
+            if (err) {
+                next(err);
+                return;
+            }
+        });
+
+
+
+
+
+        /*
 
         
         getItemByID(itemID, connection, context, complete);
@@ -217,15 +231,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
                     console.log(context.item[0]);
 
                     rowToDelete = context.item[0].listOfItems;
-                    delQuery = "DELETE FROM List_of_Items WHERE listOfItems=?"
-
-                    connection.query(delQuery, rowToDelete, function (err, result) {
-                        if (err) {
-                            next(err);
-                            return;
-                        }
-                    });
-
+            
 
                     /*
                     if (userID == foundUserID) {
@@ -240,13 +246,15 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
                     else {
                         console.log("user does not have item");
                     }
-                    */
+                    
                 }
                 else {
                     console.log("item ID not found.");
                 }
             }
         }
+
+        */
         
     }
     else {

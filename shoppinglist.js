@@ -213,6 +213,8 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
                 if (context.item[0]) {
 
                     //var foundUserID = context.userlists[0].userID;
+                    console.log("Made it Here");
+                    console.log(context.item[0]);
 
                     rowToDelete = context.item[0].listOfItems;
                     delQuery = "DELETE FROM List_of_Items WHERE listOfItems=?"

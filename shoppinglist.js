@@ -231,7 +231,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
         console.log("No itemID provided.");
     }
 
-*/
+
     res.redirect('/shoppinglist/?listID=' + listID);
 });
 

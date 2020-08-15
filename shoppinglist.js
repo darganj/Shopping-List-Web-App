@@ -194,7 +194,7 @@ router.post('/delete', ensureLoggedIn.ensureLoggedIn('/login'), function (req, r
     res.locals.user = req.user;
 
     var listID = req.body.listID;
-    var listOfItemID = req.body.listOfItemID;
+    var listOfItemID = req.body.listOfItems;
     var userID = res.locals.user.userID;
 
     var context = {};
